@@ -414,7 +414,9 @@ boolean WriteAuditdSettings() {
  * @return true on success
  */
 global boolean Write() {
-    boolean success = true;
+    boolean write_success = true;
+    boolean rules_ok = true;
+    integer exit_code = 0;
     
     /* Auditd read dialog caption */
     string caption = _("Saving Audit Configuration");
@@ -429,49 +431,76 @@ global boolean Write() {
     // We do not set help text here, because it was set outside
     Progress::New(caption, " ", steps, [
 	    /* Progress stage 1/2 */
-	    _("Write the settings"),
+	    _("Write the audit rules"),
 	    /* Progress stage 2/2 */
-	    _("Write the rules")
+	    _("Write the seetings")
 	], [
 	    /* Progress step 1/2 */
-	    _("Writing the settings..."),
-	    /* Progress step 2/2 */
 	    _("Writing the rules..."),
+	    /* Progress step 2/2 */
+	    _("Writing the settings..."),
 	    Message::Finished()
 	],
 	""
     );
 
     // write settings
-    if(PollAbort())  return false;
+    if ( PollAbort() )  return false;
+
     Progress::NextStage();
 
-    success = WriteAuditdSettings();
-    /* Error message */
-    if(!success) Report::Error (_("Cannot write settings to auditd.conf.") );
+    // write rules to /etc/audit/audit.rules
+    write_success = WriteAuditRules();
+
+    if ( write_success )
+    {
+	// call auditctl -R audit.rules
+	map output = (map)SCR::Execute( .target.bash_output, "auditctl -R /etc/audit/audit.rules" );
+
+	if ( output["exit"]:0 != 0 )
+	{
+	    Report::Error( sformat( "%1\n%2",
+				    output["stderr"]:"",
+				    _("Please start yast2-audit-laf again and check the rules.\n
+In case the lock is (-e 2) change this in the rules editor.
+After that a system reboot is required to apply the change.") ) );
+	    rules_ok = false;
+	}
+    }
+    else
+    {
+	Report::Error (_("Cannot write settings to auditd.rules.") );
+    }
+
     sleep(sl);
 
-    // restart auditd
-    integer exitCode = Service::RunInitScript( "auditd", "restart" );
+    // ONLY call 'rcauditd restart' if auditctl hasn't returned an error
+    if ( rules_ok )
+    {
+	Progress::NextStage ();
 
-    if(PollAbort()) return false;
-    Progress::NextStage ();
-    success = WriteAuditRules();
-    /* Error message */
-    if(!success) Report::Error (_("Cannot write settings to auditd.rules.") );
+	write_success = WriteAuditdSettings();
+	/* Error message */
+	if ( write_success )
+	{
+	    // restart auditd
+	    integer exitCode = Service::RunInitScript( "auditd", "restart" );
+
+	    if ( exit_code != 0 )
+	    {
+		Report::Error (_("Restart of audit daemon failed.") );
+	    }
+	}
+	else
+	{
+	    Report::Error (_("Cannot write settings to auditd.conf.") );
+	}
+    }
+
     sleep(sl);
     
-    // call auditctl -R audit.rules
-    map output = (map)SCR::Execute( .target.bash_output, "auditctl -R /etc/audit/audit.rules" );
-
-    if ( output["exit"]:0 != 0 )
-    {
-	Report::Error( sformat( "%1\n%2",
-				output["stderr"]:"",
-				_("Please start yast2-audit-laf again and check the rules") ) );
-    }
-	
     if(PollAbort()) return false;
+
     return true;
 }
 

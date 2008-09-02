@@ -1,0 +1,30 @@
+@HEADER-COMMENT@
+
+@HEADER@
+Requires:	yast2
+BuildRequires:	perl-XML-Writer update-desktop-files yast2 yast2-devtools yast2-testsuite
+
+BuildArchitectures:	noarch
+
+Summary:	Configuration of audit-laf
+
+%description
+-
+
+@PREP@
+
+@BUILD@
+
+@INSTALL@
+
+@CLEAN@
+
+%files
+%defattr(-,root,root)
+%dir @yncludedir@/audit-laf
+@yncludedir@/audit-laf/*
+@clientdir@/audit-laf.ycp
+@clientdir@/audit-laf_*.ycp
+@moduledir@/AuditLaf.*
+@desktopdir@/audit-laf.desktop
+%doc @docdir@

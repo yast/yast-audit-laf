@@ -1,0 +1,13 @@
+{
+
+// testedfiles: TestModule.ycp
+
+include "testsuite.ycp";
+TESTSUITE_INIT([], nil);
+
+import "TestModule";
+
+DUMP("TestModule::Modified");
+TEST(``(TestModule::Modified()), [], nil);
+
+}

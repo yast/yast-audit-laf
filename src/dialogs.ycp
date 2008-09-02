@@ -1,0 +1,284 @@
+/* ------------------------------------------------------------------------------
+ * Copyright (c) 2006 Novell, Inc. All Rights Reserved.
+ *
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of version 2 of the GNU General Public License as published by the
+ * Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, contact Novell, Inc.
+ *
+ * To contact Novell about this file by physical or electronic mail, you may find
+ * current contact information at www.novell.com.
+ * ------------------------------------------------------------------------------
+ */
+
+/**
+ * File:	include/audit-laf/dialogs.ycp
+ * Package:	Configuration of LAF Auditing
+ * Summary:	Dialogs definitions
+ * Authors:	Gabriele Mohr <gs@suse.de>
+ *
+ */
+
+{
+
+textdomain "audit-laf";
+
+import "Label";
+import "Wizard";
+import "AuditLaf";
+
+include "audit-laf/helps.ycp";
+
+map current_ui_settings = UI::GetDisplayInfo();
+
+integer mbox_x = 1;
+integer mbox_y = 0.5;
+
+// Tabs have a different layout in textmode
+if (current_ui_settings["TextMode"]:false == true) {
+    mbox_x = 0;
+    mbox_y = 0;
+}
+
+term LogfileSettingsDialogContent () {
+    return `MarginBox( mbox_x, mbox_y,
+		       `VBox(
+			     `VStretch(),
+			     `Frame (
+				     _("General Settings"),
+				     `VBox (
+
+					    `VSquash(
+						     `HBox(
+							   // Label for InputField
+							   `InputField(`id("log_file"), `opt(`hstretch), _("Logfile")),
+							   `HSpacing(2.0),
+							   `VBox(
+								 `VSpacing(),
+								 // Label for PushButton
+								 `Bottom(`PushButton(`id("select_file"), _("Select Fi&le")))
+								 )
+							   )
+						     ),
+					    `VBox(
+						  `HBox(`HWeight( 1,`ComboBox(`id("log_format"), _("Format"),
+									      [
+									       `item(`id("RAW"), "RAW", true ),
+									       `item(`id("NOLOG"), "NOLOG"  )
+									       ])
+								  ),
+							`HSpacing(2.0),
+							`HWeight( 1, `IntField(`id("num_logs"), `opt(`hstretch), _("Number of Logfiles"), 0, 99, 4) )
+							),
+						  `HBox(
+							`HWeight( 1, `ComboBox(`id("flush"), _("Flush"),
+									       [`item(`id("NONE"), "NONE" ),
+										`item(`id("INCREMENTAL"), "INCREMENTAL", true ),
+										`item(`id("DATA"), "DATA" ),
+										`item(`id("SYNC"), "SYNC" )
+										])
+								  ),
+							`HSpacing(2.0),
+							`HWeight( 1, `IntField(`id("freq"), `opt(`hstretch), _("Frequence"), 0, 10000, 20 )) 
+							)
+						  )
+					    )
+				     ),
+			     `VStretch(),
+			     `Frame (
+				     _("Size and Action"),
+				     `HBox (
+					    /* A text entry */
+					    `HWeight( 1, `InputField(`id("max_log_file"),  _("Ma&x File Size (MB)")) ),
+					    `HSpacing(2.0),
+					    `HWeight( 1, `ComboBox(`id("max_log_file_action"),  _("Maximum File Size Action"),
+								   [`item(`id("IGNORE"), "IGNORE" ),
+								    `item(`id("SYSLOG"), "SYSLOG", true ),
+								    `item(`id("SUSPEND"), "SUSPEND" ),
+								    `item(`id("ROTATE"), "ROTATE" ),
+								    `item(`id("KEEP_LOGS"), "KEEP_LOGS" )
+								    ]								   )
+						      ),
+					    `HSpacing(2.0),
+					    `HWeight( 1, `InputField(`id("action_mail_acct"), _("Action Mail Account")))
+					    )
+				     ),
+			     `VStretch(),
+			     `Frame(
+				    _("Computer Names"),
+				    `HBox(
+					  `HWeight( 1, `ComboBox(`id("name_format"), _("Computer Name Format"),
+								 [`item(`id("NONE"), "NONE" ),
+								  `item(`id("HOSTNAME"), "HOSTNAME", true ),
+								  `item(`id("FQD"), "FQD" ),
+								  `item(`id("USER"), "USER" )
+								  ])
+						    ),
+					  `HSpacing(2.0),
+					  `HWeight( 1, `InputField(`id("name"), _("User Defined Name") )) 
+					  )
+				   ), 
+			     `VStretch()
+			     )
+		       );
+}
+
+term DispatcherDialogContent () {
+    return `MarginBox( mbox_x, mbox_y,
+		       `VBox(
+			     `VSpacing(2.0),
+			     `Frame (
+				     _("Dispatcher Settings"),
+				     `VBox (
+					    `VSquash(
+						     `HBox(
+							   // Label for InputField
+							   `InputField(`id("dispatcher"), `opt(`hstretch), _("Dispatcher Program")),
+							   `HSpacing(2.0),
+							   `VBox(
+								 `VSpacing(),
+								 // Label for PushButton
+								 `Bottom(`PushButton(`id("select_disp"), _("Select Fi&le")))
+								 )
+							   )
+						     ),
+					    `Left(`ComboBox(`id("disp_qos"), _("Communication"),
+							    [`item(`id("lossy"), "lossy", true ),
+							     `item(`id("lossless"), "lossless" )
+							     ])
+						  )
+					    )
+				     ),
+			     `VStretch()
+			     )
+		       );
+}
+
+term DiskspaceSettingsDialogContent () {
+    return `MarginBox( mbox_x, mbox_y,
+		       `VBox(
+			     `VStretch(),
+			     `Frame(
+				    // Frame label - keep it short! 
+				    _("Value and action for space is starting to run low"),
+				    `HBox(
+					  // InputField label - space on disk is starting to run low if the entered value is reached
+					  `HWeight( 1, `InputField(`id("space_left"), _("&Space left on disk (MB)") )),
+					  `HSpacing(2.0),
+					  `HWeight( 1, `ComboBox(`id("space_left_action"), `opt(`editable),
+								 // ComboBox label - select an action which is performed if space on disk is low		 
+								 _("Action"),
+								 [`item(`id("IGNORE"), "IGNORE" ),
+								  `item(`id("SYSLOG"), "SYSLOG", true ),
+								  `item(`id("SUSPEND"), "SUSPEND" ),
+								  `item(`id("SINGLE"), "SINGLE" ),
+								  `item(`id("HALT"), "HALT" ),
+								  `item(`id("EXEC"), "EXEC" ),
+								  `item(`id("EMAIL"), "EMAIL" )
+								  ])
+						    )
+					  )
+				    ),
+			     `VStretch(),
+			     `Frame (
+				     // Frame label - keep it short!  
+				     _("Value and action for space is running low"),
+				     `HBox(
+					    // InputField label - space on disk is running low if the entered value is reached
+					   `HWeight( 1, `InputField(`id("admin_space_left"), _("&Admin space left on disk (MB) ")) ),
+					   `HSpacing(2.0),
+					   `HWeight( 1, `ComboBox(`id("admin_space_left_action"), `opt(`editable),
+						// ComboBox label - select an action which is performed if space on disk is running low			  
+								  _("Action"),
+								  [`item(`id("IGNORE"), "IGNORE" ),
+								   `item(`id("SYSLOG"), "SYSLOG", true ),
+								   `item(`id("SUSPEND"), "SUSPEND" ),
+								   `item(`id("SINGLE"), "SINGLE" ),
+								   `item(`id("HALT"), "HALT" ),
+								   `item(`id("EXEC"), "EXEC" ),
+								   `item(`id("EMAIL"), "EMAIL" )
+								   ]) )
+
+					   )
+				     ),
+			     `VStretch(),
+			     `Frame(
+				    // Frame label - keep it short!   
+				    _("Action on Error or Disk full"),
+				    `VBox(
+					  `ComboBox(`id("disk_full_action"), `opt(`editable),
+						 // ComboBox label - select an action which is performed if disk is full	   
+						    _("Disk Full Action"),
+						    [`item(`id("IGNORE"), "IGNORE" ),
+						     `item(`id("SYSLOG"), "SYSLOG", true ),
+						     `item(`id("SUSPEND"), "SUSPEND" ),
+						     `item(`id("SINGLE"), "SINGLE" ),
+						     `item(`id("HALT"), "HALT" ),
+						     `item(`id("EXEC"), "EXEC" )
+						     ]),
+					  `ComboBox(`id("disk_error_action"), `opt(`editable ),
+						     // ComboBox label - select an action which is performed on error 
+						    _("Disk Error Action"),
+						    [`item(`id("IGNORE"), "IGNORE" ),
+						     `item(`id("SYSLOG"), "SYSLOG", true ),
+						     `item(`id("SUSPEND"), "SUSPEND" ),
+						     `item(`id("SINGLE"), "SINGLE" ),
+						     `item(`id("HALT"), "HALT" ),
+						     `item(`id("EXEC"), "EXEC" )
+						     ])
+					  )
+				    ),
+			     `VStretch()
+			     )
+		       );
+}
+
+term RulesDialogContent() {
+
+    return `MarginBox( mbox_x, mbox_y,
+		       `VBox(
+			     `VSpacing(0.2),
+			     `VWeight( 20, `VBox(
+						 // label of a combo box with the possibilitiy to enable/disable auditing or lock the rules 
+						 `Left(`ComboBox( `id("audit_enabled"), `opt(`notify), _("Set Enabled Flag"),
+								  [`item(`id("enabled"),  _("Auditing enabled"), true ),	 // -e 1
+								   `item(`id("disabled"), _("Auditing disabled") ),	 // -e 0
+								   `item(`id("locked"), _("Rules are locked (until next boot)")) // -e 2
+								   ]
+								  ) ),
+						 `VStretch()
+						 ) ),
+			     `VSpacing(0.2),
+			     `VWeight( 90, `VBox(
+						 `Left(`Label(_("Edit the rules for the audit subsystem here:") ) ),
+						 `MultiLineEdit(`id("rules"), `opt(`vstretch), "audit.rules" )
+
+						 ) ),
+			     `VWeight( 10,
+				       // label of a push button (please keep it short) 
+				       `HBox(`PushButton( `id( "test" ), _("Check Syntax") ),
+					     `HSpacing(2.0),
+					     // label of push button  (please keep it short)
+					     `PushButton( `id( "restore" ), _("Restore 'audit.rules'") ),
+					     `HSpacing(2.0),
+					      // label of push button  (please keep it short)
+					     `PushButton( `id( "reset" ), _("Restore and Reset") ),
+					     `HSpacing(2.0),
+					      // label of push button
+					     `PushButton( `id( "load" ), _("Load ") )
+					     )
+				       )
+			     
+			     )
+		       );
+}
+
+}    /* EOF */
+

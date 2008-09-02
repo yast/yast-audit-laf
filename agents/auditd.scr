@@ -1,0 +1,41 @@
+/**
+ * File:
+ *   auditd.scr
+ * Summary:
+ *   SCR Agent for reading/writing /etc/audit/auditd.conf
+ *   using the ini-agent
+ * Access:
+ *   read/write
+ * Authors:
+ *   Gabriele Mohr <gs@suse.de>
+ * Example:
+ *   Dir(.auditd)
+ *   (["log_file", "log_format", "priority_boost", "flush", ...])
+ *
+ *   Read(.auditd.log_format)
+ *   (["RAW"])
+ *
+ *   Write(.auditd.max_log_file, 5)
+ *   (true)
+ *
+ * $Id: auditd.scr
+ *
+ */
+
+.auditd
+
+`ag_ini(
+    `IniAgent( "/etc/audit/auditd.conf",
+        $[
+            "options"   : [ "global_values", "repeat_names", "flat" ],
+            "comments"  : [ "^[ \t]*#.*$", "^[ \t]*$" ],
+            "params"    : [
+			   // Options with one value ('yes' / 'no')
+			   $[ "match" : [ "^[ \t]*([^ \t]+)[ \t = ]+([^ \t]+)[ \t]+$", "%s = %s" ]],
+			   // Options with more possible values
+			   $[ "match" : [ "^[ \t]*([^ \t]+)[ \t = ]+(.+)[ \t]*$", "%s = %s" ]],
+			   ],
+            "subindent" : " ",
+        ]
+    )
+)

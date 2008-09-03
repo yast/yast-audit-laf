@@ -116,14 +116,6 @@ global void SetModified(boolean value) {
       modified = true;
   }
 
-global boolean ProposalValid() {
-    return proposal_valid;
-}
-
-global void SetProposalValid(boolean value) {
-    proposal_valid = value;
-}
-
 /**
  * @return true if module is marked as "write only" (don't start services etc...)
  */
@@ -162,8 +154,21 @@ global boolean PollAbort() {
     return false;
 }
 
+global boolean RulesAlreadyLocked()
+{
+    map output = (map)SCR::Execute( .target.bash_output, "auditctl -s" );
+    y2milestone( "auditctl: %1", output );
+
+    string audit_status = output["stdout"]:"";
+    
+    if ( regexpmatch( audit_status, "^.*enabled=2.*" ) )
+	 return true;
+    else
+	return false;
+}
+
 //
-// Settings: Define all variables needed for configuration of auditd
+// Settings: Define all variables needed for the configuration of the audit daemon
 //
 
 /**
@@ -183,6 +188,8 @@ map <string, list <string> >  DEFAULT_CONFIG = $[
 					"num_logs" : ["4"],
 					"dispatcher" : ["/sbin/audispd"],
 					"disp_qos" : ["lossy"],
+					"name_format": ["NONE"],
+					"name": [""],
 					"max_log_file" : ["5"],
 					"max_log_file_action" : ["ROTATE"],
 					"space_left" : ["75"],
@@ -271,6 +278,7 @@ boolean ReadAuditRules() {
  */ 
 boolean WriteAuditRules() {
     boolean success = (boolean)SCR::Write(.target.string, rules_file, RULES );
+    // FIXME ??? flush necessary ???
     return success;
 }
 
@@ -341,7 +349,11 @@ global boolean Read() {
     Progress::NextStage();
 
     success = ReadAuditdSettings();
+    // Test
+    map output = (map)SCR::Execute( .target.bash_output, "auditctl -s" );
 
+    y2milestone( "auditctl: %1", output );
+    
     // Report error
     if( !success) Report::Error(_("Cannot read auditd.conf."));
     sleep(sl);
@@ -368,18 +380,42 @@ global boolean Read() {
     y2milestone( "Auditd running: %1", (auditd_stat == 0 )?"yes":"no" );
 
     integer apparmor_stat = (integer)SCR::Execute(.target.bash, "rcapparmor status" );
+
     y2milestone( "Apparmor loaded: %1", (apparmor_stat == 0 )?"yes":"no" );
 
-    if ( apparmor_stat == 0 && auditd_stat != 0 )
+    if ( auditd_stat != 0 )
     {
-	Popup::LongText( _("Auditd not running"),
-			 `RichText(_("<p>The <i>apparmor</i> kernel module is loaded
-but the daemon <i>auditd</i> doesn't run.<br>
-Please start the YaST module 'System Services' (Runlevel Editor), and
-activate (start) <i>auditd</i>.<p>")), 40, 12 );
-	return false;
+	string message = _("The audit daemon doesn't run.
+Do you want to start it now?");
+
+	if (apparmor_stat == 0 )
+	    message = _(" The 'apparmor' kernel module is loaded
+but the daemon 'auditd' doesn't run. It is recommended
+to start the daemon.
+Do you want to start it now?" );
+	
+	boolean start = Popup::YesNoHeadline( _("Auditd not running"),
+					      message );
+	if ( start )
+	{
+	    integer exit_code = Service::RunInitScript( "auditd", "start" );
+	    if ( exit_code != 0 )
+	    {
+		boolean go_on = Popup::ContinueCancelHeadline( _("Cannot start the audit daemon" ),
+							       _("The reason might be that the rules are locked.
+Continue to check the rules. You may change
+the 'Enabled Flag' but to make the change
+active a reboot is required afterwards." )
+							       );
+		if ( go_on )
+		    return true;
+		else
+		    return false;
+						     
+	    }
+	}
     }
-    
+
     if(PollAbort()) return false;
     modified = false;
     return true;
@@ -403,7 +439,7 @@ boolean WriteAuditdSettings() {
 
     // This is very important
     // it flushes the cache, and stores the configuration on the disk
-    SCR::Write(.etc.ssh.sshd_config, nil);
+    SCR::Write(.auditd, nil);
     y2milestone("%1 has been written: %2", config_file, SETTINGS);
     
     return true;
@@ -415,9 +451,8 @@ boolean WriteAuditdSettings() {
  */
 global boolean Write() {
     boolean write_success = true;
-    boolean rules_ok = true;
-    integer exit_code = 0;
-    
+    boolean go_on = false; 
+
     /* Auditd read dialog caption */
     string caption = _("Saving Audit Configuration");
 
@@ -431,75 +466,92 @@ global boolean Write() {
     // We do not set help text here, because it was set outside
     Progress::New(caption, " ", steps, [
 	    /* Progress stage 1/2 */
-	    _("Write the audit rules"),
+	    _("Write the settings"),
 	    /* Progress stage 2/2 */
-	    _("Write the seetings")
+	    _("Write the rules")
 	], [
 	    /* Progress step 1/2 */
-	    _("Writing the rules..."),
-	    /* Progress step 2/2 */
 	    _("Writing the settings..."),
+	    /* Progress step 2/2 */
+	    _("Writing the rules..."),
 	    Message::Finished()
 	],
 	""
     );
 
+    // check status of audit rules first
+    boolean locked = RulesAlreadyLocked();
+
+    y2milestone ( "Rules already locked: %1", locked?"true":"false" );
+
+    if ( locked )
+    {
+	boolean write_rules = Popup::YesNoHeadline( _("The rules are already locked." ),
+						    _("Do you want to change the 'Enabled Flag'?
+If yes, the new rules will be written to /etc/audit/audit.rules.
+After that you have to reboot the system.") );
+	if ( write_rules )
+	    WriteAuditRules();
+	
+	// don't try to restart the daemon - daemon will stop
+	return false;
+    }
+    
     // write settings
     if ( PollAbort() )  return false;
-
     Progress::NextStage();
 
-    // write rules to /etc/audit/audit.rules
-    write_success = WriteAuditRules();
+    write_success = WriteAuditdSettings();
 
+    /* Error message */
     if ( write_success )
     {
-	// call auditctl -R audit.rules
-	map output = (map)SCR::Execute( .target.bash_output, "auditctl -R /etc/audit/audit.rules" );
-
-	if ( output["exit"]:0 != 0 )
-	{
-	    Report::Error( sformat( "%1\n%2",
-				    output["stderr"]:"",
-				    _("Please start yast2-audit-laf again and check the rules.\n
-In case the lock is (-e 2) change this in the rules editor.
-After that a system reboot is required to apply the change.") ) );
-	    rules_ok = false;
-	}
+	// restart auditd
+	integer exit_code = Service::RunInitScript( "auditd", "restart" );
+	y2milestone( "'auditd restart' returned: %1", exit_code );
+	
+	if ( exit_code != 0 )
+	    Report::Error ( _("Restart of the audit daemon failed" ) );
+	else
+	    go_on = true;
     }
     else
     {
-	Report::Error (_("Cannot write settings to auditd.rules.") );
+	Report::Error (_("Cannot write settings to auditd.conf.") );
     }
-
+    
     sleep(sl);
 
-    // ONLY call 'rcauditd restart' if auditctl hasn't returned an error
-    if ( rules_ok )
+    if ( PollAbort() ) return false;
+
+    Progress::NextStage ();
+
+    if ( go_on && !locked )
     {
-	Progress::NextStage ();
-
-	write_success = WriteAuditdSettings();
+	write_success = WriteAuditRules();
+    
 	/* Error message */
-	if ( write_success )
+	if( write_success)
 	{
-	    // restart auditd
-	    integer exitCode = Service::RunInitScript( "auditd", "restart" );
+	    // call auditctl -R audit.rules
+	    map output = (map)SCR::Execute( .target.bash_output, "auditctl -R /etc/audit/audit.rules" );
 
-	    if ( exit_code != 0 )
+	    if ( output["exit"]:0 != 0 )
 	    {
-		Report::Error (_("Restart of audit daemon failed.") );
+		Report::Error( sformat( "%1\n%2",
+					output["stderr"]:"",
+					_("Please start yast2-audit-laf again and check the rules") ) );
 	    }
 	}
 	else
 	{
-	    Report::Error (_("Cannot write settings to auditd.conf.") );
+	    Report::Error ( _("Cannot write settings to auditd.rules.") );
 	}
+	
+	sleep(sl);
     }
-
-    sleep(sl);
     
-    if(PollAbort()) return false;
+    if ( PollAbort() ) return false;
 
     return true;
 }

@@ -306,18 +306,28 @@ symbol HandleRulesDialog(string id, map event) {
     }
     else if ( action == "restore" )
     {
-	UI::ChangeWidget( `id("rules"), `Value, AuditLaf::GetRules() );
+	InitRulesDialog( "restore" );
     }
     else if ( action == "reset" )
     {
-	UI::ChangeWidget( `id("rules"), `Value, AuditLaf::GetRules() );
-	integer exit_code = (integer)SCR::Execute( .target.bash, "auditctl -D" );
-	if ( exit_code == 0 )
-	     exit_code = (integer)SCR::Execute( .target.bash, "auditctl -R /etc/audit/audit.rules" );
-	if ( exit_code == 0 )
-	    Popup::Message( _("Rules successfully restored" ) );
+	InitRulesDialog( "reset" );
+
+	if ( AuditLaf::RulesAlreadyLocked() )
+	{
+	    SCR::Execute( .target.bash, "auditctl -D" );
+	}
 	else
-	    Report::Error( _("Cannot reset rules, please test again" ) );
+	{
+	    integer exit_code = (integer)SCR::Execute( .target.bash, "auditctl -D" );
+
+	    if ( exit_code == 0 )
+		exit_code = (integer)SCR::Execute( .target.bash, "auditctl -R /etc/audit/audit.rules" );
+
+	    if ( exit_code == 0 )
+		Popup::Message( _("Rules successfully restored" ) );
+	    else
+		Report::Error( _("Cannot reset rules, please test again" ) );
+	}
     }
     else if ( action == "test" )
     {
@@ -325,17 +335,28 @@ symbol HandleRulesDialog(string id, map event) {
 	
 	string rules = (string)UI::QueryWidget( `id("rules"), `Value );
 	list <string> rules_list = splitstring( rules, "\n");
-    
-	foreach ( string rule, rules_list, {
-	    if ( regexpmatch( rule, "^[ /t]*-e[ /t]*2" ) )
-	    {
-		boolean yes = Report::Warning( _("Lock is set in audit.rules (-e 2).\n
+
+	if ( AuditLaf::RulesAlreadyLocked() )
+	{
+	    Report::Warning( _("The rules are already locked.\n
+A test isn't possible because sending new rules
+will cause an error.") );
+	    go_on = false;
+	}
+
+	if ( go_on )
+	{
+	    foreach ( string rule, rules_list, {
+		    if ( regexpmatch( rule, "^[ /t]*-e[ /t]*2" ) )
+		    {
+			boolean yes = Report::Warning( _("Lock is set in audit.rules (-e 2).\n
 It doesn't make sense to continue, because the rules would
 be locked until next boot.") );
-		go_on = false;
-	    }
-	} );
-
+			go_on = false;
+		    }
+		} );
+	}
+   
 	if ( go_on )
 	{
 	    string tmpfile = (string) SCR::Read (.target.tmpdir) + "/rules_test_file";
@@ -402,12 +423,17 @@ please go back to rules editor."),
 					      Label::BackButton(),
 					      `focus_no );
 	    if ( yes )
+	    {
 		ret = `next;
+	    }
 	    else
+	    {
 		ret = `back;
-	    AuditLaf::SetRulesLocked( true );
+		AuditLaf::SetRulesLocked( true );
+	    }
 	}
     } );
+    
     return ret;
 }
 

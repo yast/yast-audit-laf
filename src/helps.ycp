@@ -87,11 +87,22 @@ gets all all audit events on stdin.</p>") +
     _("<p><b>Communication</b>: Controls the communication
 between the daemon and the dispatcher program.<p>"),
 
-    /* disksapce dialog help 1/3 */
+    /* disksapce dialog help 1/4 */
     "diskspace_settings" : _("<p><b><big>Auditd Diskspace Configuration</big></b><br>
-Configure diskspace settings on log partition here..<br></p>
-"),
+Detailed information about the settings can be obtained from 'man auditd.conf'</p>
+") +
+    /* disksapce dialog help 2/4 */
+    _("<p><b>Space left</b> and <b>Action</b> describe how much disk space (in megabytes)
+to left and which action to perform if the system is starting to run low on space.</p>") +
 
+    /* disksapce dialog help 3/4 */
+    _("<p><b>Admin space left</b> and <b>Action</b> describe how much disk space (in megabytes)
+to left and which action to perform if the system <b>is running low</b>.</p>") +
+    
+     /* disksapce dialog help 3/4 */
+    _("<p>You can also specify a <b>Disk Full Action</b> (disk has become full already) and
+a <b>Disk Error Action</b> (performed whenever an error is detected while writing to disk).</p>"),
+    
     /* rules dialog help 1/5*/
     "audit_rules" : _("<p><b><big>Rules for auditctl</big></b><br>
 This dialog offers the possibiltiy to enable or to disable the syscall

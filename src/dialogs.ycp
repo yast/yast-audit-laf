@@ -170,7 +170,7 @@ term DiskspaceSettingsDialogContent () {
 				    _("Value and action for space is starting to run low"),
 				    `HBox(
 					  // InputField label - space on disk is starting to run low if the entered value is reached
-					  `HWeight( 1, `InputField(`id("space_left"), _("&Space left on disk (MB)") )),
+					  `HWeight( 1, `InputField(`id("space_left"), _("&Space left on Disk (MB)") )),
 					  `HSpacing(2.0),
 					  `HWeight( 1, `ComboBox(`id("space_left_action"), `opt(`editable),
 								 // ComboBox label - select an action which is performed if space on disk is low		 
@@ -192,7 +192,7 @@ term DiskspaceSettingsDialogContent () {
 				     _("Value and action for space is running low"),
 				     `HBox(
 					    // InputField label - space on disk is running low if the entered value is reached
-					   `HWeight( 1, `InputField(`id("admin_space_left"), _("&Admin space left on disk (MB) ")) ),
+					   `HWeight( 1, `InputField(`id("admin_space_left"), _("&Admin Space left on Disk (MB) ")) ),
 					   `HSpacing(2.0),
 					   `HWeight( 1, `ComboBox(`id("admin_space_left_action"), `opt(`editable),
 						// ComboBox label - select an action which is performed if space on disk is running low			  

@@ -390,11 +390,10 @@ Do you want to start it now?");
 
 	if (apparmor_stat == 0 )
 	    message = _(" The 'apparmor' kernel module is loaded
-but the daemon 'auditd' doesn't run. It is recommended
-to start the daemon.
-Do you want to start it now?" );
+which needs the audit daemon to log events. 
+Do you want to start the daemon now?" );
 	
-	boolean start = Popup::YesNoHeadline( _("Auditd not running"),
+	boolean start = Popup::YesNoHeadline( _("Audit daemon not running"),
 					      message );
 	if ( start )
 	{
@@ -403,7 +402,7 @@ Do you want to start it now?" );
 	    {
 		boolean go_on = Popup::ContinueCancelHeadline( _("Cannot start the audit daemon" ),
 							       _("The reason might be that the rules are locked.
-Continue to check the rules. You may change
+Continue to check the rules. You can change
 the 'Enabled Flag' but to make the change
 active a reboot is required afterwards." )
 							       );

@@ -415,7 +415,7 @@ symbol CheckSettings() {
 	{
 	    boolean yes = Popup::AnyQuestion( _("Lock set"), _("The audit configuration is locked (option -e 2).
 This means the rules are locked until next boot!
-If you really want this make sure '-e 2' is the last entry
+If you really want this, make sure '-e 2' is the last entry
 in the rules file. If not, either enable or disable auditing.
 To check or to change the rules,
 please go back to rules editor."),

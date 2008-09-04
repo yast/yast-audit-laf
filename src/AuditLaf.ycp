@@ -582,6 +582,7 @@ global map Export () {
  */
 global list Summary() {
     // TODO FIXME: your code here...
+
     /* Configuration summary text for autoyast */
     return [ _("Configuration summary..."), [] ];
 }

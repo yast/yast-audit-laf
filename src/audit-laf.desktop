@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Categories=Settings;System;Qt;X-SuSE-YaST;X-SuSE-YaST-Misc;
+Categories=Settings;System;Qt;X-SuSE-YaST;X-SuSE-YaST-Security;
 
 X-KDE-ModuleType=Library
 X-KDE-RootOnly=true
@@ -8,7 +8,7 @@ X-KDE-HasReadOnlyMode=true
 X-KDE-Library=yast2
 X-SuSE-YaST-Call=audit-laf
 
-X-SuSE-YaST-Group=Misc
+X-SuSE-YaST-Group=Security
 X-SuSE-YaST-Argument=
 X-SuSE-YaST-RootOnly=true
 X-SuSE-YaST-AutoInst=
@@ -19,7 +19,7 @@ X-SuSE-YaST-AutoInstResource=audit-laf
 Icon=yast-audit-laf
 Exec=/sbin/yast2 audit-laf 
 
-Name=AuditLaf
+Name=Linux Audit Framework (LAF)
 GenericName=audit-laf
 X-KDE-SubstituteUID=true
 StartupNotify=true

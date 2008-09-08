@@ -37,7 +37,6 @@ import "Wizard_hw";
 import "Confirm";
 import "AuditLaf";
 
-
 include "audit-laf/helps.ycp";
 
 /**
@@ -349,7 +348,7 @@ will cause an error.") );
 	    foreach ( string rule, rules_list, {
 		    if ( regexpmatch( rule, "^[ /t]*-e[ /t]*2" ) )
 		    {
-			boolean yes = Report::Warning( _("Lock is set in audit.rules (-e 2).\n
+			Report::Warning( _("Lock is set in audit.rules (-e 2).\n
 It doesn't make sense to continue, because the rules would
 be locked until next boot.") );
 			go_on = false;

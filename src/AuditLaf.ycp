@@ -114,7 +114,15 @@ global boolean Modified() {
  */
 global void SetModified(boolean value) {
       modified = true;
-  }
+}
+
+global boolean ProposalValid() {
+    return proposal_valid;
+}
+
+global void SetProposalValid(boolean value) {
+    proposal_valid = value;
+}
 
 /**
  * @return true if module is marked as "write only" (don't start services etc...)

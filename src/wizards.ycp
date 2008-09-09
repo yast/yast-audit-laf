@@ -20,7 +20,7 @@
 
 /**
  * File:	include/audit-laf/wizards.ycp
- * Package:	Configuration of LAF Auditing
+ * Package:	Configuration of Linux Auditing
  * Summary:	Wizards definitions
  * Authors:	Gabriele Mohr <gs@suse.de>
  *
@@ -80,21 +80,25 @@ any MainSequence() {
 
     map <string, any> tabs = $[
 	"logfile_settings" : $[
-	    "header" : _("&Logfile"),
+	    // Header of tab in tab widget
+	    "header" : _("&Log File"),
 	    "widget_names" : ["log"],
 	    "contents" : LogfileSettingsDialogContent(),
 	],
 	"dispatcher" : $[
+	    // Header of tab in tab widget		 
 	    "header" : _("&Dispatcher"),
 	    "widget_names" : ["disp"],
 	    "contents" : DispatcherDialogContent(),
 	],
 	"diskspace_settings" : $[
-	    "header" : _("&Diskspace on Log Partion"),
+	    // Header of tab in tab widget (keep it short!)			 
+	    "header" : _("Disk &Space on Log Partion"),
 	    "widget_names" : ["disk"],
 	    "contents" : DiskspaceSettingsDialogContent(),
 	],
 	"audit_rules" : $[
+	    // Header of tab in tab widget		  
 	    "header" : _("&Rules for auditctl"),
 	    "widget_names" : ["rules"],
 	    "contents" : RulesDialogContent(),
@@ -121,7 +125,8 @@ any MainSequence() {
 
     list <map <string, any> > w = CWM::CreateWidgets (["tab"], (map <string, map <string, any> >) wd);
 
-    string caption = _("Configuration of LAF Auditing");
+    // Initialization dialog caption
+    string caption = _("Configuration of Linux Audit Framework (LAF)");
     contents = CWM::PrepareDialog (contents, w);
 
     Wizard::SetContentsButtons (
@@ -179,14 +184,14 @@ any AuditLafSequence() {
 }
 
 /**
- * Whole configuration of LAFAuditing but without reading and writing.
+ * Whole configuration of LAF Auditing but without reading and writing.
  * For use with autoinstallation.
  * @return sequence result
  */
 any AuditLafAutoSequence() {
 
     /* Initialization dialog caption */
-    string caption = _("Configuration of LAFAuditing");
+    string caption = _("Configuration of Linux Audit Framework (LAF)");
     /* Initialization dialog contents */
     term contents = `Label(_("Initializing..."));
 

@@ -20,7 +20,7 @@
 
 /**
  * File:	include/audit-laf/complex.ycp
- * Package:	Configuration of LAF Auditing
+ * Package:	Configuration of Linux Auditing
  * Summary:	Dialogs definitions
  * Authors:	Gabriele Mohr <gs@suse.de>
  *
@@ -36,6 +36,7 @@ import "Wizard";
 import "Wizard_hw";
 import "Confirm";
 import "AuditLaf";
+import "Report";
 
 include "audit-laf/helps.ycp";
 
@@ -102,7 +103,7 @@ void InitLogfileSettingsDialog (string id) {
     });
     
     
-    y2milestone( "Init logfile settings");
+    y2milestone( "Init log file settings");
 }
 
 symbol HandleLogfileSettingsDialog(string id, map event) {
@@ -143,7 +144,7 @@ void StoreLogfileSettingsDialog (string id, map event) {
 			  ], {
 	AuditLaf::SetAuditdOption( key, (string) UI::QueryWidget(`id(key), `Value) );
     });
-    y2milestone( "Store logfile settings" );
+    y2milestone( "Store log file settings" );
 
 }
 void InitDispatcherDialog (string id) {
@@ -204,7 +205,7 @@ void InitDiskspaceSettingsDialog (string id) {
     });
 
     
-    y2milestone( "Init diskspace settings" );
+    y2milestone( "Init disk space settings" );
 }
 
 void StoreDiskspaceSettingsDialog (string id, map event) {
@@ -220,7 +221,7 @@ void StoreDiskspaceSettingsDialog (string id, map event) {
 	AuditLaf::SetAuditdOption( key, (string) UI::QueryWidget(`id(key), `Value) );
     });
     
-    y2milestone( "Store diskspace settings" );
+    y2milestone( "Store disk space settings" );
 }
 
 void InitRulesDialog( string id )   {

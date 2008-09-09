@@ -20,7 +20,7 @@
 
 /**
  * File:	include/audit-laf/dialogs.ycp
- * Package:	Configuration of LAF Auditing
+ * Package:	Configuration of Linux Auditing
  * Summary:	Dialogs definitions
  * Authors:	Gabriele Mohr <gs@suse.de>
  *
@@ -52,33 +52,37 @@ term LogfileSettingsDialogContent () {
 		       `VBox(
 			     `VStretch(),
 			     `Frame (
+				     // Frame label
 				     _("General Settings"),
 				     `VBox (
 
 					    `VSquash(
 						     `HBox(
-							   // Label for InputField
-							   `InputField(`id("log_file"), `opt(`hstretch), _("Logfile")),
+							   // InputField label
+							   `InputField(`id("log_file"), `opt(`hstretch), _("&Log File")),
 							   `HSpacing(2.0),
 							   `VBox(
 								 `VSpacing(),
-								 // Label for PushButton
+								 // PushButton label
 								 `Bottom(`PushButton(`id("select_file"), _("Select Fi&le")))
 								 )
 							   )
 						     ),
 					    `VBox(
-						  `HBox(`HWeight( 1,`ComboBox(`id("log_format"), _("Format"),
+                                                  // ComboBox label - select format of logging
+						  `HBox(`HWeight( 1,`ComboBox(`id("log_format"), _("&Format"),
 									      [
 									       `item(`id("RAW"), "RAW", true ),
 									       `item(`id("NOLOG"), "NOLOG"  )
 									       ])
 								  ),
 							`HSpacing(2.0),
-							`HWeight( 1, `IntField(`id("num_logs"), `opt(`hstretch), _("Number of Logfiles"), 0, 99, 4) )
+							 // InputField label
+							`HWeight( 1, `IntField(`id("num_logs"), `opt(`hstretch), _("&Number of Log Files"), 0, 99, 4) )
 							),
 						  `HBox(
-							`HWeight( 1, `ComboBox(`id("flush"), _("Flush"),
+							// ComboBox label - select how to flush data on disk
+							`HWeight( 1, `ComboBox(`id("flush"), _("Fl&ush"),
 									       [`item(`id("NONE"), "NONE" ),
 										`item(`id("INCREMENTAL"), "INCREMENTAL", true ),
 										`item(`id("DATA"), "DATA" ),
@@ -86,19 +90,22 @@ term LogfileSettingsDialogContent () {
 										])
 								  ),
 							`HSpacing(2.0),
-							`HWeight( 1, `IntField(`id("freq"), `opt(`hstretch), _("Frequence"), 0, 10000, 20 )) 
+							 // InputField label - enter how many records to write before flush data to disk
+							`HWeight( 1, `IntField(`id("freq"), `opt(`hstretch), _("Fre&quence (Number of Records)"), 0, 10000, 20 )) 
 							)
 						  )
 					    )
 				     ),
 			     `VStretch(),
 			     `Frame (
+				     // Frame label - data regarding size of log file and action to perform
 				     _("Size and Action"),
 				     `HBox (
-					    /* A text entry */
+					    // InputField label
 					    `HWeight( 1, `InputField(`id("max_log_file"),  _("Ma&x File Size (MB)")) ),
 					    `HSpacing(2.0),
-					    `HWeight( 1, `ComboBox(`id("max_log_file_action"),  _("Maximum File Size Action"),
+					    // ComboBox label
+					    `HWeight( 1, `ComboBox(`id("max_log_file_action"),  _("M&aximum File Size Action"),
 								   [`item(`id("IGNORE"), "IGNORE" ),
 								    `item(`id("SYSLOG"), "SYSLOG", true ),
 								    `item(`id("SUSPEND"), "SUSPEND" ),
@@ -107,6 +114,7 @@ term LogfileSettingsDialogContent () {
 								    ]								   )
 						      ),
 					    `HSpacing(2.0),
+					    // InputField label
 					    `HWeight( 1, `InputField(`id("action_mail_acct"), _("Action Mail Account")))
 					    )
 				     ),
@@ -135,20 +143,22 @@ term DispatcherDialogContent () {
 		       `VBox(
 			     `VSpacing(2.0),
 			     `Frame (
+				     // Frame label - settings of the dispatcher program
 				     _("Dispatcher Settings"),
 				     `VBox (
 					    `VSquash(
 						     `HBox(
-							   // Label for InputField
+							   // InputField label
 							   `InputField(`id("dispatcher"), `opt(`hstretch), _("Dispatcher Program")),
 							   `HSpacing(2.0),
 							   `VBox(
 								 `VSpacing(),
-								 // Label for PushButton
+								 // PushButton label
 								 `Bottom(`PushButton(`id("select_disp"), _("Select Fi&le")))
 								 )
 							   )
 						     ),
+					    // ComboBox label - communication between the audit daemon and the dispatcher program
 					    `Left(`ComboBox(`id("disp_qos"), _("Communication"),
 							    [`item(`id("lossy"), "lossy", true ),
 							     `item(`id("lossless"), "lossless" )
@@ -167,10 +177,10 @@ term DiskspaceSettingsDialogContent () {
 			     `VStretch(),
 			     `Frame(
 				    // Frame label - keep it short! 
-				    _("Value and action for space is starting to run low"),
+				    _("Value and Action for Space is Starting to Run Low"),
 				    `HBox(
 					  // InputField label - space on disk is starting to run low if the entered value is reached
-					  `HWeight( 1, `InputField(`id("space_left"), _("&Space left on Disk (MB)") )),
+					  `HWeight( 1, `InputField(`id("space_left"), _("&Space Left on Disk (MB)") )),
 					  `HSpacing(2.0),
 					  `HWeight( 1, `ComboBox(`id("space_left_action"), `opt(`editable),
 								 // ComboBox label - select an action which is performed if space on disk is low		 
@@ -189,13 +199,13 @@ term DiskspaceSettingsDialogContent () {
 			     `VStretch(),
 			     `Frame (
 				     // Frame label - keep it short!  
-				     _("Value and action for space is running low"),
+				     _("Value and Action for Space is Running Low"),
 				     `HBox(
 					    // InputField label - space on disk is running low if the entered value is reached
-					   `HWeight( 1, `InputField(`id("admin_space_left"), _("&Admin Space left on Disk (MB) ")) ),
+					   `HWeight( 1, `InputField(`id("admin_space_left"), _("&Admin Space Left on Disk (MB) ")) ),
 					   `HSpacing(2.0),
 					   `HWeight( 1, `ComboBox(`id("admin_space_left_action"), `opt(`editable),
-						// ComboBox label - select an action which is performed if space on disk is running low			  
+						// ComboBox label - select an action which is performed if space on disk is running low	  
 								  _("Action"),
 								  [`item(`id("IGNORE"), "IGNORE" ),
 								   `item(`id("SYSLOG"), "SYSLOG", true ),
@@ -211,7 +221,7 @@ term DiskspaceSettingsDialogContent () {
 			     `VStretch(),
 			     `Frame(
 				    // Frame label - keep it short!   
-				    _("Action on Error or Disk full"),
+				    _("Action on Error or Disk Full"),
 				    `VBox(
 					  `ComboBox(`id("disk_full_action"), `opt(`editable),
 						 // ComboBox label - select an action which is performed if disk is full	   
@@ -247,9 +257,12 @@ term RulesDialogContent() {
 			     `VSpacing(0.2),
 			     `VWeight( 20, `VBox(
 						 // label of a combo box with the possibilitiy to enable/disable auditing or lock the rules 
-						 `Left(`ComboBox( `id("audit_enabled"), `opt(`notify), _("Set Enabled Flag"),
+						 `Left(`ComboBox( `id("audit_enabled"), `opt(`notify), _("&Set Enabled Flag"),
+								  // ComboBox item
 								  [`item(`id("enabled"),  _("Auditing enabled"), true ),	 // -e 1
+								   // ComboBox item
 								   `item(`id("disabled"), _("Auditing disabled") ),	 // -e 0
+								   // ComboBox item
 								   `item(`id("locked"), _("Rules are locked (until next boot)")) // -e 2
 								   ]
 								  ) ),
@@ -257,22 +270,23 @@ term RulesDialogContent() {
 						 ) ),
 			     `VSpacing(0.2),
 			     `VWeight( 90, `VBox(
+						 // Label - describes what can be done in the editor
 						 `Left(`Label(_("Edit the rules for the audit subsystem here:") ) ),
 						 `MultiLineEdit(`id("rules"), `opt(`vstretch), "audit.rules" )
 
 						 ) ),
 			     `VWeight( 10,
 				       // label of a push button (please keep it short) 
-				       `HBox(`PushButton( `id( "test" ), _("Check Syntax") ),
+				       `HBox(`PushButton( `id( "test" ), _("&Check Syntax") ),
 					     `HSpacing(2.0),
 					     // label of push button  (please keep it short)
-					     `PushButton( `id( "restore" ), _("Restore 'audit.rules'") ),
+					     `PushButton( `id( "restore" ), _("&Restore 'audit.rules'") ),
 					     `HSpacing(2.0),
 					      // label of push button  (please keep it short)
-					     `PushButton( `id( "reset" ), _("Restore and Reset") ),
+					     `PushButton( `id( "reset" ), _("R&estore and Reset") ),
 					     `HSpacing(2.0),
 					      // label of push button
-					     `PushButton( `id( "load" ), _("Load ") )
+					     `PushButton( `id( "load" ), _("&Load ") )
 					     )
 				       )
 			     

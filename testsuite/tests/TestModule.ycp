@@ -5,9 +5,9 @@
 include "testsuite.ycp";
 TESTSUITE_INIT([], nil);
 
-import "TestModule";
+import "AuditLaf";
 
-DUMP("TestModule::Modified");
-TEST(``(TestModule::Modified()), [], nil);
+DUMP("AuditLaf::Modified");
+TEST(``(AuditLaf::Modified()), [], nil);
 
 }

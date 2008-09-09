@@ -52,17 +52,13 @@ boolean ReallyAbort() {
     return !AuditLaf::Modified() || Popup::ReallyAbort(true);
 }
 
-boolean PollAbort() {
-    return UI::PollInput() == `abort;
-}
-
 /**
  * Read settings dialog
  * @return `abort if aborted and `next otherwise
  */
 symbol ReadDialog() {
     Wizard::RestoreHelp(HELPS["read"]:"");
-    // AuditLaf::SetAbortFunction(PollAbort);
+
     if (!Confirm::MustBeRoot()) return `abort;
     boolean ret = AuditLaf::Read();
     return ret ? `next : `abort;
@@ -74,7 +70,7 @@ symbol ReadDialog() {
  */
 symbol WriteDialog() {
     Wizard::RestoreHelp(HELPS["write"]:"");
-    // AuditLaf::SetAbortFunction(PollAbort);
+
     boolean ret = AuditLaf::Write();
     return ret ? `next : `abort;
 }

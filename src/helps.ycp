@@ -117,7 +117,7 @@ The selected flag from <b>Set Enabled Flag</b> will be added to the rules.</p>" 
       /* rules dialog help 2/5*/
     _("<p><b>Please note:</b><br>Locking the rules means they cannot be changed until next reboot! </p>" ) +
      /* rules dialog help 3/5 */
-    _("<p>To enable the auditing whithout adding additional rules will cause the
+    _("<p>To enable the auditing whithout additional rules will cause the
  applications which use <i>libaudit</i>, e.g. PAM to log to /var/log/audit/audit.log (default).</p> ") +
     /* rules dialog help 4/5 */ 
     _("<p>This module also allows you to edit the rules manually. Detailed information

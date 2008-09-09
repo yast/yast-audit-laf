@@ -588,11 +588,11 @@ global map Export () {
  * Create a textual summary and a list of unconfigured cards
  * @return summary of the current configuration
  */
+// TODO FIXME: your code here...
 global list Summary() {
-    // TODO FIXME: your code here...
-
     /* Configuration summary text for autoyast */
     return [ _("Configuration summary..."), [] ];
+    
 }
 
 /**

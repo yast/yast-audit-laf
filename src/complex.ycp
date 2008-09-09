@@ -372,7 +372,7 @@ be locked until next boot.") );
 	    }
 	    else
 	    {
-		Report::Error( _("Cannnot create tmp file for rules" ) );
+		Report::Error( _("Cannot create tmp file for rules" ) );
 	    }
 	}
     }

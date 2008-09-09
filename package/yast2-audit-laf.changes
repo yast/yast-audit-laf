@@ -1,4 +1,8 @@
 -------------------------------------------------------------------
 Tue Sep  2 10:28:35 2008 - gs@suse.de
 
-- initial version
+- Initial version
+- Allows to set the configuration for the audit daemon
+  (auditd.conf), to enable/disable the syscall auditing
+  and to add rules for the audit subsystem (auditctl)
+- 2.17.0

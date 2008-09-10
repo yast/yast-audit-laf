@@ -23,8 +23,13 @@ Summary:	Configuration of audit-laf
 %defattr(-,root,root)
 %dir @yncludedir@/audit-laf
 @yncludedir@/audit-laf/*
+%dir @clientdir@
 @clientdir@/audit-laf.ycp
 @clientdir@/audit-laf_*.ycp
+%dir @moduledir@
 @moduledir@/AuditLaf.*
+%dir @desktopdir@
 @desktopdir@/audit-laf.desktop
+%dir @scrconfdir@
+@scrconfdir@/auditd.scr
 %doc @docdir@

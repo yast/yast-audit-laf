@@ -80,15 +80,14 @@ issuing an explicit flush to disk.</p>" ) +
 value is reached in <b>Size and Action</b> frame. If action is set to
 <b>ROTATE</b> the <b>Number of Log Files</b> specifies the number of files to keep.</p>") +
     /* logfile_settings dialog help 7/7 */
-    _("<p><b>Computer Name Format</b> describes how to the computer name is written
-to the log file. If <i>User</i> is set the <b>User Defined Name</b> is used.</p> "),
+    _("<p><b>Computer Name Format</b> describes how to write the computer name to the log file. If <i>User</i> is set the <b>User Defined Name</b> is used.</p> "),
 
     /* dispatcher dialog help 1/3 */
     "dispatcher" : _("<p><b><big>Auditd Dispatcher Configuration</big></b><br>
 Detailed information about the dispatcher settings can be obtained from 'man auditd.conf'.<br></p>") +
     /* dispatcher dialog help 2/3 */ 
     _("<p><b>Dispatcher</b>: The dispatcher program is started by the audit daemon and
-gets all all audit events on stdin.</p>") +
+gets all audit events on stdin.</p>") +
       /* dispatcher dialog help 3/3 */ 
     _("<p><b>Communication</b>: Controls the communication
 between the daemon and the dispatcher program.<p>"),
@@ -109,22 +108,23 @@ to left and which action to perform if the system <b>is running low</b>.</p>") +
     _("<p>You can also specify a <b>Disk Full Action</b> (disk has become full already) and
 a <b>Disk Error Action</b> (performed whenever an error is detected while writing to disk).</p>"),
     
-    /* rules dialog help 1/5*/
+    /* rules dialog help 1/6 */
     "audit_rules" : _("<p><b><big>Rules for auditctl</big></b><br>
 This dialog offers the possibiltiy to enable or to disable the syscall
 auditing as well as to lock the audit configuration.
 The selected flag from <b>Set Enabled Flag</b> will be added to the rules.</p>" ) +
-      /* rules dialog help 2/5*/
+      /* rules dialog help 2/6 */
     _("<p><b>Please note:</b><br>Locking the rules means they cannot be changed until next reboot! </p>" ) +
-     /* rules dialog help 3/5 */
+     /* rules dialog help 3/6 */
     _("<p>To enable the auditing whithout additional rules will cause the
  applications which use <i>libaudit</i>, e.g. PAM to log to /var/log/audit/audit.log (default).</p> ") +
-    /* rules dialog help 4/5 */ 
-    _("<p>This module also allows you to edit the rules manually. Detailed information
-about all options gives 'man auditctl'.<br>
-<b>Check Syntax</b> sends the rules via <i>auditctl</i> to the audit subsystem and tells
+    /* rules dialog help 4/6 */ 
+    _("<p>This module also allows you to edit the rules manually. <br>
+Detailed information about all options gives 'man auditctl'.</p>") +
+    /* rules dialog help 5/6 */
+    _("<b>Check Syntax</b> sends the rules via <i>auditctl</i> to the audit subsystem and tells
 whether the syntax is correct.</p>") +
-     /* rules dialog help 5/5 */ 
+     /* rules dialog help 6/6 */ 
     _("<p>Use the <b>Restore and Reset</b> to restore previous rules and reset the changes
 by calling <i>auditctl</i> with it.<br>
 The <b>Load</b> button opens an file selection dialog and you are able to load

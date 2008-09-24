@@ -138,7 +138,7 @@ any MainSequence() {
 	Label::FinishButton()
     );
     Wizard::DisableBackButton ();
-    //Wizard::SetTitleIcon("yast-audit-laf");
+    Wizard::SetTitleIcon("yast-audit-laf");
 
     return CWM::Run (w, $[`abort : ReallyExit]);
 }

@@ -92,14 +92,15 @@ any MainSequence() {
 	    "contents" : DispatcherDialogContent(),
 	],
 	"diskspace_settings" : $[
-	    // Header of tab in tab widget (keep it short!)			 
-	    "header" : _("Disk &Space on Log Partion"),
+	    // Header of tab in tab widget		 
+	    "header" : _("Disk &Space"),
 	    "widget_names" : ["disk"],
 	    "contents" : DiskspaceSettingsDialogContent(),
 	],
 	"audit_rules" : $[
-	    // Header of tab in tab widget		  
-	    "header" : _("&Rules for auditctl"),
+	    // Header of tab in tab widget
+            // (auditctl is a program which sends the rules to the audit subsystem)		  
+	    "header" : _("&Rules for 'auditctl'"),
 	    "widget_names" : ["rules"],
 	    "contents" : RulesDialogContent(),
 	],

@@ -219,11 +219,11 @@ term DiskspaceSettingsDialogContent () {
 					   )
 				     ),
 			     `VStretch(),
-			     `Frame(
+			     `Frame( 
 				    // Frame label - keep it short!   
 				    _("Action on Error or Disk Full"),
 				    `VBox(
-					  `ComboBox(`id("disk_full_action"), `opt(`editable),
+					  `ComboBox(`id("disk_full_action"), `opt(`editable, `hstretch),
 						 // ComboBox label - select an action which is performed if disk is full	   
 						    _("Disk Full Action"),
 						    [`item(`id("IGNORE"), "IGNORE" ),
@@ -233,7 +233,7 @@ term DiskspaceSettingsDialogContent () {
 						     `item(`id("HALT"), "HALT" ),
 						     `item(`id("EXEC"), "EXEC" )
 						     ]),
-					  `ComboBox(`id("disk_error_action"), `opt(`editable ),
+					  `ComboBox(`id("disk_error_action"), `opt(`editable, `hstretch ),
 						     // ComboBox label - select an action which is performed on error 
 						    _("Disk Error Action"),
 						    [`item(`id("IGNORE"), "IGNORE" ),
@@ -258,12 +258,12 @@ term RulesDialogContent() {
 			     `VWeight( 20, `VBox(
 						 // label of a combo box with the possibilitiy to enable/disable auditing or lock the rules 
 						 `Left(`ComboBox( `id("audit_enabled"), `opt(`notify), _("&Set Enabled Flag"),
-								  // ComboBox item
-								  [`item(`id("enabled"),  _("Auditing enabled"), true ),	 // -e 1
-								   // ComboBox item
-								   `item(`id("disabled"), _("Auditing disabled") ),	 // -e 0
-								   // ComboBox item
-								   `item(`id("locked"), _("Rules are locked (until next boot)")) // -e 2
+								  // combo box item
+								  [`item(`id("enabled"),  _("Auditing enabled"), true ),
+								   // combo box item
+								   `item(`id("disabled"), _("Auditing disabled") ),
+								   // combo box item
+								   `item(`id("locked"), _("Rules are locked (until next boot)"))
 								   ]
 								  ) ),
 						 `VStretch()
@@ -285,7 +285,7 @@ term RulesDialogContent() {
 					      // label of push button  (please keep it short)
 					     `PushButton( `id( "reset" ), _("R&estore and Reset") ),
 					     `HSpacing(2.0),
-					      // label of push button
+					      // label of a push button
 					     `PushButton( `id( "load" ), _("&Load ") )
 					     )
 				       )

@@ -11,9 +11,11 @@ X-SuSE-YaST-Call=audit-laf
 X-SuSE-YaST-Group=Security
 X-SuSE-YaST-Argument=
 X-SuSE-YaST-RootOnly=true
-X-SuSE-YaST-AutoInst=
+X-SuSE-YaST-AutoInst=all
 X-SuSE-YaST-Geometry=
 X-SuSE-YaST-SortKey=
+X-SuSE-YaST-AutoInstClonable=true
+X-SuSE-YaST-AutoInstRequires=audit
 X-SuSE-YaST-AutoInstResource=audit-laf
 
 Icon=yast-audit-laf

@@ -234,7 +234,8 @@ global string GetAuditdOption( string key) {
 global boolean SetAuditdOption( string key, string value ) {
     list <string> option_list = [];
 
-    if ( value != "" )
+    // FIXME - allow empty values, e.g. for computer name (but not if FORMAT is set to USER)
+    if ( value != ""  )
     {
 	option_list = add( option_list, value );
 	SETTINGS[key] = option_list;
@@ -564,24 +565,33 @@ After that you have to reboot the system.") );
 }
 
 /**
- * Get all auditd settings from the first parameter
+ * Get all audit settings from the first parameter
  * (For use by autoinstallation.)
  * @param settings The YCP structure to be imported.
  * @return boolean True on success
  */
-global boolean Import (map settings) {
-    // TODO FIXME: your code here (fill the above mentioned variables)...
+global boolean Import ( map settings ) {
+
+    SETTINGS = (map< string, list<string> >)settings ["auditd"]:DEFAULT_CONFIG;
+    RULES = (string)settings["rules"]:"";
+
+    SetModified();
+    y2milestone ("Configuration has been imported");
+
     return true;
 }
 
 /**
- * Dump the auditd settings to a single map
+ * Dump the auditd settings and the rules to a single map
  * (For use by autoinstallation.)
  * @return map Dumped settings (later acceptable by Import ())
  */
 global map Export () {
-    // TODO FIXME: your code here (return the above mentioned variables)...
-    return $[];
+
+    return $[
+	     "auditd" : SETTINGS,
+	     "rules" : RULES
+	     ];
 }
 
 /**

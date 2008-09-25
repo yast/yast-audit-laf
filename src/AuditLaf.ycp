@@ -575,7 +575,7 @@ global boolean Import ( map settings ) {
     SETTINGS = (map< string, list<string> >)settings ["auditd"]:DEFAULT_CONFIG;
     RULES = (string)settings["rules"]:"";
 
-    SetModified();
+    SetModified( true );
     y2milestone ("Configuration has been imported");
 
     return true;

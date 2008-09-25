@@ -95,6 +95,7 @@ global string GetConfigFile() {
     return config_file;
 }
 
+// Testing only
 global list <string> GetWatches() {
     return ( [ "exit,always watch=/etc/passwd perm=rwx",
 	       "entry,always watch=/etc/sysconfig/yast2 perm=rwx"] );
@@ -113,7 +114,7 @@ global boolean Modified() {
  * Mark as modified, for Autoyast.
  */
 global void SetModified(boolean value) {
-      modified = true;
+      modified = value;
 }
 
 global boolean ProposalValid() {

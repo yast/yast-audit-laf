@@ -389,6 +389,9 @@ be locked until next boot.") );
 }
 
 void StoreRulesDialog( string id, map event) {
+
+    AuditLaf::SetModified( true );
+
     string rules = (string)UI::QueryWidget( `id("rules"), `Value );
 
     AuditLaf::SetRules( rules );

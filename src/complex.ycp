@@ -363,7 +363,7 @@ be locked until next boot.") );
 		map output = (map)SCR::Execute(.target.bash_output, sformat( "auditctl -R %1", tmpfile ) );
 		if ( output["exit"]:0 != 0 )
 		{
-		    Report::Error( sformat( output["stderr"]:"" ) );
+		    Report::Error( output["stderr"]:"" );
 		}
 		else
 		{
@@ -416,8 +416,7 @@ symbol CheckSettings() {
 This means the rules are locked until next boot!
 If you really want this, make sure '-e 2' is the last entry
 in the rules file. If not, either enable or disable auditing.
-To check or to change the rules,
-please go back to rules editor."),
+To check or to change the rules, please go back to rules editor."),
 					      Label::ContinueButton(),
 					      Label::BackButton(),
 					      `focus_no );

@@ -91,7 +91,7 @@ Detailed information about the dispatcher settings can be obtained from 'man aud
 gets all audit events on stdin.</p>") +
       /* dispatcher dialog help 3/3 */ 
     _("<p><b>Communication</b>: Controls the communication
-between the daemon and the dispatcher program.<p>"),
+between the daemon and the dispatcher program.</p>"),
 
     /* disk space dialog help 1/4 */
     "diskspace_settings" : _("<p><b><big>Auditd Disk Space Configuration</big></b><br>

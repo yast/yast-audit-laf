@@ -51,7 +51,7 @@ include "audit-laf/wizards.ycp";
 map cmdline_description = $[
     "id" 	: "audit-laf",
     /* Command line help text for the Xaudit-laf module */
-    "help"	: _("Configuration of audit-laf"),
+    "help"	: _("Configuration of Linux Audit Framework (LAF)"),
     "guihandler"        : AuditLafSequence,
     "initialize"        : AuditLaf::Read,
     "finish"            : AuditLaf::Write,

@@ -36,16 +36,8 @@ import "AuditLaf";
 
 include "audit-laf/helps.ycp";
 
-map current_ui_settings = UI::GetDisplayInfo();
-
 integer mbox_x = 1;
 integer mbox_y = 0.5;
-
-// Tabs have a different layout in textmode
-if (current_ui_settings["TextMode"]:false == true) {
-    mbox_x = 0;
-    mbox_y = 0;
-}
 
 term LogfileSettingsDialogContent () {
     return `MarginBox( mbox_x, mbox_y,

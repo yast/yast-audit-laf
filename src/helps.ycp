@@ -124,9 +124,10 @@ The selected flag from <b>Set Enabled Flag</b> will be added to the rules.</p>" 
     _("<p>This module also allows you to edit the rules manually. <br>
 Detailed information about all options gives 'man auditctl'.</p>") +
     /* rules dialog help 5/6 */
-    _("<b>Check Syntax</b> sends the rules via <i>auditctl</i> to the audit subsystem and tells whether the syntax is correct.</p>") +
+    _("<p><b>Check Syntax</b> sends the rules via <i>auditctl</i> to the audit subsystem and tells whether the syntax is correct.</p>") +
      /* rules dialog help 6/6 */ 
-    _("<p>Use the <b>Restore and Reset</b> button to restore previous rules and reset the changes by calling <i>auditctl</i> with it.<br>
+    _("<p>Use the <b>Restore and Reset</b> button to restore previous rules and reset the changes (from previous syntax checks)
+by calling <i>auditctl</i> with it.<br>
 The <b>Load</b> button opens a file selection dialog and you are able to load
 an example rules file.</p>")
 

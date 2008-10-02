@@ -176,6 +176,21 @@ global boolean RulesAlreadyLocked()
 	return false;
 }
 
+global string AuditStatus()
+{
+    map output = (map)SCR::Execute( .target.bash_output, "auditctl -s" );
+    y2milestone( "auditctl: %1", output );
+
+    string audit_status = output["stdout"]:"";
+    
+    if ( regexpmatch( audit_status, "^.*enabled=2.*" ) )
+	return _( "The rules for auditctl are locked" );
+    else if ( regexpmatch( audit_status, "^.*enabled=1.*" ) )
+	return _( "Auditing enabled");
+    else
+	return _( "Auditing disabled"); 
+}
+
 //
 // Settings: Define all variables needed for the configuration of the audit daemon
 //
@@ -599,10 +614,16 @@ global map Export () {
  * Create a textual summary and a list of unconfigured cards
  * @return summary of the current configuration
  */
-// TODO FIXME: your code here...
-global list Summary() {
+global string Summary() {
+    string summary = "";
+
+    summary = Summary::AddLine( summary, sformat( "%1: %2", _("Log file"), AuditLaf::GetAuditdOption("log_file")) );
+    summary = Summary::AddLine( summary, AuditStatus() );
+
+    y2milestone ( "Summary: %1", summary );
+    
     /* Configuration summary text for autoyast */
-    return [ _("Configuration summary..."), [] ];
+    return summary;
     
 }
 

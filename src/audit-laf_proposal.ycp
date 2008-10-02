@@ -58,8 +58,7 @@ if(func == "MakeProposal") {
 	AuditLaf::Read();
 	Progress::set (progress_orig);
     }
-    list sum = AuditLaf::Summary();
-    proposal = sum[0]:"";
+    proposal = AuditLaf::Summary();
 
     ret = $[
 	"preformatted_proposal" : proposal,

@@ -114,7 +114,7 @@ term LogfileSettingsDialogContent () {
 			     `Frame(
 				    _("Computer Names"),
 				    `HBox(
-					  `HWeight( 1, `ComboBox(`id("name_format"), _("Computer Name Format"),
+					  `HWeight( 1, `ComboBox(`id("name_format"), _("&Computer Name Format"),
 								 [`item(`id("NONE"), "NONE" ),
 								  `item(`id("HOSTNAME"), "HOSTNAME", true ),
 								  `item(`id("FQD"), "FQD" ),
@@ -151,7 +151,7 @@ term DispatcherDialogContent () {
 							   )
 						     ),
 					    // ComboBox label - communication between the audit daemon and the dispatcher program
-					    `Left(`ComboBox(`id("disp_qos"), _("Communication"),
+					    `Left(`ComboBox(`id("disp_qos"), _("C&ommunication"),
 							    [`item(`id("lossy"), "lossy", true ),
 							     `item(`id("lossless"), "lossless" )
 							     ])
@@ -175,8 +175,8 @@ term DiskspaceSettingsDialogContent () {
 					  `HWeight( 1, `InputField(`id("space_left"), _("&Space Left on Disk (MB)") )),
 					  `HSpacing(2.0),
 					  `HWeight( 1, `ComboBox(`id("space_left_action"), `opt(`editable),
-								 // ComboBox label - select an action which is performed if space on disk is low		 
-								 _("Action"),
+								 // ComboBox label - select an action which is performed if space on disk is low	 
+								 _("&Action"),
 								 [`item(`id("IGNORE"), "IGNORE" ),
 								  `item(`id("SYSLOG"), "SYSLOG", true ),
 								  `item(`id("SUSPEND"), "SUSPEND" ),
@@ -198,7 +198,7 @@ term DiskspaceSettingsDialogContent () {
 					   `HSpacing(2.0),
 					   `HWeight( 1, `ComboBox(`id("admin_space_left_action"), `opt(`editable),
 						// ComboBox label - select an action which is performed if space on disk is running low	  
-								  _("Action"),
+								  _("Ac&tion"),
 								  [`item(`id("IGNORE"), "IGNORE" ),
 								   `item(`id("SYSLOG"), "SYSLOG", true ),
 								   `item(`id("SUSPEND"), "SUSPEND" ),
@@ -217,7 +217,7 @@ term DiskspaceSettingsDialogContent () {
 				    `VBox(
 					  `ComboBox(`id("disk_full_action"), `opt(`editable, `hstretch),
 						 // ComboBox label - select an action which is performed if disk is full	   
-						    _("Disk Full Action"),
+						    _("Disk &Full Action"),
 						    [`item(`id("IGNORE"), "IGNORE" ),
 						     `item(`id("SYSLOG"), "SYSLOG", true ),
 						     `item(`id("SUSPEND"), "SUSPEND" ),
@@ -227,7 +227,7 @@ term DiskspaceSettingsDialogContent () {
 						     ]),
 					  `ComboBox(`id("disk_error_action"), `opt(`editable, `hstretch ),
 						     // ComboBox label - select an action which is performed on error 
-						    _("Disk Error Action"),
+						    _("Disk &Error Action"),
 						    [`item(`id("IGNORE"), "IGNORE" ),
 						     `item(`id("SYSLOG"), "SYSLOG", true ),
 						     `item(`id("SUSPEND"), "SUSPEND" ),
@@ -264,7 +264,7 @@ term RulesDialogContent() {
 			     `VWeight( 90, `VBox(
 						 // Label - describes what can be done in the editor
 						 `Left(`Label(_("Edit the rules for the audit subsystem here:") ) ),
-						 `MultiLineEdit(`id("rules"), `opt(`vstretch), "audit.rules" )
+						 `MultiLineEdit(`id("rules"), `opt(`vstretch), "&audit.rules" )
 
 						 ) ),
 			     `VWeight( 10,

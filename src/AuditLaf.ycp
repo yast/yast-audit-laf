@@ -363,7 +363,7 @@ global boolean Read() {
 	    /* Progress step 2/3 */
 	    _("Reading the rules file..."),
 	    /* Progress step 3/3 */
-	    _("Cecking status..." ),
+	    _("Checking status..." ),
 	    Message::Finished()
 	],
 	""

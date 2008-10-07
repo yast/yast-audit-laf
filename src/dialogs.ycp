@@ -83,7 +83,7 @@ term LogfileSettingsDialogContent () {
 								  ),
 							`HSpacing(2.0),
 							 // InputField label - enter how many records to write before flush data to disk
-							`HWeight( 1, `IntField(`id("freq"), `opt(`hstretch), _("Fre&quence (Number of Records)"), 0, 10000, 20 )) 
+							`HWeight( 1, `IntField(`id("freq"), `opt(`hstretch), _("Fre&quency (Number of Records)"), 0, 10000, 20 )) 
 							)
 						  )
 					    )
@@ -112,8 +112,10 @@ term LogfileSettingsDialogContent () {
 				     ),
 			     `VStretch(),
 			     `Frame(
+				    // Frame label - data regarding how to write computer names to the log file
 				    _("Computer Names"),
 				    `HBox(
+					  // ComboBox label
 					  `HWeight( 1, `ComboBox(`id("name_format"), _("&Computer Name Format"),
 								 [`item(`id("NONE"), "NONE" ),
 								  `item(`id("HOSTNAME"), "HOSTNAME", true ),
@@ -122,6 +124,7 @@ term LogfileSettingsDialogContent () {
 								  ])
 						    ),
 					  `HSpacing(2.0),
+					  // InputField label
 					  `HWeight( 1, `InputField(`id("name"), _("User Defined Name") )) 
 					  )
 				   ), 

@@ -73,7 +73,7 @@ Detailed information about the log file settings can be obtained from 'man audit
 to discard all audit information (does not affect data sent to the dispatcher).</p> ") +
     /* logfile_settings dialog help 5/7 */
     _("<p><b>Flush</b>: describes how to write the data to disk. If set to
-<i>INCREMANTAL</i> the <b>Frequence</b> parameter tells how many records to write before
+<i>INCREMANTAL</i> the <b>Frequency</b> parameter tells how many records to write before
 issuing an explicit flush to disk.</p>" ) +
     /* logfile_settings dialog help 6/7 */
     _("<p>Configure the maximum log file size and the action to take when this
@@ -118,7 +118,7 @@ The selected flag from <b>Set Enabled Flag</b> will be added to the rules.</p>" 
       /* rules dialog help 2/6 */
     _("<p><b>Please note:</b><br>Locking the rules means they cannot be changed until next reboot! </p>" ) +
      /* rules dialog help 3/6 */
-    _("<p>To enable the auditing whithout additional rules will cause the
+    _("<p>Enabling auditing whithout additional rules will cause the
  applications which use <i>libaudit</i>, e.g. PAM to log to /var/log/audit/audit.log (default).</p> ") +
     /* rules dialog help 4/6 */ 
     _("<p>This module also allows you to edit the rules manually. <br>
@@ -126,8 +126,7 @@ Detailed information about all options gives 'man auditctl'.</p>") +
     /* rules dialog help 5/6 */
     _("<p><b>Check Syntax</b> sends the rules via <i>auditctl</i> to the audit subsystem and tells whether the syntax is correct.</p>") +
      /* rules dialog help 6/6 */ 
-    _("<p>Use the <b>Restore and Reset</b> button to restore previous rules and reset the changes (from previous syntax checks)
-by calling <i>auditctl</i> with it.<br>
+    _("<p>Use the <b>Restore and Reset</b> button to restore the rules and reset the changes (from previous syntax checks) by calling <i>auditctl</i> with it.<br>
 The <b>Load</b> button opens a file selection dialog and you are able to load
 an example rules file.</p>")
 

@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Tue Oct  7 13:56:18 CEST 2008 - gs@suse.de
+
+- Fixed typos and grammatical errors (bnc #432378, bcn #415719) 
+
+-------------------------------------------------------------------
 Wed Oct  1 13:14:56 CEST 2008 - gs@suse.de
 
 - Basic command line support, fixed typos in help text 

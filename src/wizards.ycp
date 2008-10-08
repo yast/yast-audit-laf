@@ -99,7 +99,7 @@ any MainSequence() {
 	],
 	"audit_rules" : $[
 	    // Header of tab in tab widget
-            // (auditctl is a program which sends the rules to the audit subsystem)		  
+            // (auditctl is a program which sends the rules to the audit subsystem)
 	    "header" : _("&Rules for 'auditctl'"),
 	    "widget_names" : ["rules"],
 	    "contents" : RulesDialogContent(),
@@ -153,6 +153,7 @@ any AuditLafSequence() {
 	"read"	: [ ``( ReadDialog() ), true ],
 	"main"	:   ``( MainSequence() ),
 	"check" :   ``( CheckSettings() ),
+	"reset" :   ``( Reset() ),
 	"write"	: [ ``( WriteDialog() ), true ]
     ];
 
@@ -163,7 +164,7 @@ any AuditLafSequence() {
 	    `next	: "main"
 	],
 	"main" : $[
-	    `abort	: `abort,
+	    `abort	: "reset",
 	    `next	: "check"
 	],
 	"check" : $[

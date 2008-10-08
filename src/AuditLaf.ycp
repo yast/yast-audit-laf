@@ -74,7 +74,16 @@ string config_file = "/etc/audit/auditd.conf";
  */
 boolean write_only = false;
 
+/*
+ * Option "Lock rules" is set (-e 2)
+ */ 
 boolean rules_locked = false;
+
+/*
+ * The rules have been checked
+ */
+boolean rules_checked = false;
+
 
 global void SetRulesLocked( boolean value ) {
     rules_locked = value;
@@ -82,6 +91,14 @@ global void SetRulesLocked( boolean value ) {
 
 global boolean RulesLocked() {
     return rules_locked;
+}
+
+global void SetRulesChanged( boolean value ) {
+    rules_checked = value;
+}
+
+global boolean RulesChanged() {
+    return rules_checked;
 }
 
 /**
@@ -227,9 +244,15 @@ map <string, list <string> >  DEFAULT_CONFIG = $[
 
 /**
  * Rules for the subsystem audit (passed via auditctl)
- * are read from /etc/audit/audit.rules
+ * (initially read from /etc/audit/audit.rules and edited in
+ * rules editor)
  */ 
 string RULES = "";
+
+/**
+ * Save rules from /etc/audit/audit.rules to be able to restore it
+ */
+string INITIAL_RULES = "";
 
 /**
  * Get value of given option from SEETINGS
@@ -263,12 +286,16 @@ global boolean SetAuditdOption( string key, string value ) {
 }
 
 /**
- * Get all rules
+ * Get the current rules
  */
 global string GetRules() {
     return RULES;
 }
 
+global string GetInitialRules() {
+    return INITIAL_RULES;
+}
+    
 /*
  * Set rules
  */ 
@@ -292,6 +319,8 @@ boolean ReadAuditRules() {
   if ( rules != nil && rules != "" )
   {
       RULES = rules;
+      // additionally save initial settings
+      INITIAL_RULES = rules;
       return true;
   }
   else
@@ -503,7 +532,7 @@ global boolean Write() {
 	""
     );
 
-    // check status of audit rules first
+    // check first whether rules are already locked
     boolean locked = RulesAlreadyLocked();
 
     y2milestone ( "Rules already locked: %1", locked?"true":"false" );

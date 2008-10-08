@@ -52,14 +52,21 @@ boolean ReallyAbort() {
     return !AuditLaf::Modified() || Popup::ReallyAbort(true);
 }
 
+boolean ReallyExit () {
+    // yes-no popup
+    return Popup::YesNo (_("Really exit?
+All changes will be lost."));
+}
+
+
 /**
  * Read settings dialog
  * @return `abort if aborted and `next otherwise
  */
 symbol ReadDialog() {
     Wizard::RestoreHelp(HELPS["read"]:"");
-
     if (!Confirm::MustBeRoot()) return `abort;
+
     boolean ret = AuditLaf::Read();
     return ret ? `next : `abort;
 }
@@ -75,6 +82,9 @@ symbol WriteDialog() {
     return ret ? `next : `abort;
 }
 
+/*
+ * Init log file dialog (set values to values read with AuditLad::Read())
+ */
 void InitLogfileSettingsDialog (string id) {
 
     UI::ChangeWidget( `id("max_log_file"), `ValidChars, "0123456789" );
@@ -98,10 +108,12 @@ void InitLogfileSettingsDialog (string id) {
 		 UI::ChangeWidget(`id(key), `Value, toupper(AuditLaf::GetAuditdOption(key)) );
     });
     
-    
     y2milestone( "Init log file settings");
 }
 
+/*
+ * Handle actions of log file dialog (button 'Select file')
+ */
 symbol HandleLogfileSettingsDialog(string id, map event) {
     any action = event["ID"]:nil; 
 
@@ -115,12 +127,9 @@ symbol HandleLogfileSettingsDialog(string id, map event) {
     return nil;
 }
 
-boolean ReallyExit () {
-    // yes-no popup
-    return Popup::YesNo (_("Really exit?
-All changes will be lost."));
-}
-
+/*
+ * Store all settings made in log file dialog
+ */
 void StoreLogfileSettingsDialog (string id, map event) {
 
     AuditLaf::SetModified( true );
@@ -143,6 +152,10 @@ void StoreLogfileSettingsDialog (string id, map event) {
     y2milestone( "Store log file settings" );
 
 }
+
+/*
+ * Init dispatcher dialog (set values to values read with AuditLad::Read())
+ */
 void InitDispatcherDialog (string id) {
 
     // Set all values to values read from /etc/audit/auditd.conf
@@ -154,6 +167,9 @@ void InitDispatcherDialog (string id) {
     y2milestone( "Init dispatcher dialog" );
 }
 
+/*
+ * Handle actions of dispatcher dialog (button 'Select file')
+ */
 symbol HandleDispatcherDialog(string id, map event) {
     any action = event["ID"]:nil; 
 
@@ -167,6 +183,9 @@ symbol HandleDispatcherDialog(string id, map event) {
     return nil;
 }
 
+/*
+ * Store all settings made in dispatcher dialog
+ */
 void StoreDispatcherDialog (string id, map event) {
 
     AuditLaf::SetModified( true );
@@ -180,7 +199,9 @@ void StoreDispatcherDialog (string id, map event) {
     y2milestone( "Store dispatcher dialog" );
 }
 
-
+/*
+ * Init disk space dialog (set values to values read with AuditLad::Read())
+ */
 void InitDiskspaceSettingsDialog (string id) {
     UI::ChangeWidget( `id("space_left"), `ValidChars, "0123456789" );
     UI::ChangeWidget( `id("admin_space_left"), `ValidChars, "0123456789" );
@@ -204,6 +225,9 @@ void InitDiskspaceSettingsDialog (string id) {
     y2milestone( "Init disk space settings" );
 }
 
+/*
+ * Store all settings made in disk space dialog
+ */
 void StoreDiskspaceSettingsDialog (string id, map event) {
     AuditLaf::SetModified( true );
 
@@ -220,9 +244,17 @@ void StoreDiskspaceSettingsDialog (string id, map event) {
     y2milestone( "Store disk space settings" );
 }
 
+/*
+ * Init rules dialog
+ */
 void InitRulesDialog( string id )   {
-    string rules =  AuditLaf::GetRules();
+    string rules = "";
     string combo_box_id = "disabled";
+
+    if ( id == "restore" || id == "reset" )
+	rules = AuditLaf::GetInitialRules();
+    else
+	rules = AuditLaf::GetRules();
     
     UI::ChangeWidget( `id( "rules"), `Value, rules );
     list <string> rules_list = splitstring( rules, "\n" );
@@ -246,15 +278,53 @@ void InitRulesDialog( string id )   {
     y2milestone ( "Init rules dialog" );
 }
 
+/*
+ * Reset rules - called if button 'Restore and Reset' is pressed or if the user
+ * aborts configuration after doing 'Check Syntax' (which changes the rules).
+ */
+void ResetRules() {
+    
+	if ( AuditLaf::RulesAlreadyLocked() )
+	{
+	    // FIXME - does it make sense to call SCR::Execute( .target.bash, "auditctl -D" ) ???
+
+	    // Warning - the audit configuration is locked, reset impossible
+	    Report::Warning( _("The rules are already locked, a reset is impossible.\n
+If you want to unlock, set the enabled flag accordingly and
+finish the configuration. Afterwards a reboot is required.") ); 
+	}
+	else
+	{
+	    integer exit_code = (integer)SCR::Execute( .target.bash, "auditctl -D" );
+
+	    if ( exit_code == 0 )
+		exit_code = (integer)SCR::Execute( .target.bash, "auditctl -R /etc/audit/audit.rules" );
+
+	    if ( exit_code == 0 )
+	    {
+		// Report success
+		Popup::Message( _("Rules successfully restored" ) );
+		AuditLaf::SetRulesChanged( false );
+	    }
+	    else
+		// Report error - error during reset
+		Report::Error( _("Cannot reset rules. Please check /etc/audit/audit.rules." ) );
+	}
+}
+
+/*
+ * Handle actions of rules dialog
+ */
 symbol HandleRulesDialog(string id, map event) {
     any action = event["ID"]:nil; 
  
     if ( action == "audit_enabled" )
     {
-	string value = (string)UI::QueryWidget( `id("audit_enabled"), `Value );
 	string rule = "";
-	string rules = AuditLaf::GetRules();
 	list <string> rules_list = [];
+	
+	string value = (string)UI::QueryWidget( `id("audit_enabled"), `Value );
+	string rules =  (string)UI::QueryWidget( `id("rules"), `Value );
 	
 	y2milestone( "Setting status to: %1", value );
 
@@ -308,22 +378,7 @@ symbol HandleRulesDialog(string id, map event) {
     {
 	InitRulesDialog( "reset" );
 
-	if ( AuditLaf::RulesAlreadyLocked() )
-	{
-	    SCR::Execute( .target.bash, "auditctl -D" );
-	}
-	else
-	{
-	    integer exit_code = (integer)SCR::Execute( .target.bash, "auditctl -D" );
-
-	    if ( exit_code == 0 )
-		exit_code = (integer)SCR::Execute( .target.bash, "auditctl -R /etc/audit/audit.rules" );
-
-	    if ( exit_code == 0 )
-		Popup::Message( _("Rules successfully restored" ) );
-	    else
-		Report::Error( _("Cannot reset rules, please test again" ) );
-	}
+	ResetRules();
     }
     else if ( action == "test" )
     {
@@ -361,6 +416,8 @@ be locked until next boot.") );
 	    if ( success )
 	    {
 		map output = (map)SCR::Execute(.target.bash_output, sformat( "auditctl -R %1", tmpfile ) );
+		AuditLaf::SetRulesChanged( true );
+		
 		if ( output["exit"]:0 != 0 )
 		{
 		    Report::Error( output["stderr"]:"" );
@@ -388,6 +445,9 @@ be locked until next boot.") );
     return nil;
 }
 
+/*
+ * Store the rules edited in rules dialog
+ */
 void StoreRulesDialog( string id, map event) {
 
     AuditLaf::SetModified( true );
@@ -398,6 +458,20 @@ void StoreRulesDialog( string id, map event) {
 
     y2debug( "RULES: %1", rules );
     y2milestone( "Store rules dialog" );
+}
+
+
+
+/*
+ * Called if 'Abort' button is pressed in main dialog.
+ * If the rules are changed by a syntax check the changes will be reseted.
+ */
+symbol Reset() {
+
+    if ( AuditLaf::RulesChanged() )
+    {
+	ResetRules();
+    }
 }
 
 symbol CheckSettings() {

@@ -1,7 +1,10 @@
 -------------------------------------------------------------------
 Tue Oct  7 13:56:18 CEST 2008 - gs@suse.de
 
-- Fixed typos and grammatical errors (bnc #432378, bcn #415719) 
+- Fixed typos and grammatical errors (bnc #432378, bcn #415719)
+- Additional checks added, reset rules if user aborts the 
+  configuration 
+- 2.17.4
 
 -------------------------------------------------------------------
 Wed Oct  1 13:14:56 CEST 2008 - gs@suse.de

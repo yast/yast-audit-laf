@@ -78,7 +78,7 @@ issuing an explicit flush to disk.</p>" ) +
     /* logfile_settings dialog help 6/7 */
     _("<p>Configure the maximum log file size and the action to take when this
 value is reached in <b>Size and Action</b> frame. If action is set to
-<b>ROTATE</b> the <b>Number of Log Files</b> specifies the number of files to keep.</p>") +
+<i>ROTATE</i> the <b>Number of Log Files</b> specifies the number of files to keep.</p>") +
     /* logfile_settings dialog help 7/7 */
     _("<p><b>Computer Name Format</b> describes how to write the computer name to the log file.
 If <i>User</i> is set the <b>User Defined Name</b> is used.</p> "),

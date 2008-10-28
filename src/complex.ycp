@@ -119,7 +119,7 @@ symbol HandleLogfileSettingsDialog(string id, map event) {
 
     if ( action == "select_file" )
     {
-	string file_name = UI::AskForExistingFile("/var/log/audit", "*.log", _("Select the log file") );
+	string file_name = UI::AskForSaveFileName("/var/log/audit", "*.log", _("Select the log file") );
 
 	UI::ChangeWidget( `id("log_file"), `Value, file_name );
 	y2milestone( "Logfile set to: %1", file_name );  

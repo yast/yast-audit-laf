@@ -69,8 +69,7 @@ term LogfileSettingsDialogContent () {
 									       ])
 								  ),
 							`HSpacing(2.0),
-							 // InputField label
-							`HWeight( 1, `IntField(`id("num_logs"), `opt(`hstretch), _("&Number of Log Files"), 0, 99, 4) )
+							`HWeight( 1, `Empty() )
 							),
 						  `HBox(
 							// ComboBox label - select how to flush data on disk
@@ -107,7 +106,7 @@ term LogfileSettingsDialogContent () {
 						      ),
 					    `HSpacing(2.0),
 					    // InputField label
-					    `HWeight( 1, `InputField(`id("action_mail_acct"), _("Action Mail Account")))
+					    `HWeight( 1, `IntField(`id("num_logs"), `opt(`hstretch), _("&Number of Log Files"), 0, 99, 4) )
 					    )
 				     ),
 			     `VStretch(),
@@ -166,6 +165,23 @@ term DispatcherDialogContent () {
 		       );
 }
 
+list actions_list =  [`item(`id("IGNORE"), "IGNORE" ),
+		      `item(`id("SYSLOG"), "SYSLOG", true ),
+		      `item(`id("SUSPEND"), "SUSPEND" ),
+		      `item(`id("SINGLE"), "SINGLE" ),
+		      `item(`id("HALT"), "HALT" ),
+		      `item(`id("EXEC"), "EXEC" ),
+		      `item(`id("EMAIL"), "EMAIL" )
+		      ];
+
+list error_actions_list = [`item(`id("IGNORE"), "IGNORE" ),
+		      `item(`id("SYSLOG"), "SYSLOG", true ),
+		      `item(`id("SUSPEND"), "SUSPEND" ),
+		      `item(`id("SINGLE"), "SINGLE" ),
+		      `item(`id("HALT"), "HALT" ),
+		      `item(`id("EXEC"), "EXEC" )
+		      ];
+
 term DiskspaceSettingsDialogContent () {
     return `MarginBox( mbox_x, mbox_y,
 		       `VBox(
@@ -177,69 +193,57 @@ term DiskspaceSettingsDialogContent () {
 					  // InputField label - space on disk is starting to run low if the entered value is reached
 					  `HWeight( 1, `InputField(`id("space_left"), _("&Space Left on Disk (MB)") )),
 					  `HSpacing(2.0),
-					  `HWeight( 1, `ComboBox(`id("space_left_action"), `opt(`editable),
+					  `HWeight( 1, `ComboBox(`id("space_left_action"), `opt(`notify),
 								 // ComboBox label - select an action which is performed if space on disk is low	 
-								 _("&Action"),
-								 [`item(`id("IGNORE"), "IGNORE" ),
-								  `item(`id("SYSLOG"), "SYSLOG", true ),
-								  `item(`id("SUSPEND"), "SUSPEND" ),
-								  `item(`id("SINGLE"), "SINGLE" ),
-								  `item(`id("HALT"), "HALT" ),
-								  `item(`id("EXEC"), "EXEC" ),
-								  `item(`id("EMAIL"), "EMAIL" )
-								  ])
-						    )
+								 _("&Action"), actions_list )
+						    ),
+					  `HSpacing(1.0),
+					  // InputField label - enter the path to a script (which will be executed)
+					  `HWeight( 1, `InputField(`id("space_left_action_exec"), _("Path to Script" ) ) ) 
 					  )
 				    ),
 			     `VStretch(),
-			     `Frame (
+			     `Frame(
 				     // Frame label - keep it short!  
 				     _("Value and Action for Space is Running Low"),
 				     `HBox(
-					    // InputField label - space on disk is running low if the entered value is reached
-					   `HWeight( 1, `InputField(`id("admin_space_left"), _("&Admin Space Left on Disk (MB) ")) ),
+					   // InputField label - space on disk is running low if the entered value is reached
+					   `HWeight( 1, `InputField(`id("admin_space_left"), _("&Admin Space Left (MB) ")) ),
 					   `HSpacing(2.0),
-					   `HWeight( 1, `ComboBox(`id("admin_space_left_action"), `opt(`editable),
-						// ComboBox label - select an action which is performed if space on disk is running low	  
-								  _("Ac&tion"),
-								  [`item(`id("IGNORE"), "IGNORE" ),
-								   `item(`id("SYSLOG"), "SYSLOG", true ),
-								   `item(`id("SUSPEND"), "SUSPEND" ),
-								   `item(`id("SINGLE"), "SINGLE" ),
-								   `item(`id("HALT"), "HALT" ),
-								   `item(`id("EXEC"), "EXEC" ),
-								   `item(`id("EMAIL"), "EMAIL" )
-								   ]) )
-
+					   `HWeight( 1, `ComboBox(`id("admin_space_left_action"), `opt(`notify),
+								  // ComboBox label - select an action which is performed if space on disk is running low	  
+								  _("Ac&tion"), actions_list )
+						     ),
+					   `HSpacing(1.0),
+					   // InputField label - enter the path to a script (which will be executed)
+					   `HWeight( 1, `InputField(`id("admin_space_left_action_exec"), _("Path to Script" ) ) ) 
 					   )
 				     ),
+			     `VStretch(),
+			     `InputField(`id("action_mail_acct"), _("Action Mail Account")),
 			     `VStretch(),
 			     `Frame( 
 				    // Frame label - keep it short!   
 				    _("Action on Error or Disk Full"),
 				    `VBox(
-					  `ComboBox(`id("disk_full_action"), `opt(`editable, `hstretch),
-						 // ComboBox label - select an action which is performed if disk is full	   
-						    _("Disk &Full Action"),
-						    [`item(`id("IGNORE"), "IGNORE" ),
-						     `item(`id("SYSLOG"), "SYSLOG", true ),
-						     `item(`id("SUSPEND"), "SUSPEND" ),
-						     `item(`id("SINGLE"), "SINGLE" ),
-						     `item(`id("HALT"), "HALT" ),
-						     `item(`id("EXEC"), "EXEC" )
-						     ]),
-					  `ComboBox(`id("disk_error_action"), `opt(`editable, `hstretch ),
-						     // ComboBox label - select an action which is performed on error 
-						    _("Disk &Error Action"),
-						    [`item(`id("IGNORE"), "IGNORE" ),
-						     `item(`id("SYSLOG"), "SYSLOG", true ),
-						     `item(`id("SUSPEND"), "SUSPEND" ),
-						     `item(`id("SINGLE"), "SINGLE" ),
-						     `item(`id("HALT"), "HALT" ),
-						     `item(`id("EXEC"), "EXEC" )
-						     ])
+					  `HBox(
+						`HWeight( 1, `ComboBox(`id("disk_full_action"), `opt(`notify),
+								       // ComboBox label - select an action which is performed if disk is full	   
+								       _("Disk &Full Action"), error_actions_list ) ),
+						`HSpacing(2.0),
+						 // InputField label - enter the path to a script (which will be executed)
+						`HWeight( 1, `InputField(`id("disk_full_action_exec"), _("Path to Script" ) ) )
+						),
+					  `HBox(
+						`HWeight ( 1, `ComboBox(`id("disk_error_action"), `opt(`notify ),
+									// ComboBox label - select an action which is performed on error 
+									_("Disk &Error Action"), error_actions_list ) ),
+						`HSpacing(2.0),
+						 // InputField label - enter the path to a script (which will be executed)
+						`HWeight( 1, `InputField(`id("disk_error_action_exec"), _("Path to Script" ) ) )
+						)
 					  )
-				    ),
+				     ),
 			     `VStretch()
 			     )
 		       );

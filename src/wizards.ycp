@@ -66,6 +66,7 @@ any MainSequence() {
 	    "help"		: HELPS["diskspace_settings"]:"",
 	    "custom_widget"	: DiskspaceSettingsDialogContent(),
 	    "init"		: InitDiskspaceSettingsDialog,
+	    "handle"		: HandleDiskspaceSettingsDialog,
 	    "store"		: StoreDiskspaceSettingsDialog,
 	],
 	"rules" : $[

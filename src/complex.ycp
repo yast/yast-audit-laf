@@ -94,7 +94,6 @@ void InitLogfileSettingsDialog (string id) {
     UI::ChangeWidget( `id("num_logs"), `Value, tointeger( AuditLaf::GetAuditdOption("num_logs")) );		      
     foreach (string key, ["log_file",
 			  "max_log_file",
-			  "action_mail_acct",
 			  "name"
 			  ], {
 	UI::ChangeWidget(`id(key), `Value, (AuditLaf::GetAuditdOption(key)));
@@ -120,7 +119,7 @@ symbol HandleLogfileSettingsDialog(string id, map event) {
     if ( action == "select_file" )
     {
 	string file_name = UI::AskForSaveFileName("/var/log/audit", "*.log", _("Select the log file") );
-
+	y2milestone( "Filename: %1", file_name );  
 	UI::ChangeWidget( `id("log_file"), `Value, file_name );
 	y2milestone( "Logfile set to: %1", file_name );  
     }
@@ -143,7 +142,6 @@ void StoreLogfileSettingsDialog (string id, map event) {
 			  "max_log_file",
 			  "flush",
 			  "max_log_file_action",
-			  "action_mail_acct",
 			  "name_format",
 			  "name"
 			  ], {
@@ -208,38 +206,100 @@ void InitDiskspaceSettingsDialog (string id) {
  
     // Set all values to values read from /etc/audit/auditd.conf
     foreach (string key, ["space_left",
+			  "action_mail_acct",
 			  "admin_space_left"
 			  ], {
 	UI::ChangeWidget(`id(key), `Value, (AuditLaf::GetAuditdOption(key)));
     });
 
-    foreach (string key, ["space_left_action",
-			  "admin_space_left_action",
-			  "disk_full_action",
-			  "disk_error_action"
-			  ], {
-	UI::ChangeWidget(`id(key), `Value, toupper(AuditLaf::GetAuditdOption(key)) );
-    });
+    foreach ( string key, ["space_left_action",
+			   "admin_space_left_action",
+			   "disk_full_action",
+			   "disk_error_action"
+			   ], {
 
-    
+		  if ( toupper(substring( AuditLaf::GetAuditdOption(key), 0, 4 ) ) == "EXEC" )
+		  {
+		      UI::ChangeWidget( `id(key), `Value, "EXEC" );
+		      UI::ChangeWidget( `id(key+"_exec"), `Enabled, true );
+		      UI::ChangeWidget( `id(key+"_exec"), `Value, substring( AuditLaf::GetAuditdOption(key), 4 ) );
+		  }
+		  else
+		  {
+		      UI::ChangeWidget( `id(key), `Value, toupper(AuditLaf::GetAuditdOption(key)) );
+		      UI::ChangeWidget( `id(key+"_exec"), `Enabled, false ); 
+		  }	 
+	      });
+
     y2milestone( "Init disk space settings" );
+
+}
+
+/*
+ * Handle actions of disk space
+ */
+symbol HandleDiskspaceSettingsDialog(string id, map event) {
+    any action = event["ID"]:nil; 
+    y2milestone( "action: %1", action );
+    
+    list actions_list = ["space_left_action",
+			 "admin_space_left_action",
+			 "disk_full_action",
+			 "disk_error_action"
+			 ];
+
+    if ( is( action, string ) && contains( actions_list, (string)action) )
+    {
+	string option = (string)UI::QueryWidget(`id((string)action), `Value );
+	y2milestone( "Option: %1", option );
+	
+	if ( option == "EXEC" )
+	{
+	    UI::ChangeWidget( `id((string)action+"_exec"), `Enabled, true );
+	}
+	else
+	{
+	    UI::ChangeWidget( `id((string)action+"_exec"), `Enabled, false ); 
+	}
+    }
+    
+    return nil;
 }
 
 /*
  * Store all settings made in disk space dialog
  */
 void StoreDiskspaceSettingsDialog (string id, map event) {
+    string option = "";
+    string exec = "";
+	
     AuditLaf::SetModified( true );
 
-    foreach (string key, ["space_left",
-			  "admin_space_left",
-			  "space_left_action",
-			  "admin_space_left_action",
-			  "disk_full_action",
-			  "disk_error_action"
+    foreach ( string key, ["space_left",
+			  "action_mail_acct",
+			  "admin_space_left"
 			  ], {
-	AuditLaf::SetAuditdOption( key, (string) UI::QueryWidget(`id(key), `Value) );
-    });
+		 AuditLaf::SetAuditdOption( key, (string) UI::QueryWidget(`id(key), `Value) );
+	     });
+
+    foreach ( string key, ["space_left_action",
+			   "admin_space_left_action",
+			   "disk_full_action",
+			   "disk_error_action"
+			   ], {
+
+		  option = (string)UI::QueryWidget( `id(key), `Value );
+		  if ( option == "EXEC" )
+		  {
+		      exec = (string)UI::QueryWidget( `id(key+"_exec"), `Value );
+		      AuditLaf::SetAuditdOption( key, option + " " + exec ); 
+		  }
+
+		  else
+		  {
+		      AuditLaf::SetAuditdOption( key, option );   
+		  }	 
+	      });
     
     y2milestone( "Store disk space settings" );
 }

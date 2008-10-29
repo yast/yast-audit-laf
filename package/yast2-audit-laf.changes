@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Tue Oct 28 11:01:59 CET 2008 - gs@suse.de
+
+- Allow to enter any log file name (replace AskForExistingFile 
+  by AskForSaveFileName)
+- Add input fields to specify a script (for option EXEC)
+- Better arrangements of input fields
+
+-------------------------------------------------------------------
 Tue Oct  7 13:56:18 CEST 2008 - gs@suse.de
 
 - Fixed typos and grammatical errors (bnc #432378, bcn #415719)

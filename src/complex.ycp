@@ -346,8 +346,6 @@ void ResetRules() {
     
 	if ( AuditLaf::RulesAlreadyLocked() )
 	{
-	    // FIXME - does it make sense to call SCR::Execute( .target.bash, "auditctl -D" ) ???
-
 	    // Warning - the audit configuration is locked, reset impossible
 	    Report::Warning( _("The rules are already locked, a reset is impossible.\n
 If you want to unlock, set the enabled flag accordingly and

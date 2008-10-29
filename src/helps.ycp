@@ -93,20 +93,24 @@ gets all audit events on stdin.</p>") +
     _("<p><b>Communication</b>: Controls the communication
 between the daemon and the dispatcher program.</p>"),
 
-    /* disk space dialog help 1/4 */
+    /* disk space dialog help 1/5 */
     "diskspace_settings" : _("<p><b><big>Auditd Disk Space Configuration</big></b><br>
 The settings made here refer to disk space on log partition.
 Detailed information can be obtained from 'man auditd.conf'</p>
 ") +
-    /* disk space dialog help 2/4 */
+    /* disk space dialog help 2/5 */
     _("<p><b>Space Left</b> and <b>Action</b> describe how much disk space (in megabytes)
 to left and which action to perform if the system is starting to run low on space.</p>") +
 
-    /* disk space dialog help 3/4 */
+    /* disk space dialog help 3/5 */
     _("<p><b>Admin Space Left</b> and <b>Action</b> describe how much disk space (in megabytes)
 to left and which action to perform if the system <b>is running low</b>.</p>") +
+
+    /* disk space dialog help 4/5 */
+    _("<p>If the action is set to <i>EMAIL</i> a warning mail will be send to the account specified in
+<b>Action Mail Account</b></p>" ) +
     
-     /* disk space dialog help 3/4 */
+     /* disk space dialog help 5/5 */
     _("<p>You can also specify a <b>Disk Full Action</b> (disk has become full already) and
 a <b>Disk Error Action</b> (performed whenever an error is detected while writing to disk).</p>"),
     

@@ -674,7 +674,7 @@ global list Overview() {
  * @return map with 2 lists.
  */
 global map AutoPackages() {
-    return $[ "install":[audit], "remove":[] ];
+    return $[ "install":["audit"], "remove":[] ];
 }
 
 /* EOF */

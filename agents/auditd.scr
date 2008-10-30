@@ -27,7 +27,7 @@
 `ag_ini(
     `IniAgent( "/etc/audit/auditd.conf",
         $[
-            "options"   : [ "global_values", "repeat_names", "flat" ],
+            "options"   : [ "global_values", "flat" ],
             "comments"  : [ "^[ \t]*#.*$", "^[ \t]*$" ],
             "params"    : [
 			   // Options with one value ('yes' / 'no')

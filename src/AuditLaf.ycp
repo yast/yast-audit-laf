@@ -215,30 +215,30 @@ global string AuditStatus()
 /**
  * map of audit settings (from /etc/audit/auditd.conf)
  */
-map <string, list <string> > SETTINGS = $[];
+map <string, string > SETTINGS = $[];
 
 /**
  * default settings for /etc/audit/auditd.conf
  */ 
-map <string, list <string> >  DEFAULT_CONFIG = $[
-					"log_file" : ["/var/log/audit/audit.log"],
-					"log_format" : ["RAW"],
-					"priority_boost" : ["3"],
-					"flush" : ["INCREMENTAL"],
-					"freq" : ["20"],
-					"num_logs" : ["4"],
-					"dispatcher" : ["/sbin/audispd"],
-					"disp_qos" : ["lossy"],
-					"name_format": ["NONE"],
-					"max_log_file" : ["5"],
-					"max_log_file_action" : ["ROTATE"],
-					"space_left" : ["75"],
-					"space_left_action" : ["SYSLOG"],
-					"action_mail_acct" : ["root"],
-					"admin_space_left": ["50"],
-					"admin_space_left_action" : ["SUSPEND"],
-					"disk_full_action" : ["SUSPEND"],
-					"disk_error_action" : ["SUSPEND"]
+map <string, string >  DEFAULT_CONFIG = $[
+					"log_file" : "/var/log/audit/audit.log",
+					"log_format" : "RAW",
+					"priority_boost" : "3",
+					"flush" : "INCREMENTAL",
+					"freq" : "20",
+					"num_logs" : "4",
+					"dispatcher" : "/sbin/audispd",
+					"disp_qos" : "lossy",
+					"name_format": "NONE",
+					"max_log_file" : "5",
+					"max_log_file_action" : "ROTATE",
+					"space_left" : "75",
+					"space_left_action" : "SYSLOG",
+					"action_mail_acct" : "root",
+					"admin_space_left": "50",
+					"admin_space_left_action" : "SUSPEND",
+					"disk_full_action" : "SUSPEND",
+					"disk_error_action" : "SUSPEND"
 ];
 
 /**
@@ -257,12 +257,7 @@ string INITIAL_RULES = "";
  * Get value of given option from SEETINGS
  */
 global string GetAuditdOption( string key) {
-    list <string> option_list =  SETTINGS[key]:DEFAULT_CONFIG[key]:[];
-
-    if ( option_list != [] )
-	return option_list[0]:"";
-    else
-	return "";
+    return  SETTINGS[key]:DEFAULT_CONFIG[key]:"";
 }
 
 /**
@@ -270,14 +265,12 @@ global string GetAuditdOption( string key) {
  */ 
 
 global boolean SetAuditdOption( string key, string value ) {
-    list <string> option_list = [];
 
     // Don't set empty values (seems that 'auditd' doesn't like it)
     if ( value != ""  )
     {
-	option_list = add( option_list, value );
-	SETTINGS[key] = option_list;
-	y2milestone( "Setting %1 to %2", key, option_list );
+	SETTINGS[key] = value;
+	y2milestone( "Setting %1 to %2", key, value );
 	return true;
     }
     else
@@ -352,7 +345,7 @@ boolean ReadAuditdSettings() {
     foreach (string key, (list <string>) SCR::Dir(.auditd),
     {
 	// and read the value for each of them
-	list <string> val = (list <string>) SCR::Read(add(.auditd, key));
+	string val = (string) SCR::Read(add(.auditd, key));
 	if (val != nil) SETTINGS[key] = val;
     });
 
@@ -484,7 +477,7 @@ boolean WriteAuditdSettings() {
 	return false;
 
     // write all options to auditd.conf 
-    foreach (string key, list <string> value, SETTINGS, {
+    foreach (string key, string value, SETTINGS, {
 	// and write each value
 	success = (boolean)SCR::Write(add(.auditd, key), value );
     });
@@ -618,7 +611,7 @@ After that you have to reboot the system.") );
  */
 global boolean Import ( map settings ) {
 
-    SETTINGS = (map< string, list<string> >)settings ["auditd"]:DEFAULT_CONFIG;
+    SETTINGS = (map< string, string >)settings ["auditd"]:DEFAULT_CONFIG;
     RULES = (string)settings["rules"]:"";
 
     SetModified( true );

@@ -123,6 +123,8 @@ void InitLogfileSettingsDialog (string id) {
 symbol HandleLogfileSettingsDialog(string id, map event) {
     any action = event["ID"]:nil; 
 
+    y2milestone( "HandleLogfileSettingsDialog got action: %1", action );
+
     if ( action == "select_file" )
     {
 	string file_name = UI::AskForSaveFileName("/var/log/audit", "*.log", _("Select the log file") );
@@ -201,6 +203,8 @@ void InitDispatcherDialog (string id) {
 symbol HandleDispatcherDialog(string id, map event) {
     any action = event["ID"]:nil; 
 
+    y2milestone( "HandleDiskspaceSettingsDialog got action: %1", action );
+
     if ( action == "select_disp" )
     {
 	string file_name = UI::AskForExistingFile("/sbin", "*", _("Select the dispatcher program") );
@@ -270,7 +274,7 @@ void InitDiskspaceSettingsDialog (string id) {
  */
 symbol HandleDiskspaceSettingsDialog(string id, map event) {
     any action = event["ID"]:nil; 
-    y2milestone( "action: %1", action );
+    y2milestone( "HandleDiskspaceSettingsDialog got action: %1", action );
     
     list actions_list = ["space_left_action",
 			 "admin_space_left_action",
@@ -405,7 +409,8 @@ finish the configuration. Afterwards a reboot is required.") );
  */
 symbol HandleRulesDialog(string id, map event) {
     any action = event["ID"]:nil; 
- 
+    y2milestone( "HandleDiskspaceSettingsDialog got action: %1", action );
+
     if ( action == "audit_enabled" )
     {
 	string rule = "";

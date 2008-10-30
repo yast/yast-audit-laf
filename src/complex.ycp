@@ -252,7 +252,7 @@ void InitDiskspaceSettingsDialog (string id) {
 		  {
 		      UI::ChangeWidget( `id(key), `Value, "EXEC" );
 		      UI::ChangeWidget( `id(key+"_exec"), `Enabled, true );
-		      UI::ChangeWidget( `id(key+"_exec"), `Value, substring( AuditLaf::GetAuditdOption(key), 4 ) );
+		      UI::ChangeWidget( `id(key+"_exec"), `Value, substring( AuditLaf::GetAuditdOption(key), 5 ) );
 		  }
 		  else
 		  {

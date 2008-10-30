@@ -4,7 +4,7 @@ Tue Oct 28 11:01:59 CET 2008 - gs@suse.de
 - Allow to enter any log file name (replace AskForExistingFile 
   by AskForSaveFileName)
 - Add input fields to specify a script (for option EXEC)
-- Better arrangements of some input fields
+- Better arrangement of some input fields
 - Enable input field for user defined name only if computer name
   format is set to USER, check for empty computer name
 - internal change: replace list of option values by string value

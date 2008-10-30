@@ -105,8 +105,15 @@ void InitLogfileSettingsDialog (string id) {
 			  "name_format"
 			  ], {
 		 UI::ChangeWidget(`id(key), `Value, toupper(AuditLaf::GetAuditdOption(key)) );
+		 if ( key == "name_format" )
+		 {
+		     if ( toupper(AuditLaf::GetAuditdOption(key) ) == "USER" )
+			  UI::ChangeWidget( `id("name"), `Enabled, true );
+		     else
+			 UI::ChangeWidget( `id("name"), `Enabled, false );
+		 }
     });
-    
+
     y2milestone( "Init log file settings");
 }
 
@@ -122,6 +129,15 @@ symbol HandleLogfileSettingsDialog(string id, map event) {
 	y2milestone( "Filename: %1", file_name );  
 	UI::ChangeWidget( `id("log_file"), `Value, file_name );
 	y2milestone( "Logfile set to: %1", file_name );  
+    }
+    else if ( action == "name_format" )
+    {
+	string option = (string)UI::QueryWidget( `id("name_format"), `Value );
+	if ( option == "USER" )
+	    UI::ChangeWidget( `id("name"), `Enabled, true );
+	else
+	    UI::ChangeWidget( `id("name"), `Enabled, false );
+
     }
     return nil;
 }
@@ -142,13 +158,27 @@ void StoreLogfileSettingsDialog (string id, map event) {
 			  "max_log_file",
 			  "flush",
 			  "max_log_file_action",
-			  "name_format",
-			  "name"
+			  "name_format"
 			  ], {
 	AuditLaf::SetAuditdOption( key, (string) UI::QueryWidget(`id(key), `Value) );
     });
-    y2milestone( "Store log file settings" );
 
+    if ( AuditLaf::GetAuditdOption( "name_format" ) == "USER" )
+    {
+	if ( (string) UI::QueryWidget( `id("name"), `Value ) == "" )
+	{
+	    Report::Error(_("The 'User Defined Name' is NOT set although
+the 'Computer Name Format' is set to 'USER'.
+Setting the format to 'NONE' (default)." ) );
+	    AuditLaf::SetAuditdOption( "name_format", "NONE" );
+	}
+	else
+	{
+	    AuditLaf::SetAuditdOption( "name", (string) UI::QueryWidget(`id("name"), `Value) );
+	}
+    }
+
+    y2milestone( "Store log file settings" );
 }
 
 /*

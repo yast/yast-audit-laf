@@ -230,7 +230,6 @@ map <string, list <string> >  DEFAULT_CONFIG = $[
 					"dispatcher" : ["/sbin/audispd"],
 					"disp_qos" : ["lossy"],
 					"name_format": ["NONE"],
-					"name": [""],
 					"max_log_file" : ["5"],
 					"max_log_file_action" : ["ROTATE"],
 					"space_left" : ["75"],
@@ -273,7 +272,7 @@ global string GetAuditdOption( string key) {
 global boolean SetAuditdOption( string key, string value ) {
     list <string> option_list = [];
 
-    // FIXME - allow empty values, e.g. for computer name (but not if FORMAT is set to USER)
+    // Don't set empty values (seems that 'auditd' doesn't like it)
     if ( value != ""  )
     {
 	option_list = add( option_list, value );

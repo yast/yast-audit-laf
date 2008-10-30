@@ -83,16 +83,20 @@ value is reached in <b>Size and Action</b> frame. If action is set to
     _("<p><b>Computer Name Format</b> describes how to write the computer name to the log file.
 If <i>User</i> is set the <b>User Defined Name</b> is used.</p> "),
 
-    /* dispatcher dialog help 1/3 */
+    /* dispatcher dialog help 1/4 */
     "dispatcher" : _("<p><b><big>Auditd Dispatcher Configuration</big></b><br>
 Detailed information about the dispatcher settings can be obtained from 'man auditd.conf'.<br></p>") +
-    /* dispatcher dialog help 2/3 */ 
+    /* dispatcher dialog help 2/4 */ 
     _("<p><b>Dispatcher</b>: The dispatcher program is started by the audit daemon and
 gets all audit events on stdin.</p>") +
-      /* dispatcher dialog help 3/3 */ 
+      /* dispatcher dialog help 3/4 */ 
     _("<p><b>Communication</b>: Controls the communication
-between the daemon and the dispatcher program.</p>"),
+between the daemon and the dispatcher program.</p>") +
 
+    /* dispatcher dialog help 4/4 */ 
+    _("<p>The dispatcher 'audispd' is an audit event multiplexor
+(for more information see 'man audispd' and 'man audispd.conf'.</p>"),
+    
     /* disk space dialog help 1/5 */
     "diskspace_settings" : _("<p><b><big>Auditd Disk Space Configuration</big></b><br>
 The settings made here refer to disk space on log partition.

@@ -115,7 +115,8 @@ term LogfileSettingsDialogContent () {
 				    _("Computer Names"),
 				    `HBox(
 					  // ComboBox label
-					  `HWeight( 1, `ComboBox(`id("name_format"), _("&Computer Name Format"),
+					  `HWeight( 1, `ComboBox(`id("name_format"), `opt(`notify),
+								 _("&Computer Name Format"),
 								 [`item(`id("NONE"), "NONE" ),
 								  `item(`id("HOSTNAME"), "HOSTNAME", true ),
 								  `item(`id("FQD"), "FQD" ),

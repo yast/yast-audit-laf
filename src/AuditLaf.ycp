@@ -324,7 +324,12 @@ boolean ReadAuditRules() {
  */ 
 boolean WriteAuditRules() {
     boolean success = (boolean)SCR::Write(.target.string, rules_file, RULES );
-    // FIXME ??? flush necessary ???
+
+    if ( !success )
+    {
+	Report::Error( sformat(_("Cannot write rules to %1" ), rules_file) );
+	y2error( "Cannot write %1", rules_file );
+    }
     return success;
 }
 
@@ -472,6 +477,7 @@ active a reboot is required afterwards." )
  */
 boolean WriteAuditdSettings() {
     boolean success = true;
+    map failed = $[];
     
     if ( ! FileUtils::Exists ( config_file ) )
 	return false;
@@ -480,13 +486,23 @@ boolean WriteAuditdSettings() {
     foreach (string key, string value, SETTINGS, {
 	// and write each value
 	success = (boolean)SCR::Write(add(.auditd, key), value );
+	if ( !success )
+	    failed = add( failed, key, value );
     });
 
     // This is very important
     // it flushes the cache, and stores the configuration on the disk
     SCR::Write(.auditd, nil);
-    y2milestone("%1 has been written: %2", config_file, SETTINGS);
-    
+
+    if ( failed != $[] )
+    {
+	Report::Error( _("Cannot write /etc/auditd/auditd.conf.") );
+	y2error( "Writing %1 to /etc/auditd/auditd.conf FAILED", failed );
+    }
+    else
+    {
+	y2milestone("%1 has been written: %2", config_file, SETTINGS);
+    }
     return true;
 }
 

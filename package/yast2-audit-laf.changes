@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Tue Nov  4 13:38:35 CET 2008 - gs@suse.de
+
+- Show an error popup if writing of rules or settings fails 
+
+-------------------------------------------------------------------
 Tue Oct 28 11:01:59 CET 2008 - gs@suse.de
 
 - Allow to enter any log file name (replace AskForExistingFile 

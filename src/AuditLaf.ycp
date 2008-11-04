@@ -328,7 +328,6 @@ boolean WriteAuditRules() {
     if ( !success )
     {
 	Report::Error( sformat(_("Cannot write rules to %1" ), rules_file) );
-	y2error( "Cannot write %1", rules_file );
     }
     return success;
 }

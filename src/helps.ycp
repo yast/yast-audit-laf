@@ -83,40 +83,48 @@ value is reached in <b>Size and Action</b> frame. If action is set to
     _("<p><b>Computer Name Format</b> describes how to write the computer name to the log file.
 If <i>User</i> is set the <b>User Defined Name</b> is used.</p> "),
 
-    /* dispatcher dialog help 1/4 */
+    /* dispatcher dialog help 1/5 */
     "dispatcher" : _("<p><b><big>Auditd Dispatcher Configuration</big></b><br>
 Detailed information about the dispatcher settings can be obtained from 'man auditd.conf'.<br></p>") +
-    /* dispatcher dialog help 2/4 */ 
+    /* dispatcher dialog help 2/5 */ 
     _("<p><b>Dispatcher</b>: The dispatcher program is started by the audit daemon and
 gets all audit events on stdin.</p>") +
-      /* dispatcher dialog help 3/4 */ 
+      /* dispatcher dialog help 3/5 */ 
     _("<p><b>Communication</b>: Controls the communication
 between the daemon and the dispatcher program.</p>") +
 
-    /* dispatcher dialog help 4/4 */ 
+    /* dispatcher dialog help 4/5 */ 
     _("<p>The dispatcher 'audispd' is an audit event multiplexor
-(for more information see 'man audispd' and 'man audispd.conf'.</p>"),
+(for more information see 'man audispd' and 'man audispd.conf'.</p>") +
     
-    /* disk space dialog help 1/5 */
+    /* dispatcher dialog help 5/5 */
+    _("<p><b>Please note:</b> Any program specified must be owned by 'root', have '0750'
+ file permissions and the full path name has to be entered.</p>"),
+    
+    /* disk space dialog help 1/6 */
     "diskspace_settings" : _("<p><b><big>Auditd Disk Space Configuration</big></b><br>
 The settings made here refer to disk space on log partition.
 Detailed information can be obtained from 'man auditd.conf'</p>
 ") +
-    /* disk space dialog help 2/5 */
+    /* disk space dialog help 2/6 */
     _("<p><b>Space Left</b> and <b>Action</b> describe how much disk space (in megabytes)
 to left and which action to perform if the system is starting to run low on space.</p>") +
 
-    /* disk space dialog help 3/5 */
+    /* disk space dialog help 3/6 */
     _("<p><b>Admin Space Left</b> and <b>Action</b> describe how much disk space (in megabytes)
 to left and which action to perform if the system <b>is running low</b>.</p>") +
 
-    /* disk space dialog help 4/5 */
+    /* disk space dialog help 4/6 */
     _("<p>If an action is set to <i>EMAIL</i> a warning mail will be send to the account specified in
 <b>Action Mail Account</b></p>" ) +
     
-     /* disk space dialog help 5/5 */
+     /* disk space dialog help 5/6 */
     _("<p>You can also specify a <b>Disk Full Action</b> (disk has become full already) and
-a <b>Disk Error Action</b> (performed whenever an error is detected while writing to disk).</p>"),
+a <b>Disk Error Action</b> (performed whenever an error is detected while writing to disk).</p>") +
+
+    /* disk space dialog help 6/6 */
+    _("<p><b>Please note:</b> All scripts specified for <b>Action</b> <i>EXEC</i> must be owned
+by 'root', have '0750' file permissions and the full path name has to be entered.</p>"),
     
     /* rules dialog help 1/6 */
     "audit_rules" : _("<p><b><big>Rules for auditctl</big></b><br>

@@ -320,7 +320,8 @@ boolean CheckExec( string file )
     {
 	// check permissions
 	map output = (map)SCR::Execute(.target.bash_output, sformat("ls -al %1", file ) );
-	if ( substring ( output["stdout"]:"", 0, 9 ) != "-rwxr-x---"  )
+
+	if ( substring ( output["stdout"]:"", 0, 10 ) != "-rwxr-x---"  )
 	{
 	    Report::Error( sformat( "File permissiones of %1 NOT set to -rwxr-x---", file ) );
 	    ret = false;

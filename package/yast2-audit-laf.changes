@@ -1,7 +1,9 @@
 -------------------------------------------------------------------
 Tue Nov  4 13:38:35 CET 2008 - gs@suse.de
 
-- Show an error popup if writing of rules or settings fails 
+- Additional checks added (audit daemon really running,
+  script for option EXEC correct)
+- 2.17.6
 
 -------------------------------------------------------------------
 Tue Oct 28 11:01:59 CET 2008 - gs@suse.de

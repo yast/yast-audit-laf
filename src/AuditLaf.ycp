@@ -306,17 +306,17 @@ global boolean SetRules( string rules ) {
  */ 
 boolean ReadAuditRules() {
 
-  string rules = (string)SCR::Read(.target.string, rules_file );
+    string rules = (string)SCR::Read(.target.string, rules_file );
 
-  if ( rules != nil && rules != "" )
-  {
-      RULES = rules;
-      // additionally save initial settings
-      INITIAL_RULES = rules;
-      return true;
-  }
-  else
-      return false;
+    if ( rules != nil && rules != "" )
+    {
+	RULES = rules;
+	// additionally save initial settings
+	INITIAL_RULES = rules;
+	return true;
+    }
+    else
+	return false;
 }
 
 /**
@@ -325,10 +325,6 @@ boolean ReadAuditRules() {
 boolean WriteAuditRules() {
     boolean success = (boolean)SCR::Write(.target.string, rules_file, RULES );
 
-    if ( !success )
-    {
-	Report::Error( sformat(_("Cannot write rules to %1" ), rules_file) );
-    }
     return success;
 }
 
@@ -355,6 +351,22 @@ boolean ReadAuditdSettings() {
 
     y2milestone("%1 has been read: %2", config_file, SETTINGS);
     return true;
+}
+
+global boolean CheckAuditdStatus()
+{
+    integer auditd_stat = Service::Status( "auditd" );
+
+    if ( auditd_stat != 0 )
+    {
+	Report::Error( _("Cannot start the audit daemon.
+Please check /var/log/messages for auditd errors.
+You might use module 'System Log' from group
+'Miscellaneous' in YaST2 Control Center.") );
+	return false;
+    }
+    else
+	return true;
 }
 
 /**
@@ -462,6 +474,11 @@ active a reboot is required afterwards." )
 		    return false;
 						     
 	    }
+	    else
+	    {
+		CheckAuditdStatus();
+		return true;
+	    }
 	}
     }
 
@@ -475,8 +492,7 @@ active a reboot is required afterwards." )
  * @return true on success
  */
 boolean WriteAuditdSettings() {
-    boolean success = true;
-    map failed = $[];
+    boolean ret = true;
     
     if ( ! FileUtils::Exists ( config_file ) )
 	return false;
@@ -484,25 +500,19 @@ boolean WriteAuditdSettings() {
     // write all options to auditd.conf 
     foreach (string key, string value, SETTINGS, {
 	// and write each value
-	success = (boolean)SCR::Write(add(.auditd, key), value );
+	boolean success = (boolean)SCR::Write(add(.auditd, key), value );
 	if ( !success )
-	    failed = add( failed, key, value );
+	    ret = false;
     });
 
     // This is very important
     // it flushes the cache, and stores the configuration on the disk
     SCR::Write(.auditd, nil);
 
-    if ( failed != $[] )
-    {
-	Report::Error( _("Cannot write /etc/auditd/auditd.conf.") );
-	y2error( "Writing %1 to /etc/auditd/auditd.conf FAILED", failed );
-    }
-    else
-    {
+    if ( ret )
 	y2milestone("%1 has been written: %2", config_file, SETTINGS);
-    }
-    return true;
+
+    return ret;
 }
 
 /**
@@ -612,6 +622,9 @@ After that you have to reboot the system.") );
 	
 	sleep(sl);
     }
+
+    // Finally check status of auditd (if restart has worked but daemon exited afterwards)
+    CheckAuditdStatus();
     
     if ( PollAbort() ) return false;
 

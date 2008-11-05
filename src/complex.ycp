@@ -37,6 +37,7 @@ import "Wizard_hw";
 import "Confirm";
 import "AuditLaf";
 import "Report";
+import "FileUtils";
 
 include "audit-laf/helps.ycp";
 
@@ -300,6 +301,35 @@ symbol HandleDiskspaceSettingsDialog(string id, map event) {
     return nil;
 }
 
+boolean CheckExec( string file )
+{
+    boolean ret = true;
+    
+    if ( ! FileUtils::Exists( file ) )
+    {
+	Report::Error( sformat( "%1 doesn't exist", file ) );
+	ret = false;
+    }
+    else if ( FileUtils::GetOwnerGroupID( file ) != 0  ||
+	      FileUtils::GetOwnerUserID( file ) != 0 )
+    {
+	Report::Error( sformat( "%1 not owned by root", file ) );
+	ret = false;
+    }
+    else
+    {
+	// check permissions
+	map output = (map)SCR::Execute(.target.bash_output, sformat("ls -al %1", file ) );
+	if ( substring ( output["stdout"]:"", 0, 9 ) != "-rwxr-x---"  )
+	{
+	    Report::Error( sformat( "File permissiones of %1 NOT set to -rwxr-x---", file ) );
+	    ret = false;
+	}
+    }
+
+    return ret;
+}
+
 /*
  * Store all settings made in disk space dialog
  */
@@ -326,9 +356,11 @@ void StoreDiskspaceSettingsDialog (string id, map event) {
 		  if ( option == "EXEC" )
 		  {
 		      exec = (string)UI::QueryWidget( `id(key+"_exec"), `Value );
-		      AuditLaf::SetAuditdOption( key, option + " " + exec ); 
+		      if ( CheckExec( exec ) )
+		      {
+			  AuditLaf::SetAuditdOption( key, option + " " + exec );      
+		      }
 		  }
-
 		  else
 		  {
 		      AuditLaf::SetAuditdOption( key, option );   

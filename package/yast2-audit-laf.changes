@@ -2,7 +2,7 @@
 Tue Nov  4 13:38:35 CET 2008 - gs@suse.de
 
 - Additional checks added (audit daemon really running,
-  script for option EXEC correct)
+  correct script specified for option EXEC)
 - 2.17.6
 
 -------------------------------------------------------------------

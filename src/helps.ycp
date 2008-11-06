@@ -98,7 +98,7 @@ between the daemon and the dispatcher program.</p>") +
 (for more information see 'man audispd' and 'man audispd.conf'.</p>") +
     
     /* dispatcher dialog help 5/5 */
-    _("<p><b>Please note:</b> Any program specified must be owned by 'root', have '0750'
+    _("<p><b>Please note:</b> The dispatcher program must be owned by 'root', have '0750'
  file permissions and the full path name has to be entered.</p>"),
     
     /* disk space dialog help 1/6 */

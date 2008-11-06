@@ -301,19 +301,26 @@ symbol HandleDiskspaceSettingsDialog(string id, map event) {
     return nil;
 }
 
-boolean CheckExec( string file )
+boolean CheckExec( string file, string key )
 {
+    // Check the executable like done in audit package (see audit-1.7.7/src/auditd-config.c)
     boolean ret = true;
+    // Second part of an error message: the value won't be changed because of previous error
+    string message = sformat(_("Value of '%1' remains unchanged."), key );
     
     if ( ! FileUtils::Exists( file ) )
     {
-	Report::Error( sformat( "%1 doesn't exist", file ) );
+	Report::Error( sformat( "%1 doesn't exist.\n", file ) + message );
 	ret = false;
     }
-    else if ( FileUtils::GetOwnerGroupID( file ) != 0  ||
-	      FileUtils::GetOwnerUserID( file ) != 0 )
+    else if ( ! FileUtils::IsFile( file ) )
     {
-	Report::Error( sformat( "%1 not owned by root", file ) );
+	Report::Error( sformat( "%1 is not a regular file.\n", file ) + message );
+	ret = false;
+    }
+    else if ( FileUtils::GetOwnerUserID( file ) != 0 )
+    {
+	Report::Error( sformat( "%1 not owned by root.\n", file )  + message );
 	ret = false;
     }
     else
@@ -323,7 +330,7 @@ boolean CheckExec( string file )
 
 	if ( substring ( output["stdout"]:"", 0, 10 ) != "-rwxr-x---"  )
 	{
-	    Report::Error( sformat( "File permissiones of %1 NOT set to -rwxr-x---", file ) );
+	    Report::Error( sformat( "File permissiones of %1 NOT set to -rwxr-x---.\n", file ) + message  );
 	    ret = false;
 	}
     }
@@ -357,7 +364,7 @@ void StoreDiskspaceSettingsDialog (string id, map event) {
 		  if ( option == "EXEC" )
 		  {
 		      exec = (string)UI::QueryWidget( `id(key+"_exec"), `Value );
-		      if ( CheckExec( exec ) )
+		      if ( CheckExec( exec, key ) )
 		      {
 			  AuditLaf::SetAuditdOption( key, option + " " + exec );      
 		      }

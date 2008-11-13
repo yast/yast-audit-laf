@@ -33,3 +33,4 @@ Summary:	Configuration of audit-laf
 %dir @scrconfdir@
 @scrconfdir@/auditd.scr
 %doc @docdir@
+@schemadir@/autoyast/rnc/audit-laf.rnc

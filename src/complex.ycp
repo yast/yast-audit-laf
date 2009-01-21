@@ -129,8 +129,8 @@ symbol HandleLogfileSettingsDialog(string id, map event) {
     if ( action == "select_file" )
     {
 	string file_name = UI::AskForSaveFileName("/var/log/audit", "*.log", _("Select the log file") );
-	y2milestone( "Filename: %1", file_name );  
 	UI::ChangeWidget( `id("log_file"), `Value, file_name );
+
 	y2milestone( "Logfile set to: %1", file_name );  
     }
     else if ( action == "name_format" )
@@ -557,7 +557,7 @@ be locked until next boot.") );
 		}
 		else
 		{
-		    Popup::Message( "Success");
+		    Popup::Message( _("Success") );
 		}
 	    }
 	    else

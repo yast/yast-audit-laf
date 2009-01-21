@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Wed Jan 21 11:51:56 CET 2009 - gs@suse.de
+
+- Message text correctly localized (bnc #447169)
+
+-------------------------------------------------------------------
 Thu Nov 13 13:46:20 CET 2008 - gs@suse.de
 
 - audit-laf.rnc added (for AutoYaST)

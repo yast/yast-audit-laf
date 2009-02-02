@@ -50,15 +50,8 @@ boolean Modified() {
 }
 
 boolean ReallyAbort() {
-    return !AuditLaf::Modified() || Popup::ReallyAbort(true);
+    return Popup::ReallyAbort(AuditLaf::Modified());	
 }
-
-boolean ReallyExit () {
-    // yes-no popup
-    return Popup::YesNo (_("Really exit?
-All changes will be lost."));
-}
-
 
 /**
  * Read settings dialog

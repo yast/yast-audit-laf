@@ -44,10 +44,6 @@ import "FileUtils";
 import "Service";
 
 
-/**
- * Prototypes
- */
-global boolean Modified();
 
 /**
  * Data was modified?
@@ -80,9 +76,9 @@ boolean write_only = false;
 boolean rules_locked = false;
 
 /*
- * The rules have been checked
+ * The rules have been changed (sent to 'autitctl' to check the syntax) 
  */
-boolean rules_checked = false;
+boolean rules_changed = false;
 
 
 global void SetRulesLocked( boolean value ) {
@@ -94,11 +90,11 @@ global boolean RulesLocked() {
 }
 
 global void SetRulesChanged( boolean value ) {
-    rules_checked = value;
+    rules_changed = value;
 }
 
 global boolean RulesChanged() {
-    return rules_checked;
+    return rules_changed;
 }
 
 /**
@@ -133,6 +129,8 @@ global boolean Modified() {
 global void SetModified(boolean value) {
       modified = value;
 }
+
+
 
 global boolean ProposalValid() {
     return proposal_valid;
@@ -241,9 +239,15 @@ map <string, string >  DEFAULT_CONFIG = $[
 					"disk_error_action" : "SUSPEND"
 ];
 
+/*
+ * Save settings initially read from /etc/audit/auditd.conf to be able
+ * to decide whether changes are made
+ */
+map <string, string> INITIAL_SETTINGS = $[];
+
 /**
  * Rules for the subsystem audit (passed via auditctl).
- * Iinitially read from /etc/audit/audit.rules and edited in
+ * Initially read from /etc/audit/audit.rules and edited in
  * the rules editor.
  */ 
 string RULES = "";
@@ -252,6 +256,16 @@ string RULES = "";
  * Save rules from /etc/audit/audit.rules to be able to restore it
  */
 string INITIAL_RULES = "";
+
+/*
+ *  Set data modified only if really has changed
+ */ 
+global void SetDataModified() {
+    if ( INITIAL_SETTINGS != SETTINGS || INITIAL_RULES != RULES )
+	modified = true;
+    else
+	modified = false;
+}
 
 /**
  * Get value of given option from SEETINGS
@@ -311,7 +325,7 @@ boolean ReadAuditRules() {
     if ( rules != nil && rules != "" )
     {
 	RULES = rules;
-	// additionally save initial settings
+	// additionally save initial rules
 	INITIAL_RULES = rules;
 	return true;
     }
@@ -349,6 +363,9 @@ boolean ReadAuditdSettings() {
 	if (val != nil) SETTINGS[key] = val;
     });
 
+    // additionally save initial settings
+    INITIAL_SETTINGS = SETTINGS;
+	
     y2milestone("%1 has been read: %2", config_file, SETTINGS);
     return true;
 }

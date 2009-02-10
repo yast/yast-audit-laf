@@ -2,6 +2,7 @@
 Mon Feb  2 12:01:33 CET 2009 - gs@suse.de
 
 - Correct behaviour on "Abort" (bnc #458327)  
+- 2.18.1
 
 -------------------------------------------------------------------
 Wed Jan 21 11:51:56 CET 2009 - gs@suse.de

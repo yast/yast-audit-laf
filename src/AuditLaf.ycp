@@ -180,7 +180,7 @@ global boolean PollAbort() {
 
 global boolean RulesAlreadyLocked()
 {
-    map output = (map)SCR::Execute( .target.bash_output, "auditctl -s" );
+    map output = (map)SCR::Execute( .target.bash_output, "LANG=POSIX auditctl -s" );
     y2milestone( "auditctl: %1", output );
 
     string audit_status = output["stdout"]:"";
@@ -193,7 +193,7 @@ global boolean RulesAlreadyLocked()
 
 global string AuditStatus()
 {
-    map output = (map)SCR::Execute( .target.bash_output, "auditctl -s" );
+    map output = (map)SCR::Execute( .target.bash_output, "LANG=POSIX auditctl -s" );
     y2milestone( "auditctl: %1", output );
 
     string audit_status = output["stdout"]:"";
@@ -428,9 +428,9 @@ global boolean Read() {
     Progress::NextStage();
 
     success = ReadAuditdSettings();
-    // Test
-    map output = (map)SCR::Execute( .target.bash_output, "auditctl -s" );
 
+    // Log the status of the audit system  
+    map output = (map)SCR::Execute( .target.bash_output, "auditctl -s" );
     y2milestone( "auditctl: %1", output );
     
     // Report error

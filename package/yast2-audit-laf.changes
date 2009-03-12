@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Mar 12 13:06:00 CET 2009 - gs@suse.de
+
+- set LANG=POSIX for command 'auditctl' 
+
+-------------------------------------------------------------------
 Mon Feb  2 12:01:33 CET 2009 - gs@suse.de
 
 - Correct behaviour on "Abort" (bnc #458327)  

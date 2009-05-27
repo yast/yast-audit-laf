@@ -1,7 +1,8 @@
 -------------------------------------------------------------------
 Thu Mar 12 13:06:00 CET 2009 - gs@suse.de
 
-- set LANG=POSIX for command 'auditctl' 
+- set LANG=POSIX for command 'auditctl'
+- 2.18.2
 
 -------------------------------------------------------------------
 Mon Feb  2 12:01:33 CET 2009 - gs@suse.de

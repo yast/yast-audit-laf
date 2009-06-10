@@ -101,28 +101,32 @@ between the daemon and the dispatcher program.</p>") +
     _("<p><b>Please note:</b> The dispatcher program must be owned by 'root', have '0750'
  file permissions and the full path name has to be entered.</p>"),
     
-    /* disk space dialog help 1/6 */
+    /* disk space dialog help 1/7 */
     "diskspace_settings" : _("<p><b><big>Auditd Disk Space Configuration</big></b><br>
 The settings made here refer to disk space on log partition.
 Detailed information can be obtained from 'man auditd.conf'</p>
 ") +
-    /* disk space dialog help 2/6 */
+    /* disk space dialog help 2/7 */
     _("<p><b>Space Left</b> and <b>Action</b> describe how much disk space (in megabytes)
 to left and which action to perform if the system is starting to run low on space.</p>") +
 
-    /* disk space dialog help 3/6 */
+    /* disk space dialog help 3/7 */
     _("<p><b>Admin Space Left</b> and <b>Action</b> describe how much disk space (in megabytes)
 to left and which action to perform if the system <b>is running low</b>.</p>") +
 
-    /* disk space dialog help 4/6 */
+     /* disk space dialog help 4/7 */
+    _("<p>Action <b>SYSLOG</b> means that the disk space warning will be written to
+ /var/log/messages (information about all action settings see 'man auditd.conf')</p>") +
+    
+    /* disk space dialog help 5/7 */
     _("<p>If an action is set to <i>EMAIL</i> a warning mail will be send to the account specified in
 <b>Action Mail Account</b></p>" ) +
     
-     /* disk space dialog help 5/6 */
+     /* disk space dialog help 6/7 */
     _("<p>You can also specify a <b>Disk Full Action</b> (disk has become full already) and
 a <b>Disk Error Action</b> (performed whenever an error is detected while writing to disk).</p>") +
 
-    /* disk space dialog help 6/6 */
+    /* disk space dialog help 7/7 */
     _("<p><b>Please note:</b> All scripts specified for <b>Action</b> <i>EXEC</i> must be owned
 by 'root', have '0750' file permissions and the full path name has to be entered.</p>"),
     

@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Jun 10 11:55:41 CEST 2009 - gs@suse.de
+
+- Add information about action 'SYSLOG' to the 'Disk Space' help
+  (bnc #510775)
+
+-------------------------------------------------------------------
 Thu Mar 12 13:06:00 CET 2009 - gs@suse.de
 
 - Set LANG=POSIX for command 'auditctl'

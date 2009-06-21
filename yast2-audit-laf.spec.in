@@ -9,7 +9,8 @@ BuildArchitectures:	noarch
 Summary:	YaST2 - Configuration of Linux Auditing (LAF)
 
 %description
--
+This module allows the configuration of the audit daemon as well as to
+add rules for the audit subsystem.
 
 @PREP@
 

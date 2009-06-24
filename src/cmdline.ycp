@@ -59,6 +59,8 @@ define boolean SettingsHandler (map<string,any> options ) {
     foreach( string key, any val, options, ``{
 	    if ( contains (logfile_settings, key) || contains(diskspace_settings, key) )
 		AuditLaf::SetAuditdOption( key, (string)val );
+	    else
+		CommandLine::Print( _("Unknown option") );
 	});
     
     return true;		// call Write

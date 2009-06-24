@@ -67,31 +67,46 @@ map cmdline_description =
 		      "set"   	:$[
 				   "handler"	: SettingsHandler,
 				   // translators: command line help text for set action
-				   "help"	: _("Set specified option"),
-				   "options"   	: ["non_strict"],
-				   // help text for unknown parameter name
-				   "non_strict_help":	_("Specify parameter and value to set")
+				   "help"	: _("Sets the specified option"),
+				   //"options"   	: ["non_strict"],
+				   // help text for additional parameter name
+				   //"non_strict_help":	_("Use keywords and values specified in 'man auditd.conf'")
 				   ]
 		      ],
       "options"	: $[
 		    "logfile"	:$[
 				   // translators: command line help text for show logfile option
-				   "help"	: _("Show logfile settings")
+				   "help"	: _("Show log file settings")
 				   ],
 		    "diskspace"	:$[
 				   // translators: command line help text for show disk space option
 				   "help"	: _("Show disk space settings")
 				   ],
+		    "log_file"  :$[
+				  // translators: command line help text for log_file option
+				  "help"	: _("Name of the log file"),
+				  "type"	: "string"
+				  ],
 		    "max_log_file":$[
 				     // translators: command line help text for max_log_file option
-				     "help"	: _("Maximal number of logfiles"),
+				     "help"	: _("Maximal size (in MByte) of the log file"),
 				     "type"	: "string"
-				     ]
+				     ],
+		    "space_left":$[
+				   //
+				     "help"	: _("Space left on log partition (in MByte) starts to run low"),
+				     "type"	: "string"
+				   ],
+		    "admin_space_left":$[
+					 //
+					 "help"	: _("Disk space on log partition (in MByte) running low"),
+					 "type"	: "string"	 
+					 ]
 		    ],
-      "mappings"	: $[
-			    "show"  : [ "logfile", "diskspace" ],
-			    "set"   : [ "max_log_file" ]
-			    ]
+      "mappings": $[
+		    "show"  : [ "logfile", "diskspace" ],
+		    "set"   : [ "log_file", "max_log_file", "space_left", "admin_space_left"]
+		    ]
       ];
 
 /* is this proposal or not? */

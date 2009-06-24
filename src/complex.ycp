@@ -197,7 +197,7 @@ void InitDispatcherDialog (string id) {
 symbol HandleDispatcherDialog(string id, map event) {
     any action = event["ID"]:nil; 
 
-    y2milestone( "HandleDiskspaceSettingsDialog got action: %1", action );
+    y2milestone( "HandleDispatcherDialog got action: %1", action );
 
     if ( action == "select_disp" )
     {

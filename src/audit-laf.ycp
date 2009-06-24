@@ -47,24 +47,52 @@ import "Summary";
 import "CommandLine";
 
 include "audit-laf/wizards.ycp";
+include "audit-laf/cmdline.ycp";
 
-map cmdline_description = $[
-    "id" 	: "audit-laf",
-    /* Command line help text for the Xaudit-laf module */
-    "help"	: _("Configuration of Linux Audit Framework (LAF)"),
-    "guihandler"        : AuditLafSequence,
-    "initialize"        : AuditLaf::Read,
-    "finish"            : AuditLaf::Write,
-    "actions"           : $[
-	// FIXME TODO: fill the functionality description here
-    ],
-    "options"		: $[
-	// FIXME TODO: fill the option descriptions here
-    ],
-    "mappings"		: $[
-	// FIXME TODO: fill the mappings of actions and options here
-    ]
-];
+map cmdline_description =
+    $[
+      "id" 	: "audit-laf",
+      /* Command line help text for the audit-laf module */
+      "help"	: _("Configuration of Linux Audit Framework (LAF)"),
+      "guihandler": AuditLafSequence,
+      "initialize": AuditLaf::Read,
+      "finish"    : AuditLaf::Write,
+      "actions"   : $[
+		      "show" 	:$[
+				   "handler"	: ShowHandler,
+				   // translators: command line help text for show action
+				   "help"	: _("Show information about audit settings")
+
+				   ],
+		      "set"   	:$[
+				   "handler"	: SettingsHandler,
+				   // translators: command line help text for set action
+				   "help"	: _("Set specified option"),
+				   "options"   	: ["non_strict"],
+				   // help text for unknown parameter name
+				   "non_strict_help":	_("Specify parameter and value to set")
+				   ]
+		      ],
+      "options"	: $[
+		    "logfile"	:$[
+				   // translators: command line help text for show logfile option
+				   "help"	: _("Show logfile settings")
+				   ],
+		    "diskspace"	:$[
+				   // translators: command line help text for show disk space option
+				   "help"	: _("Show disk space settings")
+				   ],
+		    "max_log_file":$[
+				     // translators: command line help text for max_log_file option
+				     "help"	: _("Maximal number of logfiles"),
+				     "type"	: "string"
+				     ]
+		    ],
+      "mappings"	: $[
+			    "show"  : [ "logfile", "diskspace" ],
+			    "set"   : [ "max_log_file" ]
+			    ]
+      ];
 
 /* is this proposal or not? */
 boolean propose = false;

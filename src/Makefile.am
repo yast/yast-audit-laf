@@ -11,7 +11,8 @@ ynclude_DATA =			\
 	helps.ycp		\
 	wizards.ycp		\
 	dialogs.ycp		\
-	complex.ycp
+	complex.ycp		\
+	cmdline.ycp
 
 desktop_DATA =			\
 	audit-laf.desktop

@@ -1,0 +1,100 @@
+/**
+ * File:	include/audit-laf/cmdline.ycp
+ * Package:	Configuration of audit-laf
+ * Summary:	Command line interface functions.
+ * Authors:	Gabriele Mohr <gs@suse.de>
+ *
+ *
+ * All command line interface functions.
+ */
+{
+
+textdomain "audit-laf";
+
+import "CommandLine";
+import "AuditLaf";
+import "Report";
+
+list <string> logfile_settings = ["log_file",
+				  "max_log_file",
+				  "name",
+				  "log_format",
+				  "flush",
+				  "max_log_file_action",
+				  "name_format"
+				  ];
+list <string> diskspace_settings = ["space_left",
+				    "action_mail_acct",
+				    "admin_space_left",
+				    "space_left_action",
+				    "admin_space_left_action",
+				    "disk_full_action",
+				    "disk_error_action"
+				    ];
+
+define string GetLogfileSettings() {
+
+    string settings = "";
+
+    foreach ( string key, logfile_settings, {
+	    settings = settings + key + ": " + AuditLaf::GetAuditdOption(key) + "\n";
+	} );
+    return settings;
+}
+
+define string GetDiskspaceSettings() {
+    string settings = "";
+
+    foreach ( string key, diskspace_settings, {
+		  settings = settings + key + ": " + AuditLaf::GetAuditdOption(key) + "\n";
+	      } );
+
+    return settings;
+}
+
+define boolean SettingsHandler (map<string,any> options ) {
+
+    y2milestone ( "Options: %1", options );
+    
+    foreach( string key, any val, options, ``{
+	    if ( contains (logfile_settings, key) || contains(diskspace_settings, key) )
+		AuditLaf::SetAuditdOption( key, (string)val );
+	});
+    
+    return true;		// call Write
+}
+
+/**
+ * Show information about settings 
+ * @return boolean false
+ */
+define boolean ShowHandler (map<string,any> options ) {
+
+    y2milestone( "Options:%1", options );
+    list<string> sets		= [];
+
+    foreach ( string key, any val, options, ``{
+	    if ( contains (["logfile","diskspace"], key) )
+		sets = add (sets, key);
+	});
+    if ( sets == [] )
+	CommandLine::Print ( "Please specify information ('logfile' or 'diskpace')");
+
+    foreach ( string option, sets, {
+	    if ( option == "logfile" )
+	    {
+		CommandLine::Print( GetLogfileSettings() );
+	    }
+	    else if (  option == "diskspace" )
+	    {
+		CommandLine::Print( GetDiskspaceSettings() );
+	    }
+	    else
+		CommandLine::Print ( "Unknown option" );
+	} );
+
+    return false; // do not call Write...
+}
+
+
+		} //EOF

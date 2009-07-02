@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Jul  2 14:13:54 CEST 2009 - gs@suse.de
+
+- Add information about all option settings to the help text
+  (bnc #510776),
+- Add command line support for options from auditd.conf
+
+-------------------------------------------------------------------
 Wed Jun 10 11:55:41 CEST 2009 - gs@suse.de
 
 - Add information about action 'SYSLOG' to the 'Disk Space' help

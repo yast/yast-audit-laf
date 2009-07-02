@@ -67,7 +67,7 @@ map cmdline_description =
 		      "set"   	:$[
 				   "handler"	: SettingsHandler,
 				   // translators: command line help text for set action
-				   "help"	: _("Sets the specified option"),
+				   "help"	: _("Set the specified option"),
 				   //"options"   	: ["non_strict"],
 				   // help text for additional parameter name
 				   //"non_strict_help":	_("Use keywords and values specified in 'man auditd.conf'")
@@ -84,28 +84,98 @@ map cmdline_description =
 				   ],
 		    "log_file"  :$[
 				  // translators: command line help text for log_file option
-				  "help"	: _("Name of the log file"),
+				  "help"	: _("Name of the log file (full path name)"),
 				  "type"	: "string"
 				  ],
-		    "max_log_file":$[
+		    "log_format":$[
+				   // translators: command line help text for log_format option
+				   // (do NOT translate: RAW, NOLOG)
+				   "help"	: _("Log format (RAW, NOLOG)"),
+				   "type"	: "string"
+				   ],
+		    "flush"	:$[
+				  // translators: command line help text for flush option
+				  // (do NOT translate: INCREMENTAL, NONE, DATA, SYNC)
+				  "help"	: _("How to write data to disk (INCREMENTAL, NONE, DATA, SYNC)"),
+				  "type"	: "string"
+				  ],
+		    "freq"	:$[
+				   // translators: command line help text for frequency option
+				   // (do NOT translate: INCREMENTAL, NONE, DATA, SYNC)
+				   "help"	: _("How many records to write before a flush to disk is issued"),
+				   "type"	: "string"
+				   ],
+    		    "max_log_file":$[
 				     // translators: command line help text for max_log_file option
 				     "help"	: _("Maximal size (in MByte) of the log file"),
 				     "type"	: "string"
 				     ],
-		    "space_left":$[
-				   //
-				     "help"	: _("Space left on log partition (in MByte) starts to run low"),
-				     "type"	: "string"
+		    "max_log_file_action":$[
+					    // translators: command line help text for max_log_file_action option
+					    // (do NOT translate: IGNORE, SYSLOG, SUSPEND, ROTATE, KEEP_LOGS)
+					    "help"	: _("Action if max_log_file is reached (IGNORE, SYSLOG, SUSPEND, ROTATE, KEEP_LOGS)"),
+					    "type"	: "string"
+					    ],
+		    "num_logs"	:$[
+				   // translators: command line help text for num_logs option
+				   "help"	: _("Number of log files to keep"),
+				   "type"	: "string"
 				   ],
+		    "name_format":$[
+				    // translators: command line help text for name_format option
+				     // (do NOT translate: NONE, HOSTNAME, FQD, USER)
+				    "help"	: _("Computer name format (NONE, HOSTNAME, FQD, USER)"),
+				    "type"	: "string"
+				    ],
+		    "name"      :$[
+				   // translators: command line help text for name_format option
+				   "help"	: _("Computer name (used if format is set to USER)"),
+				   "type"	: "string"
+				   ],
+				   
+		    "space_left":$[
+				   // translators: command line help text for space_left option
+				   "help"	: _("Space left on log partition (in MByte) starts to run low"),
+				   "type"	: "string"
+				   ],
+		    "space_left_action":$[
+					  // translators: command line help text for space_left_action option
+					  // (do NOT translate: IGNORE, SYSLOG, SUSPEND, SINGLE, HALT, EXEC, EMAIL)
+					  "help"	: _("Action if space_left is reached (IGNORE, SYSLOG, SUSPEND, SINGLE, HALT, EXEC <full path to script>, EMAIL)"),
+					  "type"	: "string"
+					  ],
 		    "admin_space_left":$[
-					 //
-					 "help"	: _("Disk space on log partition (in MByte) running low"),
+					 // translators: command line help text for admin_space_left
+					 "help"	: _("Disk space to on log partition (in MByte) is running low"),
 					 "type"	: "string"	 
-					 ]
+					 ],
+	   	    "admin_space_left_action":$[
+						// command line help text for admin_space_left_action option
+						// (do NOT translate: IGNORE, SYSLOG, SUSPEND, SINGLE, HALT, EXEC, EMAIL)
+						"help"	: _("Action if admin_space_left is reached (IGNORE, SYSLOG, SUSPEND, SINGLE, HALT, EXEC <full path to script>, EMAIL)"),
+						"type"	: "string"
+						],
+		    "action_mail_acct":$[
+					 // command line help text for action_mail_acct option
+					 "help"	: _("Mail sent to this account (if space_left_action set to EMAIL)"),
+					 "type"	: "string" 
+					 ],
+		    "disk_full_action":$[
+					 // command line help text for disk_full_action option
+					 "help"	: _("Action to perform if disk is full (IGNORE, SYSLOG, SUSPEND, SINGLE, HALT, EXEC <full path to script>)"),
+					 "type"	: "string" 
+					 ],
+		    "disk_error_action":$[
+					  // command line help text for disk_error_action option
+					  "help"	: _("Action to perform on disk error (IGNORE, SYSLOG, SUSPEND, SINGLE, HALT, EXEC <full path to script>)"),
+					  "type"	: "string" 	  
+					  ]
 		    ],
       "mappings": $[
 		    "show"  : [ "logfile", "diskspace" ],
-		    "set"   : [ "log_file", "max_log_file", "space_left", "admin_space_left"]
+		    "set"   : [ "log_file", "log_format", "flush", "freq", "max_log_file", "max_log_file_action",
+				"num_logs", "name_format", "name", "space_left", "space_left_action","admin_space_left",
+				"admin_space_left_action", "action_mail_acct",  "disk_full_action",  "disk_error_action" ]
 		    ]
       ];
 

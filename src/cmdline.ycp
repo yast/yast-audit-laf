@@ -16,18 +16,20 @@ import "AuditLaf";
 import "Report";
 
 list <string> logfile_settings = ["log_file",
-				  "max_log_file",
-				  "name",
 				  "log_format",
 				  "flush",
+				  "freq",
+				  "max_log_file",
 				  "max_log_file_action",
-				  "name_format"
+				  "num_logs",
+				  "name_format",
+				  "name"
 				  ];
 list <string> diskspace_settings = ["space_left",
-				    "action_mail_acct",
-				    "admin_space_left",
 				    "space_left_action",
+				    "admin_space_left",
 				    "admin_space_left_action",
+				    "action_mail_acct",
 				    "disk_full_action",
 				    "disk_error_action"
 				    ];

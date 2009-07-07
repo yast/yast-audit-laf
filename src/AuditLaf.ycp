@@ -469,7 +469,8 @@ Do you want to start it now?");
 
 	if (apparmor_stat == 0 )
 	    message = _(" The 'apparmor' kernel module is loaded
-which needs the audit daemon to log events. 
+which uses a running audit daemon to log events to
+/var/log/audit/audit.log (default). 
 Do you want to start the daemon now?" );
 	
 	boolean start = Popup::YesNoHeadline( _("Audit daemon not running"),

@@ -3,7 +3,8 @@ Thu Jul  2 14:13:54 CEST 2009 - gs@suse.de
 
 - Add information about all option settings to the help text
   (bnc #510776),
-- Add command line support for options from auditd.conf
+- Add command line support for settings in /etc/audit/auditd.conf
+- 2.18.3
 
 -------------------------------------------------------------------
 Wed Jun 10 11:55:41 CEST 2009 - gs@suse.de

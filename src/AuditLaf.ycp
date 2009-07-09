@@ -468,9 +468,9 @@ global boolean Read() {
 Do you want to start it now?");
 
 	if (apparmor_stat == 0 )
-	    message = _(" The 'apparmor' kernel module is loaded
-which uses a running audit daemon to log events to
-/var/log/audit/audit.log (default). 
+	    message = _(" The 'apparmor' kernel module is loaded.
+The kernel uses a running audit daemon to log audit
+events to /var/log/audit/audit.log (default). 
 Do you want to start the daemon now?" );
 	
 	boolean start = Popup::YesNoHeadline( _("Audit daemon not running"),
@@ -538,9 +538,9 @@ boolean WriteAuditdSettings() {
  * @return true on success
  */
 global boolean Write() {
-    boolean write_success = true;
     boolean go_on = false; 
-
+    boolean ret = true;
+    
     /* Auditd read dialog caption */
     string caption = _("Saving Audit Configuration");
 
@@ -580,7 +580,7 @@ If yes, the new rules will be written to /etc/audit/audit.rules.
 After that you have to reboot the system.") );
 	if ( write_rules )
 	    WriteAuditRules();
-	
+
 	// don't try to restart the daemon - daemon will stop
 	return false;
     }
@@ -589,7 +589,7 @@ After that you have to reboot the system.") );
     if ( PollAbort() )  return false;
     Progress::NextStage();
 
-    write_success = WriteAuditdSettings();
+    boolean write_success = WriteAuditdSettings();
 
     if ( write_success )
     {
@@ -598,8 +598,11 @@ After that you have to reboot the system.") );
 	y2milestone( "'auditd restart' returned: %1", exit_code );
 	
 	if ( exit_code != 0 )
+	{
 	    // Error message
 	    Report::Error ( _("Restart of the audit daemon failed" ) );
+	    ret = false;
+	}
 	else
 	    go_on = true;
     }
@@ -607,6 +610,7 @@ After that you have to reboot the system.") );
     {
 	// Error message
 	Report::Error (_("Cannot write settings to auditd.conf.") );
+	ret = false;
     }
     
     sleep(sl);
@@ -615,7 +619,7 @@ After that you have to reboot the system.") );
 
     Progress::NextStage ();
 
-    if ( go_on && !locked )
+    if ( go_on )
     {
 	write_success = WriteAuditRules();
     
@@ -631,22 +635,26 @@ After that you have to reboot the system.") );
 					output["stderr"]:"",
 					// Error message, rules cannot be set
 					_("Please start yast2-audit-laf again and check the rules") ) );
+		ret = false;
 	    }
 	}
 	else
 	{
 	    Report::Error ( _("Cannot write settings to auditd.rules.") );
+	    ret = false;
 	}
 	
 	sleep(sl);
     }
 
     // Finally check status of auditd (if restart has worked but daemon exited afterwards)
-    CheckAuditdStatus();
+    if ( !CheckAuditdStatus() )
+	ret = false;
     
     if ( PollAbort() ) return false;
-
-    return true;
+    
+    y2milestone( "Auditd::Write() returns: %1", ret );
+    return ret;
 }
 
 /**

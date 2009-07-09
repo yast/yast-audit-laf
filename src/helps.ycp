@@ -87,7 +87,7 @@ to ROTATE, but log files aren't overwritten.</p>") +
     /* logfile_settings dialog help 8/8 */
     _("<p><b>Computer Name Format</b> describes how to write the computer name to the log file.
 If <i>USER</i> is set the <b>User Defined Name</b> is used. <i>NONE</i> means: no computer name
-is inserted, <b>HOSTNAME</b>: name returned by the'gethostname' syscall,
+is inserted, <b>HOSTNAME</b>: name returned by the 'gethostname' syscall,
 <b>FQD</b>: fully qualified domain name</p>") ,
 
     /* dispatcher dialog help 1/5 */
@@ -99,8 +99,8 @@ Detailed information about the dispatcher settings can be obtained from the manu
 gets all audit events on stdin.</p>") +
       /* dispatcher dialog help 3/5 */ 
     _("<p><b>Communication</b>: Controls the communication between the daemon and the dispatcher
-program. Option <i>lossy</i> (default) means that events going to the dispatcher are discarded
-when this queue (128k buffer) is full. Choose <i>lossless</i> if you want a blocking/lossless
+program. A <i>lossy</i> communication means that events going to the dispatcher are discarded
+when the queue (a 128kB buffer) is full. Choose <i>lossless</i> if you want a blocking/lossless
 communication.</p>") +
 
     /* dispatcher dialog help 4/5 */ 
@@ -135,7 +135,7 @@ the system.</p>") +
      /* disk space dialog help 5/6 */
     _("<p>You can also specify a <b>Disk Full Action</b> (disk has become full already) and
 a <b>Disk Error Action</b> (performed whenever an error is detected while writing to disk).
-Available actions are same as above (except for <i>EMAIL</i>).</p>") +
+Available actions are the same as above (except for <i>EMAIL</i>).</p>") +
 
     /* disk space dialog help 5/6 */
     _("<p><b>Please note:</b> All scripts specified for <i>EXEC</i> must be owned

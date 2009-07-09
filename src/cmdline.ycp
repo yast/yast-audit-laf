@@ -33,6 +33,9 @@ list <string> diskspace_settings = ["space_left",
 				    "disk_full_action",
 				    "disk_error_action"
 				    ];
+list <string> dispatcher_settings = ["disp_qos",
+				     "dispatcher"
+				     ];
 
 define string GetLogfileSettings() {
 
@@ -54,15 +57,40 @@ define string GetDiskspaceSettings() {
     return settings;
 }
 
+define string GetDispatcherSettings() {
+    string settings = "";
+
+    foreach ( string key, dispatcher_settings, {
+		  settings = settings + key + ": " + AuditLaf::GetAuditdOption(key) + "\n";
+	      } );
+
+    return settings;
+}
 define boolean SettingsHandler (map<string,any> options ) {
 
-    y2milestone ( "Options: %1", options );
+    y2milestone ( "Command line options: %1", options );
     
     foreach( string key, any val, options, ``{
-	    if ( contains (logfile_settings, key) || contains(diskspace_settings, key) )
-		AuditLaf::SetAuditdOption( key, (string)val );
+	    string value = "";
+
+	    if ( is( val, integer ) )
+		value = tostring(val);
 	    else
-		CommandLine::Print( _("Unknown option") );
+		value = (string)val;
+		
+	    if ( contains( logfile_settings, key ) 	|| 
+		 contains( diskspace_settings, key ) 	||
+		 contains( dispatcher_settings, key )   	)
+	    {
+		// option (key/value pair) can be written 'as is', e.g. log_format = RAW
+		AuditLaf::SetAuditdOption( key, value );
+	    }
+	    else if ( substring( key, size(key)-6 ) == "script" )
+	    {
+		AuditLaf::SetAuditdOption( substring( key, 0, size(key)-6 ) + "action", // replace "script" by "action"
+					   "EXEC " + value );				// EXEC <script> 
+	    }
+	    
 	});
     
     return true;		// call Write
@@ -78,20 +106,24 @@ define boolean ShowHandler (map<string,any> options ) {
     list<string> sets		= [];
 
     foreach ( string key, any val, options, ``{
-	    if ( contains (["logfile","diskspace"], key) )
+	    if ( contains (["logfile","diskspace", "disp"], key) )
 		sets = add (sets, key);
 	});
     if ( sets == [] )
-	CommandLine::Print ( "Please specify information ('logfile' or 'diskpace')");
+	CommandLine::Print ( "Please specify information ('logfile', 'diskpace' or 'disp')");
 
     foreach ( string option, sets, {
 	    if ( option == "logfile" )
 	    {
 		CommandLine::Print( GetLogfileSettings() );
 	    }
-	    else if (  option == "diskspace" )
+	    else if ( option == "diskspace" )
 	    {
 		CommandLine::Print( GetDiskspaceSettings() );
+	    }
+	    else if ( option == "disp" )
+	    {
+		CommandLine::Print( GetDispatcherSettings() );
 	    }
 	    else
 		CommandLine::Print ( "Unknown option" );

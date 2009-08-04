@@ -80,7 +80,7 @@ data sent to the dispatcher).</p> ") +
     _("<p>Configure the maximum log file size (in megabytes) and the action to take when this
 value is reached in <b>Size and Action</b> frame.</p>") +
     /* logfile_settings dialog help 7/8 */
-    _("If the action is set to <i>ROTATE</i> the <b>Number of Log Files</b> specifies the number
+    _("<p>If the action is set to <i>ROTATE</i> the <b>Number of Log Files</b> specifies the number
 of files to keep. <i>SYSLOG</i> means: the audit daemon will write a warning to /var/log/messages,
 <i>SUSPEND</i>: stop writing records to disk, <i>IGNORE</i>: do nothing, <i>KEEP_LOGS</i>: similiar
 to ROTATE, but log files aren't overwritten.</p>") +
@@ -152,7 +152,7 @@ The selected flag from <b>Set Enabled Flag</b> will be added to the rules.</p>" 
     _("<p>Enabling auditing whithout additional rules will cause the
  applications which use <i>libaudit</i>, e.g. PAM to log to /var/log/audit/audit.log (default).</p> ") +
     /* rules dialog help 4/6 */ 
-    _("<p>The dialog also allows you to edit the rules manually, which is only recommended for advanced users.<br>
+    _("<p>The dialog also allows you to edit the rules manually, which is recommended for advanced users only.<br>
 Detailed information about all options gives 'man auditctl'.</p>") +
     /* rules dialog help 5/6 */
     _("<p><b>Check Syntax</b> sends the rules via <i>auditctl</i> to the audit subsystem and tells

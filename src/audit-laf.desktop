@@ -17,6 +17,7 @@ X-SuSE-YaST-SortKey=
 X-SuSE-YaST-AutoInstClonable=true
 X-SuSE-YaST-AutoInstRequires=audit
 X-SuSE-YaST-AutoInstResource=audit-laf
+X-SuSE-YaST-Keywords=audit,auditd,auditctl,auditing,dispatcher,LAF
 
 Icon=yast-audit-laf
 Exec=/sbin/yast2 audit-laf 

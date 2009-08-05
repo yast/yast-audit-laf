@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Tue Aug  4 13:12:14 CEST 2009 - gs@suse.de
+
+- Add missing paragraph tag to the help text (bnc #527803) 
+- Add X-SuSE-YaST-Keywords to desktop file
+- 2.18.4
+
+-------------------------------------------------------------------
 Thu Jul  2 14:13:54 CEST 2009 - gs@suse.de
 
 - Add information about all option settings to the help text

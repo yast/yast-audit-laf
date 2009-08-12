@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Wed Aug 12 15:46:58 CEST 2009 - gs@suse.de
+
+- Bug-fix for typo in help text (bnc #528646) 
+
+-------------------------------------------------------------------
 Tue Aug  4 13:12:14 CEST 2009 - gs@suse.de
 
 - Add missing paragraph tag to the help text (bnc #527803) 

@@ -379,7 +379,7 @@ global boolean CheckAuditdStatus()
 	Report::Error( _("Cannot start the audit daemon.
 Please check /var/log/messages for auditd errors.
 You can use the module 'System Log' from group
-'Miscellaneous' in YaST2 Control Center.") );
+'Miscellaneous' in YaST Control Center.") );
 	return false;
     }
     else

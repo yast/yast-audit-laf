@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Aug 21 10:08:48 CEST 2009 - gs@suse.de
+
+- Use 'YaST' instead of 'YaST2' in messages and text (bnc #532518)
+
+-------------------------------------------------------------------
 Wed Aug 12 15:46:58 CEST 2009 - gs@suse.de
 
 - Bug-fix for typo in help text (bnc #528646) 

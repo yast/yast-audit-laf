@@ -87,8 +87,8 @@ to ROTATE, but log files are not overwritten.</p>") +
     /* logfile_settings dialog help 8/8 */
     _("<p><b>Computer Name Format</b> describes how to write the computer name to the log file.
 If <i>USER</i> is set the <b>User Defined Name</b> is used. <i>NONE</i> means: no computer name
-is inserted, <b>HOSTNAME</b>: name returned by the 'gethostname' syscall,
-<b>FQD</b>: fully qualified domain name</p>") ,
+is inserted, <i>HOSTNAME</i>: name returned by the 'gethostname' syscall,
+<i>FQD</i>: fully qualified domain name</p>") ,
 
     /* dispatcher dialog help 1/5 */
     "dispatcher" : _("<p><b><big>Auditd Dispatcher Configuration</big></b><br>

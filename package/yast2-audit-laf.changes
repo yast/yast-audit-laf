@@ -1,4 +1,14 @@
 -------------------------------------------------------------------
+Fri Nov 13 15:13:41 CET 2009 - gs@suse.de
+
+- Backport of bug-fixes:
+- Correct behaviour on "Abort" (bnc #458327)
+- Set LANG=POSIX for command 'auditctl'
+- Several improvements and bug-fixes for help text (bnc #528646,
+  bnc #527803, bnc #510776, bnc #510775)
+- 2.17.9
+
+-------------------------------------------------------------------
 Wed Jan 21 11:51:56 CET 2009 - gs@suse.de
 
 - Localize message "Success" (bnc #447169)

@@ -50,15 +50,8 @@ boolean Modified() {
 }
 
 boolean ReallyAbort() {
-    return !AuditLaf::Modified() || Popup::ReallyAbort(true);
+    return Popup::ReallyAbort(AuditLaf::Modified());	
 }
-
-boolean ReallyExit () {
-    // yes-no popup
-    return Popup::YesNo (_("Really exit?
-All changes will be lost."));
-}
-
 
 /**
  * Read settings dialog
@@ -150,8 +143,6 @@ symbol HandleLogfileSettingsDialog(string id, map event) {
  */
 void StoreLogfileSettingsDialog (string id, map event) {
 
-    AuditLaf::SetModified( true );
-
     // Store all values in SETTINGS
     AuditLaf::SetAuditdOption( "freq", tostring( (integer)UI::QueryWidget( `id("freq"), `Value ) ) );
     AuditLaf::SetAuditdOption( "num_logs", tostring( (integer)UI::QueryWidget( `id("num_logs"), `Value ) ) ); 
@@ -180,6 +171,8 @@ Setting the format to 'NONE' (default)." ) );
 	    AuditLaf::SetAuditdOption( "name", (string) UI::QueryWidget(`id("name"), `Value) );
 	}
     }
+
+    AuditLaf::SetDataModified();
 
     y2milestone( "Store log file settings" );
 }
@@ -221,13 +214,13 @@ symbol HandleDispatcherDialog(string id, map event) {
  */
 void StoreDispatcherDialog (string id, map event) {
 
-    AuditLaf::SetModified( true );
-
    // Store all values in SETTINGS
     foreach (string key, ["dispatcher",
 			  "disp_qos"], {
 	AuditLaf::SetAuditdOption( key, (string) UI::QueryWidget(`id(key), `Value) );
     });
+
+    AuditLaf::SetDataModified( );
 
     y2milestone( "Store dispatcher dialog" );
 }
@@ -310,17 +303,17 @@ boolean CheckExec( string file, string key )
     
     if ( ! FileUtils::Exists( file ) )
     {
-	Report::Error( sformat( "%1 doesn't exist.\n", file ) + message );
+	Report::Error( sformat(_("%1 doesn't exist.\n"), file ) + message );
 	ret = false;
     }
     else if ( ! FileUtils::IsFile( file ) )
     {
-	Report::Error( sformat( "%1 is not a regular file.\n", file ) + message );
+	Report::Error( sformat(_("%1 is not a regular file.\n"), file ) + message );
 	ret = false;
     }
     else if ( FileUtils::GetOwnerUserID( file ) != 0 )
     {
-	Report::Error( sformat( "%1 not owned by root.\n", file )  + message );
+	Report::Error( sformat(_("%1 not owned by root.\n"), file )  + message );
 	ret = false;
     }
     else
@@ -330,7 +323,7 @@ boolean CheckExec( string file, string key )
 
 	if ( substring ( output["stdout"]:"", 0, 10 ) != "-rwxr-x---"  )
 	{
-	    Report::Error( sformat( "File permissiones of %1 NOT set to -rwxr-x---.\n", file ) + message  );
+	    Report::Error( sformat(_("File permissiones of %1 NOT set to -rwxr-x---.\n"), file ) + message  );
 	    ret = false;
 	}
     }
@@ -345,8 +338,6 @@ void StoreDiskspaceSettingsDialog (string id, map event) {
     string option = "";
     string exec = "";
 	
-    AuditLaf::SetModified( true );
-
     foreach ( string key, ["space_left",
 			  "action_mail_acct",
 			  "admin_space_left"
@@ -374,6 +365,8 @@ void StoreDiskspaceSettingsDialog (string id, map event) {
 		      AuditLaf::SetAuditdOption( key, option );   
 		  }	 
 	      });
+
+    AuditLaf::SetDataModified( );
     
     y2milestone( "Store disk space settings" );
 }
@@ -583,11 +576,11 @@ be locked until next boot.") );
  */
 void StoreRulesDialog( string id, map event) {
 
-    AuditLaf::SetModified( true );
-
     string rules = (string)UI::QueryWidget( `id("rules"), `Value );
 
     AuditLaf::SetRules( rules );
+
+    AuditLaf::SetDataModified( );
 
     y2debug( "RULES: %1", rules );
     y2milestone( "Store rules dialog" );

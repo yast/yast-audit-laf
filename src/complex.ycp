@@ -420,11 +420,15 @@ finish the configuration. Afterwards a reboot is required.") );
 	}
 	else
 	{
+	    y2milestone( "Calling auditctl -D" );
+	    
 	    integer exit_code = (integer)SCR::Execute( .target.bash, "auditctl -D" );
 
+	    y2milestone( "Calling auditctl -R /etc/audit/audit.rules" );
+	    
 	    if ( exit_code == 0 )
 		exit_code = (integer)SCR::Execute( .target.bash, "auditctl -R /etc/audit/audit.rules" );
-
+	    
 	    if ( exit_code == 0 )
 	    {
 		// Report success
@@ -541,7 +545,10 @@ be locked until next boot.") );
 	    boolean success = (boolean)SCR::Write(.target.string, tmpfile, rules );
 	    if ( success )
 	    {
+		y2milestone( "Calling auditctl -R %1", tmpfile );
+
 		map output = (map)SCR::Execute(.target.bash_output, sformat( "auditctl -R %1", tmpfile ) );
+		
 		AuditLaf::SetRulesChanged( true );
 		
 		if ( output["exit"]:0 != 0 )

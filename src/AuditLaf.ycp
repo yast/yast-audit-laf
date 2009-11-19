@@ -627,6 +627,8 @@ After that you have to reboot the system.") );
 	if( write_success)
 	{
 	    // call auditctl -R audit.rules
+	    y2milestone( "Calling auditctl -R /etc/audit/audit.rules" );
+
 	    map output = (map)SCR::Execute( .target.bash_output, "auditctl -R /etc/audit/audit.rules" );
 
 	    if ( output["exit"]:0 != 0 )

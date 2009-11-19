@@ -442,7 +442,7 @@ finish the configuration. Afterwards a reboot is required.") );
  */
 symbol HandleRulesDialog(string id, map event) {
     any action = event["ID"]:nil; 
-    y2milestone( "HandleDiskspaceSettingsDialog got action: %1", action );
+    y2milestone( "HandleRulesDialog got action: %1", action );
 
     if ( action == "audit_enabled" )
     {

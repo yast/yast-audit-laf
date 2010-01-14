@@ -20,9 +20,8 @@ X-SuSE-YaST-AutoInstResource=audit-laf
 X-SuSE-YaST-Keywords=audit,auditd,auditctl,auditing,dispatcher,LAF
 
 Icon=yast-audit-laf
-Exec=/sbin/yast2 audit-laf 
+Exec=xdg-su -c "/sbin/yast2 audit-laf"
 
 Name=Linux Audit Framework (LAF)
 GenericName=audit-laf
-X-KDE-SubstituteUID=true
 StartupNotify=true

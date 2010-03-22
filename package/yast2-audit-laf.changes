@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Mon Mar 22 12:55:01 CET 2010 - gs@suse.de
+
+- Bug-fix for typo in error message (bnc #574663) 
+
+-------------------------------------------------------------------
 Wed Jan 13 18:56:03 CET 2010 - kmachalkova@suse.cz
 
 - Adjusted .desktop file(s) to wrap /sbin/yast2/ calls in xdg-su

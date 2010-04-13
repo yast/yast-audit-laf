@@ -323,7 +323,7 @@ boolean CheckExec( string file, string key )
 
 	if ( substring ( output["stdout"]:"", 0, 10 ) != "-rwxr-x---"  )
 	{
-	    Report::Error( sformat(_("File permissiones of %1 NOT set to -rwxr-x---.\n"), file ) + message  );
+	    Report::Error( sformat(_("File permissions of %1 NOT set to -rwxr-x---.\n"), file ) + message  );
 	    ret = false;
 	}
     }

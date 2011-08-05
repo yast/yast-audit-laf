@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Aug  5 12:30:16 CEST 2011 - tgoettlicher@suse.de
+
+- fixed .desktop file (bnc #681249)
+
+-------------------------------------------------------------------
 Mon Mar 22 12:55:01 CET 2010 - gs@suse.de
 
 - Bug-fix for typo in error message (bnc #574663) 

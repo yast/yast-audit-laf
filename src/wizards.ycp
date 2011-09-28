@@ -139,7 +139,7 @@ any MainSequence() {
 	Label::FinishButton()
     );
     Wizard::DisableBackButton ();
-    Wizard::SetTitleIcon("yast-audit-laf");
+    Wizard::SetDesktopTitleAndIcon("audit-laf");
 
     return CWM::Run (w, $[`abort : ReallyAbort]);
 }

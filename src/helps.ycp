@@ -72,7 +72,7 @@ Detailed information about the log file settings can be obtained from the manual
 sends it) or <i>NOLOG</i> to discard all audit information instead of writing it on disk (does not affect
 data sent to the dispatcher).</p> ") +
     /* logfile_settings dialog help 5/8 */
-    _("<p><b>Flush</b>: describes how to write the data to disk. If set to <i>INCREMANTAL</i> the
+    _("<p><b>Flush</b>: describes how to write the data to disk. If set to <i>INCREMENTAL</i> the
 <b>Frequency</b> parameter tells how many records to write before issuing an explicit flush to disk.
 <i>NONE</i> means: no special effort is made to flush data, <i>DATA</i>: keep data portion synced,
 <i>SYNC</i>: keep data and meta-data fully synced.</p>" ) +
@@ -143,13 +143,13 @@ by 'root', have '0750' file permissions and the full path name has to be entered
     
     /* rules dialog help 1/6 */
     "audit_rules" : _("<p><b><big>Rules for auditctl</big></b><br>
-This dialog offers the possibiltiy to enable or to disable the syscall
+This dialog offers the possibilitiy to enable or to disable the syscall
 auditing as well as to lock the audit configuration.
 The selected flag from <b>Set Enabled Flag</b> will be added to the rules.</p>" ) +
       /* rules dialog help 2/6 */
     _("<p><b>Please note:</b><br>Locking the rules means they cannot be changed until next reboot! </p>" ) +
      /* rules dialog help 3/6 */
-    _("<p>Enabling auditing whithout additional rules will cause the
+    _("<p>Enabling auditing without additional rules will cause the
  applications which use <i>libaudit</i>, e.g. PAM to log to /var/log/audit/audit.log (default).</p> ") +
     /* rules dialog help 4/6 */ 
     _("<p>The dialog also allows you to edit the rules manually, which is recommended for advanced users only.<br>

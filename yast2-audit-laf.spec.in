@@ -37,4 +37,5 @@ add rules for the audit subsystem.
 %dir @scrconfdir@
 @scrconfdir@/auditd.scr
 %doc @docdir@
+%doc COPYING.GPL2
 @schemadir@/autoyast/rnc/audit-laf.rnc

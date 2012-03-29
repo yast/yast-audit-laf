@@ -189,7 +189,7 @@ term DiskspaceSettingsDialogContent () {
 			     `VStretch(),
 			     `Frame(
 				    // Frame label - keep it short! 
-				    _("Value and Action for Space is Starting to Run Low"),
+				    _("Value and Action for Space Is Starting to Run Low"),
 				    `HBox(
 					  // InputField label - space on disk is starting to run low if the entered value is reached
 					  `HWeight( 1, `InputField(`id("space_left"), _("&Space Left on Disk (MB)") )),
@@ -200,13 +200,13 @@ term DiskspaceSettingsDialogContent () {
 						    ),
 					  `HSpacing(1.0),
 					  // InputField label - enter the path to a script (which will be executed)
-					  `HWeight( 1, `InputField(`id("space_left_action_exec"), _("Path to Script" ) ) ) 
+					  `HWeight( 1, `InputField(`id("space_left_action_exec"), _("Path to Script") ) ) 
 					  )
 				    ),
 			     `VStretch(),
 			     `Frame(
 				     // Frame label - keep it short!  
-				     _("Value and Action for Space is Running Low"),
+				     _("Value and Action for Space Is Running Low"),
 				     `HBox(
 					   // InputField label - space on disk is running low if the entered value is reached
 					   `HWeight( 1, `InputField(`id("admin_space_left"), _("&Admin Space Left (MB) ")) ),
@@ -217,7 +217,7 @@ term DiskspaceSettingsDialogContent () {
 						     ),
 					   `HSpacing(1.0),
 					   // InputField label - enter the path to a script (which will be executed)
-					   `HWeight( 1, `InputField(`id("admin_space_left_action_exec"), _("Path to Script" ) ) ) 
+					   `HWeight( 1, `InputField(`id("admin_space_left_action_exec"), _("Path to Script") ) ) 
 					   )
 				     ),
 			     `VStretch(),
@@ -233,7 +233,7 @@ term DiskspaceSettingsDialogContent () {
 								       _("Disk &Full Action"), error_actions_list ) ),
 						`HSpacing(2.0),
 						 // InputField label - enter the path to a script (which will be executed)
-						`HWeight( 1, `InputField(`id("disk_full_action_exec"), _("Path to Script" ) ) )
+						`HWeight( 1, `InputField(`id("disk_full_action_exec"), _("Path to Script") ) )
 						),
 					  `HBox(
 						`HWeight ( 1, `ComboBox(`id("disk_error_action"), `opt(`notify ),
@@ -241,7 +241,7 @@ term DiskspaceSettingsDialogContent () {
 									_("Disk &Error Action"), error_actions_list ) ),
 						`HSpacing(2.0),
 						 // InputField label - enter the path to a script (which will be executed)
-						`HWeight( 1, `InputField(`id("disk_error_action_exec"), _("Path to Script" ) ) )
+						`HWeight( 1, `InputField(`id("disk_error_action_exec"), _("Path to Script") ) )
 						)
 					  )
 				     ),

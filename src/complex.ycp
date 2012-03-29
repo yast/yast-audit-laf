@@ -162,7 +162,7 @@ void StoreLogfileSettingsDialog (string id, map event) {
 	{
 	    Report::Error(_("The 'User Defined Name' is NOT set although
 the 'Computer Name Format' is set to 'USER'.
-Setting the format to 'NONE' (default)." ) );
+Setting the format to 'NONE' (default).") );
 	    AuditLaf::SetAuditdOption( "name_format", "NONE" );
 	}
 	else
@@ -431,12 +431,12 @@ finish the configuration. Afterwards a reboot is required.") );
 	    if ( exit_code == 0 )
 	    {
 		// Report success
-		Popup::Message( _("Rules successfully restored" ) );
+		Popup::Message( _("Rules successfully restored") );
 		AuditLaf::SetRulesChanged( false );
 	    }
 	    else
 		// Report error - error during reset
-		Report::Error( _("Cannot reset rules. Please check /etc/audit/audit.rules." ) );
+		Report::Error( _("Cannot reset rules. Check /etc/audit/audit.rules.") );
 	}
 }
 
@@ -518,9 +518,11 @@ symbol HandleRulesDialog(string id, map event) {
 
 	if ( AuditLaf::RulesAlreadyLocked() )
 	{
-	    Report::Warning( _("The rules are already locked.\n
-A test isn't possible because sending new rules
-will cause an error.") );
+	    Report::Warning( _("The rules are already locked.
+
+A test is impossible because sending new rules
+will cause an error.
+") );
 	    go_on = false;
 	}
 
@@ -529,9 +531,11 @@ will cause an error.") );
 	    foreach ( string rule, rules_list, {
 		    if ( regexpmatch( rule, "^[ /t]*-e[ /t]*2" ) )
 		    {
-			Report::Warning( _("Lock is set in audit.rules (-e 2).\n
-It doesn't make sense to continue, because the rules would
-be locked until next boot.") );
+			Report::Warning( _("Lock is set in audit.rules (-e 2).
+
+It makes no sense to continue, because the rules will
+be locked until next boot.
+") );
 			go_on = false;
 		    }
 		} );
@@ -561,7 +565,7 @@ be locked until next boot.") );
 	    }
 	    else
 	    {
-		Report::Error( _("Cannot create tmp file for rules" ) );
+		Report::Error( _("Cannot create tmp file for rules.") );
 	    }
 	}
     }
@@ -622,7 +626,8 @@ symbol CheckSettings() {
 This means the rules are locked until next boot!
 If you really want this, make sure '-e 2' is the last entry
 in the rules file. If not, either enable or disable auditing.
-To check or to change the rules, please go back to rules editor."),
+To check or change the rules, go back to the rules editor.
+"),
 					      Label::ContinueButton(),
 					      Label::BackButton(),
 					      `focus_no );

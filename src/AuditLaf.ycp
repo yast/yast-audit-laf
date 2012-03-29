@@ -199,11 +199,11 @@ global string AuditStatus()
     string audit_status = output["stdout"]:"";
     
     if ( regexpmatch( audit_status, "^.*enabled=2.*" ) )
-	return _( "The rules for auditctl are locked" );
+	return _("The rules for auditctl are locked.");
     else if ( regexpmatch( audit_status, "^.*enabled=1.*" ) )
-	return _( "Auditing enabled");
+	return _("Auditing enabled");
     else
-	return _( "Auditing disabled"); 
+	return _("Auditing disabled"); 
 }
 
 //
@@ -417,7 +417,7 @@ global boolean Read() {
 	    /* Progress step 2/3 */
 	    _("Reading the rules file..."),
 	    /* Progress step 3/3 */
-	    _("Checking status..." ),
+	    _("Checking status..."),
 	    Message::Finished()
 	],
 	""
@@ -471,20 +471,21 @@ Do you want to start it now?");
 	    message = _(" The 'apparmor' kernel module is loaded.
 The kernel uses a running audit daemon to log audit
 events to /var/log/audit/audit.log (default). 
-Do you want to start the daemon now?" );
+Do you want to start the daemon now?");
 	
-	boolean start = Popup::YesNoHeadline( _("Audit daemon not running"),
+	boolean start = Popup::YesNoHeadline( _("Audit daemon not running."),
 					      message );
 	if ( start )
 	{
 	    integer exit_code = Service::RunInitScript( "auditd", "start" );
 	    if ( exit_code != 0 )
 	    {
-		boolean go_on = Popup::ContinueCancelHeadline( _("Cannot start the audit daemon" ),
-							       _("The reason might be that the rules are locked.
+		boolean go_on = Popup::ContinueCancelHeadline( _("Cannot start the audit daemon."),
+							       _("The rules may be locked.
 Continue to check the rules. You can change
-the 'Enabled Flag' but to make the change
-active a reboot is required afterwards." )
+the 'Enabled Flag', but to activate the change
+a reboot is required afterwards.
+")
 							       );
 		if ( go_on )
 		    return true;
@@ -574,10 +575,11 @@ global boolean Write() {
 
     if ( locked )
     {
-	boolean write_rules = Popup::YesNoHeadline( _("The rules are already locked." ),
+	boolean write_rules = Popup::YesNoHeadline( _("The rules are already locked."),
 						    _("Do you want to change the 'Enabled Flag'?
 If yes, the new rules will be written to /etc/audit/audit.rules.
-After that you have to reboot the system.") );
+Reboot the system afterwards for the change to take effect.
+") );
 	if ( write_rules )
 	    WriteAuditRules();
 
@@ -600,7 +602,7 @@ After that you have to reboot the system.") );
 	if ( exit_code != 0 )
 	{
 	    // Error message
-	    Report::Error ( _("Restart of the audit daemon failed" ) );
+	    Report::Error ( _("Restart of the audit daemon failed.") );
 	    ret = false;
 	}
 	else
@@ -636,7 +638,7 @@ After that you have to reboot the system.") );
 		Report::Error( sformat( "%1\n%2",
 					output["stderr"]:"",
 					// Error message, rules cannot be set
-					_("Please start yast2-audit-laf again and check the rules") ) );
+					_("Start yast2-audit-laf again and check the rules.") ) );
 		ret = false;
 	    }
 	}

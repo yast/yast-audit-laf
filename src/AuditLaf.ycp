@@ -42,7 +42,8 @@ import "Popup";
 import "Mode";
 import "FileUtils";
 import "Service";
-
+import "Stage";
+import "Package";
 
 
 /**
@@ -342,6 +343,29 @@ boolean WriteAuditRules() {
     return success;
 }
 
+/**
+ * Check whether package 'audit' is installed and install it if user agrees
+ */
+boolean CheckInstalledPackages()
+{
+    boolean ret = false;
+    
+    // skip it during initial and second stage or when create AY profile
+    if(Stage::cont() || Stage::initial() || Mode::config()) return true;
+    y2milestone("Check whether package 'audit' is installed");
+
+    if( !Package::InstallMsg( "audit",
+			      _("<p>To continue the configuration of Linux Auditing, the package <b>%1</b> must be installed.</p>") +
+			      _("<p>Install it now?</p>")) )
+    {
+        Popup::Error( Message::CannotContinueWithoutPackagesInstalled() );
+    }
+    else
+    {
+	ret = true;
+    }
+    return ret;
+}
 
 /**
  * Read settings from auditd.conf
@@ -404,19 +428,22 @@ global boolean Read() {
 
     // We do not set help text here, because it was set outside
     Progress::New( caption, " ", steps, [
-	    /* Progress stage 1/4 */
-	    _("Read the configuration for auditd"),
+            /* Progress stage 1/4 */
+            _("Check for installed packages"),
 	    /* Progress stage 2/4 */
+	    _("Read the configuration of auditd"),
+	    /* Progress stage 3/4 */
 	    _("Read the rules file"),
-	    /* Progress stage 3/4 */
+	    /* Progress stage 4/4 */
 	    _("Check status of auditd")
-	    /* Progress stage 3/4 */
 	], [
-	    /* Progress step 1/3 */
+            /* Progress stage 1/4 */
+            _("Checking for packages..."),
+	    /* Progress step 2/4 */
 	    _("Reading the configuration..."),
-	    /* Progress step 2/3 */
+	    /* Progress step 3/4 */
 	    _("Reading the rules file..."),
-	    /* Progress step 3/3 */
+	    /* Progress step 4/4 */
 	    _("Checking status..."),
 	    Message::Finished()
 	],
@@ -427,6 +454,14 @@ global boolean Read() {
     if(PollAbort()) return false;
     Progress::NextStage();
 
+    boolean installed = CheckInstalledPackages();
+
+    if ( !installed ) return false;
+    sleep(sl);
+
+    if(PollAbort()) return false;
+    Progress::NextStep();
+    
     success = ReadAuditdSettings();
 
     // Log the status of the audit system  
@@ -606,7 +641,9 @@ Reboot the system afterwards for the change to take effect.
 	    ret = false;
 	}
 	else
+        {
 	    go_on = true;
+        }
     }
     else
     {

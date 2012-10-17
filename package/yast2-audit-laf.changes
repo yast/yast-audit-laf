@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Oct 17 09:45:41 CEST 2012 - gs@suse.de
+
+- Check for package 'audit' and install if required (bnc #773701)    
+- 2.24.0
+
+-------------------------------------------------------------------
 Tue Apr 24 15:34:00 CEST 2012 - ug@suse.de
 
 - fixed desktop file for autoyast

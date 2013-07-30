@@ -9,6 +9,8 @@ BuildRequires:	perl-XML-Writer update-desktop-files yast2 yast2-devtools yast2-t
 
 BuildArchitectures:	noarch
 
+Requires:       yast2-ruby-bindings >= 1.0.0
+
 Summary:	YaST2 - Configuration of Linux Auditing (LAF)
 
 %description
@@ -28,8 +30,8 @@ add rules for the audit subsystem.
 %dir @yncludedir@/audit-laf
 @yncludedir@/audit-laf/*
 %dir @clientdir@
-@clientdir@/audit-laf.ycp
-@clientdir@/audit-laf_*.ycp
+@clientdir@/audit-laf.rb
+@clientdir@/audit-laf_*.rb
 %dir @moduledir@
 @moduledir@/AuditLaf.*
 %dir @desktopdir@

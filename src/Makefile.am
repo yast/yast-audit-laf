@@ -1,33 +1,31 @@
-# Makefile.am for audit-laf/src
+# Sources for audit-laf
+
+module_DATA = \
+  modules/AuditLaf.rb
+
+client_DATA = \
+  clients/audit-laf.rb \
+  clients/audit-laf_proposal.rb \
+  clients/audit-laf_auto.rb
 
 yncludedir = @yncludedir@/audit-laf
+ynclude_DATA = \
+  include/audit-laf/wizards.rb \
+  include/audit-laf/dialogs.rb \
+  include/audit-laf/complex.rb \
+  include/audit-laf/cmdline.rb \
+  include/audit-laf/helps.rb
 
-client_DATA =			\
-	audit-laf.ycp		\
-	audit-laf_auto.ycp	\
-	audit-laf_proposal.ycp
+scrconf_DATA = \
+  scrconf/auditd.scr
 
-ynclude_DATA =			\
-	helps.ycp		\
-	wizards.ycp		\
-	dialogs.ycp		\
-	complex.ycp		\
-	cmdline.ycp
+schemafilesdir = $(schemadir)/autoyast/rnc
+schemafiles_DATA = \
+  autoyast-rnc/audit-laf.rnc
 
-desktop_DATA =			\
-	audit-laf.desktop
+desktop_DATA = \
+  desktop/audit-laf.desktop
 
-rncdir = $(schemadir)/autoyast/rnc
-rnc_DATA = audit-laf.rnc
-
-module_DATA =			\
-	AuditLaf.ycp
-
-# create a symlink for local build, #145327
-audit-laf:
-	ln -sf . $@
-ycpchook = audit-laf
-
-EXTRA_DIST = $(client_DATA) $(ynclude_DATA) $(module_DATA) $(desktop_DATA) $(rnc_DATA)
+EXTRA_DIST = $(module_DATA) $(client_DATA) $(ynclude_DATA) $(scrconf_DATA) $(schemafiles_DATA) $(desktop_DATA)
 
 include $(top_srcdir)/Makefile.am.common

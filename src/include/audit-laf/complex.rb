@@ -615,12 +615,12 @@ module Yast
           "*.rules",
           _("Select an example")
         )
-        example_rules = Convert.to_string(
-          SCR.Read(path(".target.string"), file_name)
-        )
-
-        UI.ChangeWidget(Id("rules"), :Value, example_rules)
-        Builtins.y2milestone("Example rules loaded: %1", file_name)
+        if file_name != nil
+          example_rules = Convert.to_string(
+            SCR.Read(path(".target.string"), file_name))
+          UI.ChangeWidget(Id("rules"), :Value, example_rules)
+          Builtins.y2milestone("Example rules loaded: %1", file_name)
+        end
       end
 
       nil

@@ -350,9 +350,9 @@ module Yast
     end
 
     def CheckAuditdStatus
-      auditd_stat = Service.Status("auditd")
+      auditd_active = Service.active?("auditd")
 
-      if auditd_stat != 0
+      if !auditd_active
         Report.Error(
           _(
             "Cannot start the audit daemon.\n" +
@@ -376,7 +376,7 @@ module Yast
       caption = _("Initializing Audit Configuration")
 
       # Set the right number of stages
-      steps = 3
+      steps = 4
 
       sl = 500
       Builtins.sleep(sl)
@@ -452,39 +452,41 @@ module Yast
       Builtins.sleep(sl)
 
       Progress.NextStage
-      auditd_stat = Service.Status("auditd")
-      Builtins.y2milestone(
-        "Auditd running: %1",
-        auditd_stat == 0 ? "yes" : "no"
-      )
+      auditd_active = Service.active?("auditd")
+      Builtins.y2milestone("Auditd running: %1", auditd_active)
 
-      apparmor_stat = Convert.to_integer(
-        SCR.Execute(path(".target.bash"), "rcapparmor status")
-      )
+      apparmor_active = Service.active?("apparmor")
+      Builtins.y2milestone("Apparmor loaded: %1", apparmor_active)
 
-      Builtins.y2milestone(
-        "Apparmor loaded: %1",
-        apparmor_stat == 0 ? "yes" : "no"
-      )
+      if !auditd_active
+        # question shown in a popup about start of audit daemon
+        start_question = _("Do you want to start it and enable start at boot\n" +
+                           # question continues
+                           "or only start the daemon for now?")
 
-      if auditd_stat != 0
-        message = _(
-          "The audit daemon doesn't run.\nDo you want to start it now?"
-        )
+        message = _("The daemon 'auditd' doesn't run.\n") + start_question
 
-        if apparmor_stat == 0
+        if apparmor_active
+          # message about loaded kernel module
           message = _(
-            " The 'apparmor' kernel module is loaded.\n" +
-              "The kernel uses a running audit daemon to log audit\n" +
-              "events to /var/log/audit/audit.log (default). \n" +
-              "Do you want to start the daemon now?"
-          )
+                      "The 'apparmor' kernel module is loaded.\n" +
+                      # message continues
+                      "The kernel uses a running audit daemon to log audit\n" +
+                      # message continues
+                      "events to /var/log/audit/audit.log (default).\n") +
+            start_question
         end
+        # Headline of a popup
+        enable = Popup.AnyQuestion3(_("Start of Audit Daemon"), message,
+                                    # label of three buttons belonging to the popup
+                                   _("Start and &Enable"), _("&Start"), _("&Do not start"),
+                                   :focus_yes)
 
-        start = Popup.YesNoHeadline(_("Audit daemon not running."), message)
-        if start
-          exit_code = Service.RunInitScript("auditd", "start")
-          if exit_code != 0
+        if enable == :yes || enable == :no
+          success = Service.Start("auditd")
+          Service.Enable("auditd") if enable == :yes
+
+          if !success
             go_on = Popup.ContinueCancelHeadline(
               _("Cannot start the audit daemon."),
               _(
@@ -604,10 +606,10 @@ module Yast
 
       if write_success
         # restart auditd
-        exit_code = Service.RunInitScript("auditd", "restart")
-        Builtins.y2milestone("'auditd restart' returned: %1", exit_code)
+        success = Service.Restart("auditd")
+        Builtins.y2milestone("'auditd restart' returned: %1", success)
 
-        if exit_code != 0
+        if !success
           # Error message
           Report.Error(_("Restart of the audit daemon failed."))
           ret = false

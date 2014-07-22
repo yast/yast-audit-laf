@@ -461,7 +461,6 @@ module Yast
       if !auditd_active
         # question shown in a popup about start of audit daemon
         start_question = _("Do you want to start it and enable start at boot\n" +
-                           # question continues
                            "or only start the daemon for now?")
 
         message = _("The daemon 'auditd' doesn't run.\n") + start_question
@@ -470,9 +469,7 @@ module Yast
           # message about loaded kernel module
           message = _(
                       "The 'apparmor' kernel module is loaded.\n" +
-                      # message continues
                       "The kernel uses a running audit daemon to log audit\n" +
-                      # message continues
                       "events to /var/log/audit/audit.log (default).\n") +
             start_question
         end

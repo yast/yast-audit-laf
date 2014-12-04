@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Dec  4 09:49:17 UTC 2014 - jreidinger@suse.com
+
+- remove X-KDE-Library from desktop file (bnc#899104)
+
+-------------------------------------------------------------------
 Tue Jul 22 11:21:18 CEST 2014 - gs@suse.de
 
 - Mark popup text correctly for translation

@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Wed Nov  4 10:30:34 UTC 2015 - igonzalezsosa@suse.com
+
+- Add X-SuSE-YaST-AutoInstSchema declaration so audit-laf.rnc
+  could be included in yast2-schema package (bsc#805275)
+- 2.17.11
+
+-------------------------------------------------------------------
 Thu Oct  6 14:54:51 CEST 2011 - gs@suse.de
 
 - Typos corrected in help text (bnc #702654)

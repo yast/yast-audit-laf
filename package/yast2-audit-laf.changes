@@ -1,4 +1,10 @@
 -------------------------------------------------------------------
+Wed Nov 18 12:52:22 UTC 2015 - mvidner@suse.com
+
+- Fix validation of AutoYaST profiles (bsc#954412)
+- 3.1.2.1
+
+-------------------------------------------------------------------
 Tue Jul 22 11:21:18 CEST 2014 - gs@suse.de
 
 - Mark popup text correctly for translation

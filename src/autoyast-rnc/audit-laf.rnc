@@ -25,7 +25,10 @@ audit-laf = element audit-laf {
       element space_left        { text }? &
       element space_left_action { text }? &
       element tcp_client_max_idle { text }? &
-      element tcp_listen_queue    { text }?
+      element tcp_client_ports  { text }? &
+      element tcp_listen_port   { text }? &
+      element tcp_listen_queue  { text }? &
+      element tcp_max_per_addr  { text }?
     }? &
     element rules { text }?
 }

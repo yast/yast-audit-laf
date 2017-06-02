@@ -1,3 +1,5 @@
+.yardoc
+doc
 aclocal.m4
 autom4te.cache
 config.guess
@@ -25,3 +27,4 @@ testsuite/tmp*
 testsuite/site.exp
 testsuite/config
 testsuite/run
+raw.tmp.*

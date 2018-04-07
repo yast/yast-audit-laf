@@ -25,3 +25,6 @@ testsuite/tmp*
 testsuite/site.exp
 testsuite/config
 testsuite/run
+/.yardoc
+testsuite/*.err.*
+doc/

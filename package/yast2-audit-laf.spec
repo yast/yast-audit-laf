@@ -24,7 +24,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source0:        %{name}-%{version}.tar.bz2
 
 Group:	        System/YaST
-License:        GPL-2.0
+License:        GPL-2.0-only
 # Wizard::SetDesktopTitleAndIcon
 Requires:	yast2 >= 2.21.22
 BuildRequires:	perl-XML-Writer update-desktop-files yast2 yast2-testsuite
@@ -64,7 +64,7 @@ add rules for the audit subsystem.
 %dir %{yast_scrconfdir}
 %{yast_scrconfdir}/auditd.scr
 %doc %{yast_docdir}
-%doc COPYING
+%license COPYING
 %{yast_schemadir}/autoyast/rnc/audit-laf.rnc
 
 %changelog

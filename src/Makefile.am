@@ -28,10 +28,10 @@ desktop_DATA = \
 
 symbolicdir = @icondir@/hicolor/symbolic/apps
 symbolic_DATA = \
-  icons/hicolor/symbolic/apps/yast-apparmor-symbolic.svg
+  icons/hicolor/symbolic/apps/yast-audit-laf-symbolic.svg
 scalabledir = @icondir@/hicolor/scalable/apps
 scalable_DATA = \
-  icons/hicolor/scalable/apps/yast-apparmor.svg
+  icons/hicolor/scalable/apps/yast-audit-laf.svg
 
 EXTRA_DIST = $(module_DATA) $(client_DATA) $(ynclude_DATA) $(scrconf_DATA) $(schemafiles_DATA) $(desktop_DATA) $(symbolic_DATA) $(scalable_DATA)
 

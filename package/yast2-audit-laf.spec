@@ -66,7 +66,7 @@ add rules for the audit subsystem.
 %doc %{yast_docdir}
 %license COPYING
 %{yast_schemadir}/autoyast/rnc/audit-laf.rnc
-%{_datadir}/icons/*
+%{yast_icondir}
 
 %changelog
 

@@ -17,7 +17,7 @@
 
 
 Name:           yast2-audit-laf
-Version:        4.0.0
+Version:        4.1.0
 Release:        0
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
@@ -66,6 +66,7 @@ add rules for the audit subsystem.
 %doc %{yast_docdir}
 %license COPYING
 %{yast_schemadir}/autoyast/rnc/audit-laf.rnc
+%{yast_icondir}
 
 %changelog
 

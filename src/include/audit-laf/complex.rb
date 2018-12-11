@@ -24,6 +24,9 @@
 # Summary:	Dialogs definitions
 # Authors:	Gabriele Mohr <gs@suse.de>
 #
+
+require "shellwords"
+
 module Yast
   module AuditLafComplexInclude
     def initialize_audit_laf_complex(include_target)
@@ -357,11 +360,9 @@ module Yast
         ret = false
       else
         # check permissions
-        output = Convert.to_map(
-          SCR.Execute(
-            path(".target.bash_output"),
-            Builtins.sformat("ls -al %1", file)
-          )
+        output = SCR.Execute(
+          path(".target.bash_output"),
+          "/usr/bin/ls -al ${file.shellescape}"
         )
 
         if Builtins.substring(Ops.get_string(output, "stdout", ""), 0, 10) != "-rwxr-x---"
@@ -468,18 +469,14 @@ module Yast
       else
         Builtins.y2milestone("Calling auditctl -D")
 
-        exit_code = Convert.to_integer(
-          SCR.Execute(path(".target.bash"), "auditctl -D")
-        )
+        exit_code = SCR.Execute(path(".target.bash"), "/usr/sbin/auditctl -D")
 
         Builtins.y2milestone("Calling auditctl -R /etc/audit/audit.rules")
 
         if exit_code == 0
-          exit_code = Convert.to_integer(
-            SCR.Execute(
-              path(".target.bash"),
-              "auditctl -R /etc/audit/audit.rules"
-            )
+          exit_code = SCR.Execute(
+            path(".target.bash"),
+            "/usr/sbin/auditctl -R /etc/audit/audit.rules"
           )
         end
 
@@ -591,11 +588,9 @@ module Yast
           if success
             Builtins.y2milestone("Calling auditctl -R %1", tmpfile)
 
-            output = Convert.to_map(
-              SCR.Execute(
-                path(".target.bash_output"),
-                Builtins.sformat("auditctl -R %1", tmpfile)
-              )
+            output = SCR.Execute(
+              path(".target.bash_output"),
+              "/usr/sbin/auditctl -R #{tmpfile.shellescape}"
             )
 
             AuditLaf.SetRulesChanged(true)

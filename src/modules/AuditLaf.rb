@@ -205,9 +205,7 @@ module Yast
     end
 
     def RulesAlreadyLocked
-      output = Convert.to_map(
-        SCR.Execute(path(".target.bash_output"), "LANG=POSIX auditctl -s")
-      )
+      output = SCR.Execute(path(".target.bash_output"), "LANG=POSIX /usr/sbin/auditctl -s")
       Builtins.y2milestone("auditctl: %1", output)
 
       audit_status = Ops.get_string(output, "stdout", "")
@@ -220,9 +218,7 @@ module Yast
     end
 
     def AuditStatus
-      output = Convert.to_map(
-        SCR.Execute(path(".target.bash_output"), "LANG=POSIX auditctl -s")
-      )
+      output = SCR.Execute(path(".target.bash_output"), "LANG=POSIX /usr/sbin/auditctl -s")
       Builtins.y2milestone("auditctl: %1", output)
 
       audit_status = Ops.get_string(output, "stdout", "")
@@ -425,9 +421,7 @@ module Yast
       success = ReadAuditdSettings()
 
       # Log the status of the audit system
-      output = Convert.to_map(
-        SCR.Execute(path(".target.bash_output"), "auditctl -s")
-      )
+      output = SCR.Execute(path(".target.bash_output"), "/usr/sbin/auditctl -s")
       Builtins.y2milestone("auditctl: %1", output)
 
       # Report error
@@ -633,11 +627,9 @@ module Yast
           # call auditctl -R audit.rules
           Builtins.y2milestone("Calling auditctl -R /etc/audit/audit.rules")
 
-          output = Convert.to_map(
-            SCR.Execute(
-              path(".target.bash_output"),
-              "auditctl -R /etc/audit/audit.rules"
-            )
+          output = SCR.Execute(
+            path(".target.bash_output"),
+            "/usr/sbin/auditctl -R /etc/audit/audit.rules"
           )
 
           if Ops.get_integer(output, "exit", 0) != 0

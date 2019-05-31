@@ -188,7 +188,7 @@ module Yast
         Label.FinishButton
       )
       Wizard.DisableBackButton
-      Wizard.SetDesktopTitleAndIcon("audit-laf")
+      Wizard.SetDesktopTitleAndIcon("org.openSUSE.YaST.AuditLAF")
 
       CWM.Run(w, { :abort => fun_ref(method(:ReallyAbort), "boolean ()") })
     end

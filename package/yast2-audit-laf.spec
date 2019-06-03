@@ -12,61 +12,53 @@
 # license that conforms to the Open Source Definition (Version 1.9)
 # published by the Open Source Initiative.
 
-# Please submit bugfixes or comments via http://bugs.opensuse.org/
+# Please submit bugfixes or comments via https://bugs.opensuse.org/
 #
 
 
 Name:           yast2-audit-laf
-Version:        4.1.1
+Summary:        YaST2 - Configuration of Linux Auditing (LAF)
+Version:        4.2.0
 Release:        0
+Url:            https://github.com/yast/yast-audit-laf
+Group:          System/YaST
+License:        GPL-2.0-only
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 Source0:        %{name}-%{version}.tar.bz2
 
-Group:	        System/YaST
-License:        GPL-2.0-only
+BuildRequires:  perl-XML-Writer update-desktop-files yast2 yast2-testsuite
+BuildRequires:  yast2-devtools >= 4.2.2
+
 # Wizard::SetDesktopTitleAndIcon
-Requires:	yast2 >= 2.21.22
-BuildRequires:	perl-XML-Writer update-desktop-files yast2 yast2-testsuite
-BuildRequires:  yast2-devtools >= 3.1.10
-
-BuildArchitectures:	noarch
-
+Requires:       yast2 >= 2.21.22
 Requires:       yast2-ruby-bindings >= 1.0.0
 
-Summary:	YaST2 - Configuration of Linux Auditing (LAF)
+BuildArch:      noarch
 
 %description
 This module allows the configuration of the audit daemon as well as to
 add rules for the audit subsystem.
 
 %prep
-%setup -n %{name}-%{version}
+%setup -q
 
 %build
 %yast_build
 
 %install
 %yast_install
-
+%yast_metainfo
 
 %files
-%defattr(-,root,root)
-%dir %{yast_yncludedir}/audit-laf
-%{yast_yncludedir}/audit-laf/*
-%dir %{yast_clientdir}
-%{yast_clientdir}/audit-laf.rb
-%{yast_clientdir}/audit-laf_*.rb
-%dir %{yast_moduledir}
-%{yast_moduledir}/AuditLaf.*
-%dir %{yast_desktopdir}
-%{yast_desktopdir}/audit-laf.desktop
-%dir %{yast_scrconfdir}
-%{yast_scrconfdir}/auditd.scr
+%{yast_yncludedir}
+%{yast_clientdir}
+%{yast_moduledir}
+%{yast_desktopdir}
+%{yast_metainfodir}
+%{yast_scrconfdir}
 %doc %{yast_docdir}
 %license COPYING
-%{yast_schemadir}/autoyast/rnc/audit-laf.rnc
+%{yast_schemadir}
 %{yast_icondir}
 
 %changelog
-

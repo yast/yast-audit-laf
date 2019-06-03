@@ -24,7 +24,7 @@ schemafiles_DATA = \
   autoyast-rnc/audit-laf.rnc
 
 desktop_DATA = \
-  desktop/audit-laf.desktop
+  desktop/org.opensuse.yast.AuditLAF.desktop
 
 symbolicdir = @icondir@/hicolor/symbolic/apps
 symbolic_DATA = \

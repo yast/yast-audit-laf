@@ -1,5 +1,6 @@
 # YaST - The Linux Auditing Module #
 
-[![Travis Build](https://travis-ci.org/yast/yast-audit-laf.svg?branch=master)](https://travis-ci.org/yast/yast-audit-laf)
-[![Jenkins Build](http://img.shields.io/jenkins/s/https/ci.opensuse.org/yast-audit-laf-master.svg)](https://ci.opensuse.org/view/Yast/job/yast-audit-laf-master/)
-
+[![Workflow Status](https://github.com/yast/yast-audit-laf/workflows/CI/badge.svg?branch=master)](
+https://github.com/yast/yast-audit-laf/actions?query=branch%3Amaster)
+[![Jenkins Status](https://ci.opensuse.org/buildStatus/icon?job=yast-yast-audit-laf-master)](
+https://ci.opensuse.org/view/Yast/job/yast-yast-audit-laf-master/)

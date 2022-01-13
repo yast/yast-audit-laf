@@ -48,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         distro:  [ "tumbleweed", "leap_latest" ]
 
@@ -66,6 +67,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         distro: [ "leap_latest" ]
 
@@ -86,6 +88,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         distro: [ "leap_latest" ]
 

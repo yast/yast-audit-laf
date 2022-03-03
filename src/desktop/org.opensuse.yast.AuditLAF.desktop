@@ -13,6 +13,7 @@ X-SuSE-YaST-AutoInst=all
 X-SuSE-YaST-Geometry=
 X-SuSE-YaST-SortKey=
 X-SuSE-YaST-AutoInstClonable=true
+X-SuSE-YaST-AutoInstClient=audit-laf_auto
 X-SuSE-YaST-AutoInstRequires=audit
 X-SuSE-YaST-AutoInstResource=audit-laf
 X-SuSE-YaST-Keywords=audit,auditd,auditctl,auditing,dispatcher,LAF

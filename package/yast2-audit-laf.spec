@@ -18,7 +18,7 @@
 
 Name:           yast2-audit-laf
 Summary:        YaST2 - Configuration of Linux Auditing (LAF)
-Version:        4.3.1
+Version:        4.3.2
 Release:        0
 Url:            https://github.com/yast/yast-audit-laf
 Group:          System/YaST

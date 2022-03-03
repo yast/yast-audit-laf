@@ -1,4 +1,11 @@
 -------------------------------------------------------------------
+Thu Mar  3 08:49:34 UTC 2022 - Imobach Gonzalez Sosa <igonzalezsosa@suse.com>
+
+- Set the name of the auto client in the desktop file
+  (bsc#1196590).
+- 4.3.2
+
+-------------------------------------------------------------------
 Tue Aug 11 12:00:52 CEST 2020 - schubi@suse.de
 
 - AutoYaST: Added supplements: autoyast(audit-laf) into the spec file

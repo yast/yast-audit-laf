@@ -17,7 +17,7 @@
 
 
 Name:           yast2-audit-laf
-Version:        5.0.0
+Version:        5.0.1
 Release:        0
 Summary:        YaST2 - Configuration of Linux Auditing (LAF)
 License:        GPL-2.0-only
@@ -25,7 +25,6 @@ Group:          System/YaST
 URL:            https://github.com/yast/yast-audit-laf
 Source0:        %{name}-%{version}.tar.bz2
 BuildRequires:  perl-XML-Writer
-BuildRequires:  update-desktop-files
 BuildRequires:  yast2
 BuildRequires:  yast2-devtools >= 4.2.2
 BuildRequires:  yast2-testsuite
